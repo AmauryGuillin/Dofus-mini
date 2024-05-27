@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Board } from "../types/board";
 
 export default function PlayingBoard() {
@@ -8,6 +8,10 @@ export default function PlayingBoard() {
     width: 4,
     length: 4,
   };
+
+  useEffect(() => {
+    setTargetedCell("3-0");
+  }, []);
 
   function selectCell(key: string) {
     setTargetedCell(key);
@@ -28,6 +32,8 @@ export default function PlayingBoard() {
       );
     })
   );
+
+  console.log(grid);
 
   return (
     <div className="h-screen flex justify-center items-center border-2 w-full">
