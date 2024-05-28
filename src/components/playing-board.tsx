@@ -32,7 +32,7 @@ export default function PlayingBoard() {
           key={key}
           className={`w-24 h-24 border-2 border-gray-500 hover:cursor-pointer ${
             key === targetedCell
-              ? "bg-red-500"
+              ? "bg-blue-400"
               : path.includes(key)
               ? "bg-green-500"
               : undefined
