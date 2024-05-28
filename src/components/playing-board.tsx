@@ -120,7 +120,7 @@ export default function PlayingBoard() {
   }
 
   return (
-    <div className="h-screen flex justify-center items-center border-2 w-full text-white relative">
+    <div className="h-screen flex justify-center items-center w-full text-white relative">
       <PlayerInfo player={player} />
       <div className="transform-gpu rotate-[30deg] -skew-x-[30deg]">
         {grid.map((row, rowIndex) => {
