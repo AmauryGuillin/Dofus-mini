@@ -49,7 +49,10 @@ export default function PlayingBoard() {
   function selectCell(key: string) {
     if (!targetedCell) return;
 
-    if (!canMove) return;
+    if (!canMove) {
+      alert("Pas assez de PM");
+      return;
+    }
 
     const newPath = calculatePath(targetedCell!, key, player.pm);
 
