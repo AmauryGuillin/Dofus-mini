@@ -5,6 +5,7 @@ import PlayerInfo from "./player-info";
 
 export default function PlayingBoard() {
   const [targetedCell, setTargetedCell] = useState<string>();
+  const [enemyCell, setEnemyCell] = useState<string>();
   const [path, setPath] = useState<string[]>([]);
   const [canMove, setCanMove] = useState<boolean>(false);
 
@@ -22,7 +23,11 @@ export default function PlayingBoard() {
   };
 
   useEffect(() => {
-    setTargetedCell("3-0");
+    setTargetedCell("6-1");
+  }, []);
+
+  useEffect(() => {
+    setEnemyCell("1-6");
   }, []);
 
   const grid = Array.from({ length: board.length }, (_, rowIndex) =>
@@ -34,6 +39,8 @@ export default function PlayingBoard() {
           className={`w-24 h-24 border-2 border-gray-500 hover:cursor-pointer ${
             key === targetedCell
               ? "bg-blue-400"
+              : key === enemyCell
+              ? "bg-red-400"
               : path.includes(key)
               ? "bg-green-500"
               : undefined
@@ -51,6 +58,11 @@ export default function PlayingBoard() {
 
     if (!canMove) {
       alert("Pas assez de PM");
+      return;
+    }
+
+    if (key === enemyCell) {
+      alert("Action impossible");
       return;
     }
 
