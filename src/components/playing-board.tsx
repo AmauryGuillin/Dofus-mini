@@ -24,6 +24,41 @@ export default function PlayingBoard() {
     setTargetedCell("3-0");
   }, []);
 
+  const grid = Array.from({ length: board.length }, (_, rowIndex) =>
+    Array.from({ length: board.width }, (_, colIndex) => {
+      const key = `${rowIndex}-${colIndex}`;
+      return (
+        <div
+          key={key}
+          className={`w-24 h-24 border-2 border-gray-500 hover:cursor-pointer ${
+            key === targetedCell
+              ? "bg-red-500"
+              : path.includes(key)
+              ? "bg-green-500"
+              : undefined
+          }`}
+          onClick={() => selectCell(key)}
+          onMouseEnter={() => enter(key)}
+          onMouseLeave={leave}
+        />
+      );
+    })
+  );
+
+  function selectCell(key: string) {
+    setTargetedCell(key);
+    setPath([]);
+  }
+
+  function enter(key: string) {
+    const newPath = calculatePath(targetedCell!, key, player.pm);
+    setPath(newPath);
+  }
+
+  function leave() {
+    setPath([]);
+  }
+
   function calculatePath(
     start: string,
     end: string,
@@ -83,41 +118,6 @@ export default function PlayingBoard() {
 
     return [];
   }
-
-  function selectCell(key: string) {
-    setTargetedCell(key);
-    setPath([]);
-  }
-
-  function enter(key: string) {
-    const newPath = calculatePath(targetedCell!, key, player.pm);
-    setPath(newPath);
-  }
-
-  function leave() {
-    setPath([]);
-  }
-
-  const grid = Array.from({ length: board.length }, (_, rowIndex) =>
-    Array.from({ length: board.width }, (_, colIndex) => {
-      const key = `${rowIndex}-${colIndex}`;
-      return (
-        <div
-          key={key}
-          className={`w-24 h-24 border-2 border-gray-500 hover:cursor-pointer ${
-            key === targetedCell
-              ? "bg-red-500"
-              : path.includes(key)
-              ? "bg-green-500"
-              : undefined
-          }`}
-          onClick={() => selectCell(key)}
-          onMouseEnter={() => enter(key)}
-          onMouseLeave={leave}
-        />
-      );
-    })
-  );
 
   return (
     <div className="h-screen flex justify-center items-center border-2 w-full text-white relative">
