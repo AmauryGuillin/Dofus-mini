@@ -9,8 +9,8 @@ export default function PlayingBoard() {
 
   const board: Board = {
     name: "main",
-    width: 4,
-    length: 4,
+    width: 8,
+    length: 8,
   };
 
   const player: Player = {
