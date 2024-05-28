@@ -6,6 +6,7 @@ import PlayerInfo from "./player-info";
 export default function PlayingBoard() {
   const [targetedCell, setTargetedCell] = useState<string>();
   const [path, setPath] = useState<string[]>([]);
+  const [canMove, setCanMove] = useState<boolean>(false);
 
   const board: Board = {
     name: "main",
@@ -46,12 +47,25 @@ export default function PlayingBoard() {
   );
 
   function selectCell(key: string) {
-    setTargetedCell(key);
-    setPath([]);
+    if (!targetedCell) return;
+
+    if (!canMove) return;
+
+    const newPath = calculatePath(targetedCell!, key, player.pm);
+
+    if (newPath.length - 1 <= player.pm) {
+      setTargetedCell(key);
+      setPath([]);
+    } else {
+      alert("Pas assez de pm");
+    }
   }
 
   function enter(key: string) {
-    const newPath = calculatePath(targetedCell!, key, player.pm);
+    if (!targetedCell) return;
+
+    const newPath = calculatePath(targetedCell, key, player.pm);
+
     setPath(newPath);
   }
 
@@ -92,8 +106,10 @@ export default function PlayingBoard() {
         path.push(start);
 
         if (path.length - 1 <= maxLength) {
+          setCanMove(true);
           return path.reverse();
         } else {
+          setCanMove(false);
           return [];
         }
       }
@@ -115,7 +131,6 @@ export default function PlayingBoard() {
         }
       }
     }
-
     return [];
   }
 
