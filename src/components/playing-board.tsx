@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Board } from "../types/board";
 import { Player } from "../types/player";
 import PlayerInfo from "./player-info";
@@ -25,14 +25,6 @@ export default function PlayingBoard() {
   const [turn, setTurn] = useState<Player>(player);
   //const [canPlayerPassTurn, setCanPlayerPassTurn] = useState<boolean>(false);
   //const [canEnemyPassTurn, setCanEnemyPassTurn] = useState<boolean>(false);
-  const test = "./combat_music.mp3";
-
-  useEffect(() => {
-    if (test) {
-      const music = new Audio("./combat_music.mp3");
-      music.play();
-    }
-  }, []);
 
   const board: Board = {
     name: "main",
