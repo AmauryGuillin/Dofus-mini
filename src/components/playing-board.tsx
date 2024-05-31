@@ -1,13 +1,30 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Board } from "../types/board";
 import { Player } from "../types/player";
 import PlayerInfo from "./player-info";
 
 export default function PlayingBoard() {
-  const [targetedCell, setTargetedCell] = useState<string>();
-  const [enemyCell, setEnemyCell] = useState<string>();
+  const player: Player = {
+    name: "Skyouuh",
+    pv: 100,
+    pm: 3,
+    pa: 6,
+  };
+
+  const enemy: Player = {
+    name: "BOUFTOU",
+    pv: 30,
+    pm: 3,
+    pa: 6,
+  };
+
+  const [targetedCell, setTargetedCell] = useState<string>("6-1");
+  const [enemyCell, setEnemyCell] = useState<string>("1-6");
   const [path, setPath] = useState<string[]>([]);
   const [canMove, setCanMove] = useState<boolean>(false);
+  const [turn, setTurn] = useState<Player>(player);
+  //const [canPlayerPassTurn, setCanPlayerPassTurn] = useState<boolean>(false);
+  //const [canEnemyPassTurn, setCanEnemyPassTurn] = useState<boolean>(false);
 
   const board: Board = {
     name: "main",
@@ -15,20 +32,16 @@ export default function PlayingBoard() {
     length: 8,
   };
 
-  const player: Player = {
-    name: "PLAYER_NAME",
-    pv: 100,
-    pm: 3,
-    pa: 6,
-  };
+  function passTurn(entity: string) {
+    console.log(turn);
 
-  useEffect(() => {
-    setTargetedCell("6-1");
-  }, []);
-
-  useEffect(() => {
-    setEnemyCell("1-6");
-  }, []);
+    if (entity === player.name) {
+      setTurn(enemy);
+    }
+    if (entity === enemy.name) {
+      setTurn(player);
+    }
+  }
 
   const grid = Array.from({ length: board.length }, (_, rowIndex) =>
     Array.from({ length: board.width }, (_, colIndex) => {
@@ -45,15 +58,23 @@ export default function PlayingBoard() {
               ? "bg-green-500"
               : undefined
           }`}
-          onClick={() => selectCell(key)}
-          onMouseEnter={() => enter(key)}
+          onClick={() => {
+            if (turn.name === player.name) {
+              console.log("player select cell");
+              selectCell(key, player);
+            } else {
+              console.log(turn, player);
+              selectCell(key, enemy);
+            }
+          }}
+          onMouseEnter={() => enter(key, turn)}
           onMouseLeave={leave}
         />
       );
     })
   );
 
-  function selectCell(key: string) {
+  function selectCell(key: string, currentPlayer: Player) {
     if (!targetedCell) return;
 
     if (!canMove) {
@@ -66,20 +87,38 @@ export default function PlayingBoard() {
       return;
     }
 
-    const newPath = calculatePath(targetedCell!, key, player.pm);
+    if (key === targetedCell) {
+      alert("Action impossible");
+      return;
+    }
 
-    if (newPath.length - 1 <= player.pm) {
-      setTargetedCell(key);
+    let newPath: string[];
+
+    if (turn.name === player.name) {
+      newPath = calculatePath(targetedCell!, key, currentPlayer.pm);
+    } else {
+      newPath = calculatePath(enemyCell!, key, currentPlayer.pm);
+    }
+
+    if (newPath.length - 1 <= currentPlayer.pm) {
+      turn.name === player.name ? setTargetedCell(key) : setEnemyCell(key);
       setPath([]);
     } else {
       alert("Pas assez de pm");
     }
   }
 
-  function enter(key: string) {
+  function enter(key: string, currentPlayer: Player) {
     if (!targetedCell) return;
+    if (!enemyCell) return;
 
-    const newPath = calculatePath(targetedCell, key, player.pm);
+    let newPath: string[];
+
+    if (turn.name === player.name) {
+      newPath = calculatePath(targetedCell!, key, currentPlayer.pm);
+    } else {
+      newPath = calculatePath(enemyCell!, key, currentPlayer.pm);
+    }
 
     setPath(newPath);
   }
@@ -160,6 +199,15 @@ export default function PlayingBoard() {
             </div>
           );
         })}
+        <div>
+          <button
+            type="button"
+            className="border-2 w-36 h-12"
+            onClick={() => passTurn(turn.name)}
+          >
+            Passer le tour
+          </button>
+        </div>
       </div>
     </div>
   );
