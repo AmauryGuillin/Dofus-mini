@@ -3,21 +3,21 @@ import { Board } from "../types/board";
 import { Player } from "../types/player";
 import PlayerInfo from "./player-info";
 
+const player: Player = {
+  name: "Skyouuh",
+  pv: 100,
+  pm: 3,
+  pa: 6,
+};
+
+const enemy: Player = {
+  name: "BOUFTOU",
+  pv: 30,
+  pm: 3,
+  pa: 6,
+};
+
 export default function PlayingBoard() {
-  const player: Player = {
-    name: "Skyouuh",
-    pv: 100,
-    pm: 3,
-    pa: 6,
-  };
-
-  const enemy: Player = {
-    name: "BOUFTOU",
-    pv: 30,
-    pm: 3,
-    pa: 6,
-  };
-
   const [targetedCell, setTargetedCell] = useState<string>("6-1");
   const [enemyCell, setEnemyCell] = useState<string>("1-6");
   const [path, setPath] = useState<string[]>([]);
@@ -36,6 +36,7 @@ export default function PlayingBoard() {
     console.log(turn);
 
     if (entity === player.name) {
+      player.pm = 3;
       setTurn(enemy);
     }
     if (entity === enemy.name) {
@@ -60,10 +61,8 @@ export default function PlayingBoard() {
           }`}
           onClick={() => {
             if (turn.name === player.name) {
-              console.log("player select cell");
               selectCell(key, player);
             } else {
-              console.log(turn, player);
               selectCell(key, enemy);
             }
           }}
@@ -75,7 +74,7 @@ export default function PlayingBoard() {
   );
 
   function selectCell(key: string, currentPlayer: Player) {
-    if (!targetedCell) return;
+    if (!targetedCell || !enemyCell) return;
 
     if (!canMove) {
       alert("Pas assez de PM");
@@ -101,7 +100,16 @@ export default function PlayingBoard() {
     }
 
     if (newPath.length - 1 <= currentPlayer.pm) {
-      turn.name === player.name ? setTargetedCell(key) : setEnemyCell(key);
+      //turn.name === player.name ? setTargetedCell(key) : setEnemyCell(key);
+
+      if (turn.name === player.name) {
+        setTargetedCell(key);
+        player.pm = player.pm - (newPath.length - 1);
+        console.log(player);
+      } else {
+        setEnemyCell(key);
+      }
+
       setPath([]);
     } else {
       alert("Pas assez de pm");
@@ -109,8 +117,7 @@ export default function PlayingBoard() {
   }
 
   function enter(key: string, currentPlayer: Player) {
-    if (!targetedCell) return;
-    if (!enemyCell) return;
+    if (!targetedCell || !enemyCell) return;
 
     let newPath: string[];
 
@@ -127,11 +134,7 @@ export default function PlayingBoard() {
     setPath([]);
   }
 
-  function calculatePath(
-    start: string,
-    end: string,
-    maxLength: number
-  ): string[] {
+  function calculatePath(start: string, end: string, maxLength: number) {
     const [startRow, startCol] = start.split("-").map(Number);
     const [endRow, endCol] = end.split("-").map(Number);
     const queue = [[startRow, startCol]];
@@ -159,8 +162,11 @@ export default function PlayingBoard() {
         }
         path.push(start);
 
+        console.log(maxLength);
+
         if (path.length - 1 <= maxLength) {
           setCanMove(true);
+          console.log(path.reverse());
           return path.reverse();
         } else {
           setCanMove(false);
