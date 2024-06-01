@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Board } from "../types/board";
 import { Player } from "../types/player";
 import PlayerInfo from "./player-info";
+import PlayerTurnImage from "./player-turn-image";
 
 const player: Player = {
   name: "Skyouuh",
@@ -11,10 +12,16 @@ const player: Player = {
 };
 
 const enemy: Player = {
-  name: "BOUFTOU",
+  name: "Bouftou",
   pv: 30,
   pm: 3,
   pa: 6,
+};
+
+const board: Board = {
+  name: "main",
+  width: 8,
+  length: 8,
 };
 
 export default function PlayingBoard() {
@@ -23,24 +30,32 @@ export default function PlayingBoard() {
   const [path, setPath] = useState<string[]>([]);
   const [canMove, setCanMove] = useState<boolean>(false);
   const [turn, setTurn] = useState<Player>(player);
+  const [isUserImageDisplayed, setIsUserImageDisplayed] =
+    useState<boolean>(false);
   //const [canPlayerPassTurn, setCanPlayerPassTurn] = useState<boolean>(false);
   //const [canEnemyPassTurn, setCanEnemyPassTurn] = useState<boolean>(false);
 
-  const board: Board = {
-    name: "main",
-    width: 8,
-    length: 8,
-  };
-
   function passTurn(entity: string) {
-    console.log(turn);
-
     if (entity === player.name) {
       player.pm = 3;
       setTurn(enemy);
+      setIsUserImageDisplayed(true);
+      setTimeout(() => {
+        setIsUserImageDisplayed(false);
+      }, 2000);
     }
     if (entity === enemy.name) {
+      const music = document.createElement("audio");
+      music.src = "./200_fx_69.mp3.mp3";
+      music.autoplay = true;
+      music.loop = false;
+      music.volume = 1;
+      document.body.appendChild(music);
       setTurn(player);
+      setIsUserImageDisplayed(true);
+      setTimeout(() => {
+        setIsUserImageDisplayed(false);
+      }, 2000);
     }
   }
 
@@ -162,11 +177,8 @@ export default function PlayingBoard() {
         }
         path.push(start);
 
-        console.log(maxLength);
-
         if (path.length - 1 <= maxLength) {
           setCanMove(true);
-          console.log(path.reverse());
           return path.reverse();
         } else {
           setCanMove(false);
@@ -196,6 +208,7 @@ export default function PlayingBoard() {
 
   return (
     <div className="h-screen flex justify-center items-center w-full text-white relative">
+      {isUserImageDisplayed && <PlayerTurnImage player={turn} />}
       <PlayerInfo player={player} />
       <div className="transform-gpu rotate-[30deg] -skew-x-[30deg]">
         {grid.map((row, rowIndex) => {
@@ -208,7 +221,7 @@ export default function PlayingBoard() {
         <div>
           <button
             type="button"
-            className="border-2 w-36 h-12"
+            className="border-2 w-36 h-12 hover:scale-110 transition-all delay-[10ms] hover:bg-gray-800"
             onClick={() => passTurn(turn.name)}
           >
             Passer le tour
