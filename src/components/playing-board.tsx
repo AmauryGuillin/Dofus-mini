@@ -37,7 +37,7 @@ export default function PlayingBoard() {
 
   function passTurn(entity: string) {
     if (entity === player.name) {
-      player.pm = 3;
+      player.pm = 3; //TODO: a variabliser
       setTurn(enemy);
       setIsUserImageDisplayed(true);
       setTimeout(() => {
@@ -45,18 +45,23 @@ export default function PlayingBoard() {
       }, 2000);
     }
     if (entity === enemy.name) {
-      const music = document.createElement("audio");
-      music.src = "./200_fx_69.mp3.mp3";
-      music.autoplay = true;
-      music.loop = false;
-      music.volume = 1;
-      document.body.appendChild(music);
+      const audioSource = "./200_fx_69.mp3.mp3";
+      playAudio(audioSource, 0.5);
       setTurn(player);
       setIsUserImageDisplayed(true);
       setTimeout(() => {
         setIsUserImageDisplayed(false);
       }, 2000);
     }
+  }
+
+  function playAudio(source: string, volume: number) {
+    const music = document.createElement("audio");
+    music.src = source;
+    music.autoplay = true;
+    music.loop = false;
+    music.volume = volume;
+    document.body.appendChild(music);
   }
 
   const grid = Array.from({ length: board.length }, (_, rowIndex) =>
@@ -104,6 +109,9 @@ export default function PlayingBoard() {
     if (key === targetedCell) {
       alert("Action impossible");
       return;
+    }
+
+    if (turn.name === enemy.name && key === targetedCell) {
     }
 
     let newPath: string[];
