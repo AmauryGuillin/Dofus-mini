@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { Board } from "../types/board";
 import { Player } from "../types/player";
 import { playAudio } from "../utils/music/handleAudio";
@@ -34,6 +35,10 @@ export default function PlayingBoard() {
   const [turn, setTurn] = useState<Player>(player);
   const [isUserImageDisplayed, setIsUserImageDisplayed] =
     useState<boolean>(false);
+  const [playerPosition, setPlayerPosition] = useState({ x: 6, y: 1 });
+  const [enemyPosition, setEnemyPosition] = useState({ x: 1, y: 6 });
+  const [currentPath, setCurrentPath] = useState<string[]>([]);
+  const [isMoving, setIsMoving] = useState<boolean>(false);
   //const [canPlayerPassTurn, setCanPlayerPassTurn] = useState<boolean>(false);
   //const [canEnemyPassTurn, setCanEnemyPassTurn] = useState<boolean>(false);
 
@@ -60,13 +65,14 @@ export default function PlayingBoard() {
   const grid = Array.from({ length: board.length }, (_, rowIndex) =>
     Array.from({ length: board.width }, (_, colIndex) => {
       const key = `${rowIndex}-${colIndex}`;
+
       return (
         <div
           key={key}
           className={`w-24 h-24 border-2 border-gray-500 hover:cursor-pointer ${
-            key === targetedCell
+            !isMoving && key === targetedCell
               ? "bg-blue-400"
-              : key === enemyCell
+              : !isMoving && key === enemyCell
               ? "bg-red-400"
               : path.includes(key)
               ? "bg-green-500"
@@ -120,6 +126,7 @@ export default function PlayingBoard() {
     }
 
     if (newPath.length - 1 <= currentPlayer.pm) {
+      setCurrentPath(newPath);
       if (turn.name === player.name) {
         setTargetedCell(key);
         player.pm = player.pm - (newPath.length - 1);
@@ -214,6 +221,32 @@ export default function PlayingBoard() {
     return [];
   }
 
+  useEffect(() => {
+    if (currentPath.length > 0) {
+      setIsMoving(true);
+      const interval = setInterval(() => {
+        setCurrentPath((prevPath) => {
+          if (prevPath.length === 0) {
+            clearInterval(interval);
+            setIsMoving(false);
+            return [];
+          }
+
+          const nextPosition = prevPath[0].split("-").map(Number);
+          if (turn.name === player.name) {
+            setPlayerPosition({ x: nextPosition[0], y: nextPosition[1] });
+          } else {
+            setEnemyPosition({ x: nextPosition[0], y: nextPosition[1] });
+          }
+
+          return prevPath.slice(1);
+        });
+      }, 200);
+
+      return () => clearInterval(interval);
+    }
+  }, [currentPath]);
+
   return (
     <div className="h-screen flex justify-center items-center w-full text-white relative">
       {isUserImageDisplayed && <PlayerTurnImage player={turn} />}
@@ -226,6 +259,28 @@ export default function PlayingBoard() {
             </div>
           );
         })}
+        <motion.div
+          className="absolute"
+          initial={false}
+          animate={{
+            top: playerPosition.x * 6 + "rem",
+            left: playerPosition.y * 6 + "rem",
+          }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="w-24 h-24 bg-blue-400" />
+        </motion.div>
+        <motion.div
+          className="absolute"
+          initial={false}
+          animate={{
+            top: enemyPosition.x * 6 + "rem",
+            left: enemyPosition.y * 6 + "rem",
+          }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="w-24 h-24 bg-red-400" />
+        </motion.div>
         <div>
           <button
             type="button"
