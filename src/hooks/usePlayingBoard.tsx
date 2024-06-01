@@ -7,7 +7,8 @@ import { getRandomInt } from "../utils/tools/getRandomNumber";
 export function usePlayingBoard(
   player: Player,
   enemy: Player,
-  board: Board
+  board: Board,
+  setMessage: React.Dispatch<React.SetStateAction<string[]>>
 ): [
   boolean,
   { [key: string]: number },
@@ -15,7 +16,8 @@ export function usePlayingBoard(
   (entity: string) => void,
   JSX.Element[][],
   Player,
-  (key: string, currentPlayer: Player) => void
+  (key: string, currentPlayer: Player) => void,
+  React.Dispatch<React.SetStateAction<string[]>>
 ] {
   const [targetedCell, setTargetedCell] = useState<string>("6-1");
   const [enemyCell, setEnemyCell] = useState<string>("1-6");
@@ -93,7 +95,15 @@ export function usePlayingBoard(
       const audio1 = "./enemy-sound-effects/142_fx_741.mp3.mp3";
       const audio2 = "./enemy-sound-effects/143_fx_740.mp3.mp3";
       const effects = [audio1, audio2];
-      playAudio(effects[getRandomInt(effects.length)], 0.5);
+      playAudio(effects[getRandomInt(effects.length)], 0.5, false, true);
+      const playerDamage = "./player-sound-effects/131_fx_751.mp3.mp3";
+      setTimeout(() => {
+        playAudio(playerDamage, 0.3, false, true);
+      }, 200);
+      setMessage((prevMessages) => [
+        ...prevMessages,
+        `${enemy.name} inflige 10 points de dommage à ${player.name}`,
+      ]);
     }
 
     if (key === enemyCell) {
@@ -244,5 +254,6 @@ export function usePlayingBoard(
     grid,
     turn,
     selectCell,
+    setMessage,
   ];
 }

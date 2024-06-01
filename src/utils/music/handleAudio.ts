@@ -13,6 +13,6 @@ export function playAudio(
   if (removeAfter) {
     setTimeout(() => {
       document.body.removeChild(music);
-    }, 1000);
+    }, 5000);
   }
 }
