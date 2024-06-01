@@ -42,7 +42,7 @@ export function usePlayingBoard(
     }
     if (entity === enemy.name) {
       const audioSource = "./200_fx_69.mp3.mp3";
-      playAudio(audioSource, 0.5);
+      playAudio(audioSource, 0.5, false, true);
       setTurn(player);
       setIsUserImageDisplayed(true);
       setTimeout(() => {

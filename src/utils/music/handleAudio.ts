@@ -1,7 +1,8 @@
 export function playAudio(
   source: string,
   volume: number,
-  loop: boolean = false
+  loop: boolean = false,
+  removeAfter: boolean = false
 ) {
   const music = document.createElement("audio");
   music.src = source;
@@ -9,4 +10,9 @@ export function playAudio(
   music.loop = loop;
   music.volume = volume;
   document.body.appendChild(music);
+  if (removeAfter) {
+    setTimeout(() => {
+      document.body.removeChild(music);
+    }, 1000);
+  }
 }
