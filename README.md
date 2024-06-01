@@ -1,30 +1,11 @@
-# React + TypeScript + Vite
+# Dofus-mini
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Hi! I'm a junior developer who's trying to get better at coding every day through various personal projects. Dofus is a game that holds a special place in my life, and for this reason I've decided to pay tribute to it by trying to recode the game in a very minimalist way and according to my own style.
 
-Currently, two official plugins are available:
+# What to do in Dofus-mini
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The game is simply a combat simulation between an Iop-class character and a Gobball-type monster. You can move around the field, attack and try to win against the wild Gobball that threatens you. Don't hesitate to take advantage of the magnificent music and sound effects offered by this little replica.
 
-## Expanding the ESLint configuration
+# Where to find Dofus-mini
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+You can find the application directly by following this link: https://dofus-mini.vercel.app/
