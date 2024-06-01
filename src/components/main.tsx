@@ -12,7 +12,7 @@ export default function Main() {
   const musics = [music1, music2, music3];
 
   useEffect(() => {
-    playAudio(musics[getRandomInt()], 0.1);
+    playAudio(musics[getRandomInt(musics.length)], 0.1, true);
   }, []);
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-900">

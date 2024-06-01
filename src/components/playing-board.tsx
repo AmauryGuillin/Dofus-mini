@@ -104,7 +104,7 @@ export default function PlayingBoard() {
       const audio1 = "./enemy-sound-effects/142_fx_741.mp3.mp3";
       const audio2 = "./enemy-sound-effects/143_fx_740.mp3.mp3";
       const effects = [audio1, audio2];
-      playAudio(effects[getRandomInt()], 0.5);
+      playAudio(effects[getRandomInt(effects.length)], 0.5);
     }
 
     if (key === enemyCell) {
@@ -241,7 +241,7 @@ export default function PlayingBoard() {
 
           return prevPath.slice(1);
         });
-      }, 200);
+      }, 100);
 
       return () => clearInterval(interval);
     }
@@ -268,7 +268,16 @@ export default function PlayingBoard() {
           }}
           transition={{ duration: 0.5 }}
         >
-          <div className="w-24 h-24 bg-blue-400" />
+          <div
+            className="w-24 h-24 bg-blue-400 hover:cursor-pointer"
+            onClick={() => {
+              if (turn.name === player.name) {
+                selectCell(`${enemyPosition.x}-${enemyPosition.y}`, player);
+              } else {
+                selectCell(`${playerPosition.x}-${playerPosition.y}`, enemy);
+              }
+            }}
+          />
         </motion.div>
         <motion.div
           className="absolute"
@@ -279,7 +288,7 @@ export default function PlayingBoard() {
           }}
           transition={{ duration: 0.5 }}
         >
-          <div className="w-24 h-24 bg-red-400" />
+          <div className="w-24 h-24 bg-red-400 hover:cursor-pointer" />
         </motion.div>
         <div>
           <button
