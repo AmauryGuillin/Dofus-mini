@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { playAudio } from "../utils/music/handleAudio";
 import PlayingBoard from "./playing-board";
 import SpellBar from "./spell-bar";
 
@@ -14,12 +15,7 @@ export default function Main() {
   }
 
   useEffect(() => {
-    const music = document.createElement("audio");
-    music.src = musics[getRandomInt()];
-    music.autoplay = true;
-    music.loop = true;
-    music.volume = 0.1;
-    document.body.appendChild(music);
+    playAudio(musics[getRandomInt()], 0.1);
   }, []);
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-900">
