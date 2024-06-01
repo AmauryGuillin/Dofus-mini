@@ -58,7 +58,7 @@ export default function PlayingBoard() {
           transition={{ duration: 0.4 }}
         >
           <div
-            className="w-24 h-24 border-4 border-blue-400 rounded-full hover:cursor-pointer"
+            className="w-24 h-24 border-4 border-blue-400 rounded-full hover:cursor-pointer relative"
             onClick={() => {
               if (turn.name === player.name) {
                 selectCell(`${enemyPosition.x}-${enemyPosition.y}`, player);
@@ -66,7 +66,12 @@ export default function PlayingBoard() {
                 selectCell(`${playerPosition.x}-${playerPosition.y}`, enemy);
               }
             }}
-          />
+          >
+            <img
+              src="./images/player-front-bottom-right.png"
+              className="absolute top-[-182%] left-[-144%] h-[281%] max-w-[171%] transform rotate-[-30deg] skew-x-[20deg]"
+            />
+          </div>
         </motion.div>
         <motion.div
           className="absolute"
