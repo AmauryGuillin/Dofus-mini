@@ -25,7 +25,11 @@ const board: Board = {
   length: 8,
 };
 
-export default function PlayingBoard() {
+type Props = {
+  setMessages: React.Dispatch<React.SetStateAction<string[]>>;
+};
+
+export default function PlayingBoard({ setMessages }: Props) {
   const [
     isUserImageDisplayed,
     playerPosition,
@@ -34,7 +38,7 @@ export default function PlayingBoard() {
     grid,
     turn,
     selectCell,
-  ] = usePlayingBoard(player, enemy, board);
+  ] = usePlayingBoard(player, enemy, board, setMessages);
 
   return (
     <div className="h-screen flex justify-center items-center w-full text-white relative">
