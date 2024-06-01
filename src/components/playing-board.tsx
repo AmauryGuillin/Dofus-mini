@@ -58,7 +58,7 @@ export default function PlayingBoard() {
           transition={{ duration: 0.5 }}
         >
           <div
-            className="w-24 h-24 bg-blue-400 hover:cursor-pointer"
+            className="w-24 h-24  border-4 border-blue-400 rounded-full hover:cursor-pointer"
             onClick={() => {
               if (turn.name === player.name) {
                 selectCell(`${enemyPosition.x}-${enemyPosition.y}`, player);
@@ -77,7 +77,7 @@ export default function PlayingBoard() {
           }}
           transition={{ duration: 0.5 }}
         >
-          <div className="w-24 h-24 bg-red-400 hover:cursor-pointer" />
+          <div className="w-24 h-24 border-4 border-red-400 hover:cursor-pointer rounded-full" />
         </motion.div>
         <div>
           <button

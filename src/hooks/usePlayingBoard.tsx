@@ -60,10 +60,10 @@ export function usePlayingBoard(
           key={key}
           className={`w-24 h-24 border-2 border-gray-500 hover:cursor-pointer ${
             !isMoving && key === targetedCell
-              ? "bg-blue-400"
+              ? "border-4 border-blue-400 rounded-full"
               : !isMoving && key === enemyCell
-              ? "bg-red-400"
-              : path.includes(key)
+              ? "border-4 border-red-400 rounded-full"
+              : path.includes(key) && key !== targetedCell
               ? "bg-green-500"
               : undefined
           }`}
