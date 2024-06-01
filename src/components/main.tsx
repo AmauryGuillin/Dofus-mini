@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { playAudio } from "../utils/music/handleAudio";
+import { getRandomInt } from "../utils/tools/getRandomNumber";
 import PlayingBoard from "./playing-board";
 import SpellBar from "./spell-bar";
 
@@ -9,10 +10,6 @@ export default function Main() {
   const music3 = "./37_fig_amakna.mp3.mp3";
 
   const musics = [music1, music2, music3];
-
-  function getRandomInt() {
-    return Math.floor(Math.random() * 3);
-  }
 
   useEffect(() => {
     playAudio(musics[getRandomInt()], 0.1);
