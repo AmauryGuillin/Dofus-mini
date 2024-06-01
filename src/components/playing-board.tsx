@@ -69,7 +69,7 @@ export default function PlayingBoard() {
           >
             <img
               src="./images/player-front-bottom-right.png"
-              className="absolute top-[-182%] left-[-144%] h-[281%] max-w-[171%] transform rotate-[-30deg] skew-x-[20deg]"
+              className="absolute top-[-138%] left-[-101%] h-[232%] max-w-[140%] transform rotate-[-30deg] skew-x-[20deg]"
             />
           </div>
         </motion.div>
@@ -82,7 +82,12 @@ export default function PlayingBoard() {
           }}
           transition={{ duration: 0.4 }}
         >
-          <div className="w-24 h-24 border-4 border-red-400 hover:cursor-pointer rounded-full" />
+          <div className="w-24 h-24 border-4 border-red-400 hover:cursor-pointer rounded-full">
+            <img
+              src="./images/bouftou.png"
+              className="absolute top-[-53%] left-[-27%] h-[165%] max-w-[101%] transform rotate-[-30deg] skew-x-[20deg]"
+            />
+          </div>
         </motion.div>
         <div>
           <button
