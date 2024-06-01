@@ -90,7 +90,7 @@ export default function PlayingBoard() {
     if (!targetedCell || !enemyCell) return;
 
     if (!canMove) {
-      alert("Pas assez de PM");
+      console.log("Pas assez de PM");
       return;
     }
 
@@ -102,30 +102,27 @@ export default function PlayingBoard() {
     }
 
     if (key === enemyCell) {
-      alert("Action impossible");
+      console.log("Action impossible");
       return;
     }
 
     if (key === targetedCell) {
-      alert("Action impossible");
+      console.log("Action impossible");
       return;
     }
 
     let newPath: string[];
 
     if (turn.name === player.name) {
-      newPath = calculatePath(targetedCell!, key, currentPlayer.pm);
+      newPath = calculatePath(targetedCell!, key, currentPlayer.pm, enemyCell);
     } else {
-      newPath = calculatePath(enemyCell!, key, currentPlayer.pm);
+      newPath = calculatePath(enemyCell!, key, currentPlayer.pm, targetedCell);
     }
 
     if (newPath.length - 1 <= currentPlayer.pm) {
-      //turn.name === player.name ? setTargetedCell(key) : setEnemyCell(key);
-
       if (turn.name === player.name) {
         setTargetedCell(key);
         player.pm = player.pm - (newPath.length - 1);
-        console.log(player);
       } else {
         setEnemyCell(key);
       }
@@ -142,9 +139,9 @@ export default function PlayingBoard() {
     let newPath: string[];
 
     if (turn.name === player.name) {
-      newPath = calculatePath(targetedCell!, key, currentPlayer.pm);
+      newPath = calculatePath(targetedCell!, key, currentPlayer.pm, enemyCell);
     } else {
-      newPath = calculatePath(enemyCell!, key, currentPlayer.pm);
+      newPath = calculatePath(enemyCell!, key, currentPlayer.pm, targetedCell);
     }
 
     setPath(newPath);
@@ -154,7 +151,12 @@ export default function PlayingBoard() {
     setPath([]);
   }
 
-  function calculatePath(start: string, end: string, maxLength: number) {
+  function calculatePath(
+    start: string,
+    end: string,
+    maxLength: number,
+    obstacle: string
+  ) {
     const [startRow, startCol] = start.split("-").map(Number);
     const [endRow, endCol] = end.split("-").map(Number);
     const queue = [[startRow, startCol]];
@@ -200,7 +202,8 @@ export default function PlayingBoard() {
           newRow < board.length &&
           newCol >= 0 &&
           newCol < board.width &&
-          !visited.has(key)
+          !visited.has(key) &&
+          key !== obstacle
         ) {
           queue.push([newRow, newCol]);
           visited.add(key);
