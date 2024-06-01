@@ -230,7 +230,7 @@ export function usePlayingBoard(
 
           return prevPath.slice(1);
         });
-      }, 100);
+      }, 300);
 
       return () => clearInterval(interval);
     }

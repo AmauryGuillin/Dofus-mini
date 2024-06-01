@@ -6,7 +6,7 @@ import PlayerInfo from "./player-info";
 import PlayerTurnImage from "./player-turn-image";
 
 const player: Player = {
-  name: "Skyouuh",
+  name: "Iopette",
   pv: 100,
   pm: 3,
   pa: 6,
@@ -55,10 +55,10 @@ export default function PlayingBoard() {
             top: playerPosition.x * 6 + "rem",
             left: playerPosition.y * 6 + "rem",
           }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4 }}
         >
           <div
-            className="w-24 h-24  border-4 border-blue-400 rounded-full hover:cursor-pointer"
+            className="w-24 h-24 border-4 border-blue-400 rounded-full hover:cursor-pointer"
             onClick={() => {
               if (turn.name === player.name) {
                 selectCell(`${enemyPosition.x}-${enemyPosition.y}`, player);
@@ -75,7 +75,7 @@ export default function PlayingBoard() {
             top: enemyPosition.x * 6 + "rem",
             left: enemyPosition.y * 6 + "rem",
           }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4 }}
         >
           <div className="w-24 h-24 border-4 border-red-400 hover:cursor-pointer rounded-full" />
         </motion.div>
