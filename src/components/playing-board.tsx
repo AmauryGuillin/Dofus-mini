@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Board } from "../types/board";
 import { Player } from "../types/player";
+import { playAudio } from "../utils/music/handleAudio";
+import { getRandomInt } from "../utils/tools/getRandomNumber";
 import PlayerInfo from "./player-info";
 import PlayerTurnImage from "./player-turn-image";
 
@@ -55,15 +57,6 @@ export default function PlayingBoard() {
     }
   }
 
-  function playAudio(source: string, volume: number) {
-    const music = document.createElement("audio");
-    music.src = source;
-    music.autoplay = true;
-    music.loop = false;
-    music.volume = volume;
-    document.body.appendChild(music);
-  }
-
   const grid = Array.from({ length: board.length }, (_, rowIndex) =>
     Array.from({ length: board.width }, (_, colIndex) => {
       const key = `${rowIndex}-${colIndex}`;
@@ -101,6 +94,13 @@ export default function PlayingBoard() {
       return;
     }
 
+    if (turn.name === enemy.name && key === targetedCell) {
+      const audio1 = "./enemy-sound-effects/142_fx_741.mp3.mp3";
+      const audio2 = "./enemy-sound-effects/143_fx_740.mp3.mp3";
+      const effects = [audio1, audio2];
+      playAudio(effects[getRandomInt()], 0.5);
+    }
+
     if (key === enemyCell) {
       alert("Action impossible");
       return;
@@ -109,9 +109,6 @@ export default function PlayingBoard() {
     if (key === targetedCell) {
       alert("Action impossible");
       return;
-    }
-
-    if (turn.name === enemy.name && key === targetedCell) {
     }
 
     let newPath: string[];
