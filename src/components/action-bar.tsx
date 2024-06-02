@@ -1,7 +1,8 @@
+import { ChatInfoMessage } from "../types/chat-info-message";
 import SpellBar from "./spell-bar";
 
 type Props = {
-  messages: string[];
+  messages: ChatInfoMessage[];
 };
 
 export default function ActionBar({ messages }: Props) {
@@ -10,7 +11,25 @@ export default function ActionBar({ messages }: Props) {
       <div className="flex justify-center items-start text-white">
         <div className="w-[40%] h-36 flex flex-col overflow-y-auto pl-1 text-lg">
           {messages.map((message, index) => {
-            return <span key={index}>{message}</span>;
+            return (
+              <div key={index}>
+                <span
+                  className={`${
+                    message.type === "Info" ? "text-green-500" : "text-red-500"
+                  }`}
+                >
+                  {message.type}:
+                </span>
+                <span
+                  className={`${
+                    message.type === "Info" ? "text-green-500" : "text-red-500"
+                  }`}
+                >
+                  {" "}
+                  {message.message}
+                </span>
+              </div>
+            );
           })}
         </div>
         <div className="border-l-2 border-r-2 w-[20%] h-64">

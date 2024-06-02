@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ChatInfoMessage } from "../types/chat-info-message";
 import { playAudio } from "../utils/music/handleAudio";
 import { getRandomInt } from "../utils/tools/getRandomNumber";
 import ActionBar from "./action-bar";
@@ -13,7 +14,12 @@ export default function Main() {
     playAudio(musics[getRandomInt(musics.length)], 0.1, true);
   }, []);
 
-  const [messages, setMessages] = useState<string[]>(["Le combat commence"]);
+  const [messages, setMessages] = useState<ChatInfoMessage[]>([
+    {
+      type: "Info",
+      message: "Le combat commence",
+    },
+  ]);
 
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-900">
