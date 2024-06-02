@@ -93,15 +93,29 @@ export function usePlayingBoard(
     const attack1: BouftouBite = {
       dammage: getRandomIntMinMax(5, 25),
     };
-
     const audio1 = "./enemy-sound-effects/142_fx_741.mp3.mp3";
     const audio2 = "./enemy-sound-effects/143_fx_740.mp3.mp3";
     const effects = [audio1, audio2];
+    const playerDamage = "./player-sound-effects/damage/131_fx_751.mp3.mp3";
+    const playerDeath1 = "./player-sound-effects/death/317_fx_584.mp3.mp3";
+    const playerDeath2 = "./player-sound-effects/death/316_fx_585.mp3.mp3";
+
+    player.pv -= attack1.dammage;
+
+    if (player.pv <= 0) {
+      playAudio(playerDeath1, 0.5, false, true);
+      setTimeout(() => {
+        playAudio(playerDeath2, 0.5, false, true);
+        isGameOver(true);
+      }, 500);
+      return;
+    }
+
     playAudio(effects[getRandomInt(effects.length)], 0.5, false, true);
-    const playerDamage = "./player-sound-effects/131_fx_751.mp3.mp3";
     setTimeout(() => {
       playAudio(playerDamage, 0.3, false, true);
     }, 200);
+
     setMessage((prevMessages) => [
       ...prevMessages,
       {
@@ -109,10 +123,6 @@ export function usePlayingBoard(
         message: `${enemy.name} inflige ${attack1.dammage} points de dommage à ${player.name}`,
       },
     ]);
-
-    player.pv -= attack1.dammage;
-
-    if (player.pv <= 0) isGameOver(true);
   }
 
   function selectCell(key: string, currentPlayer: Player) {
