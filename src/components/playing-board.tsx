@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import { usePlayingBoard } from "../hooks/usePlayingBoard";
 import { Board } from "../types/board";
+import { ChatInfoMessage } from "../types/chat-info-message";
 import { Player } from "../types/player";
 import PlayerInfo from "./player-info";
 import PlayerTurnImage from "./player-turn-image";
-import { ChatInfoMessage } from "../types/chat-info-message";
 
 const player: Player = {
   name: "Iopette",
@@ -28,9 +28,13 @@ const board: Board = {
 
 type Props = {
   setMessages: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>;
+  setIsGameOver: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function PlayingBoard({ setMessages }: Props) {
+export default function PlayingBoard({
+  setMessages,
+  setIsGameOver: setIsGameOver,
+}: Props) {
   const [
     isUserImageDisplayed,
     playerPosition,
@@ -39,7 +43,7 @@ export default function PlayingBoard({ setMessages }: Props) {
     grid,
     turn,
     selectCell,
-  ] = usePlayingBoard(player, enemy, board, setMessages);
+  ] = usePlayingBoard(player, enemy, board, setMessages, setIsGameOver);
 
   return (
     <div className="h-screen flex justify-center items-center w-full text-white relative">

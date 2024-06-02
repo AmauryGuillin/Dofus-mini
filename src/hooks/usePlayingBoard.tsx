@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
+import { BouftouBite } from "../types/attack";
 import { Board } from "../types/board";
 import { ChatInfoMessage } from "../types/chat-info-message";
 import { Player } from "../types/player";
 import { playAudio } from "../utils/music/handleAudio";
-import { getRandomInt } from "../utils/tools/getRandomNumber";
+import {
+  getRandomInt,
+  getRandomIntMinMax,
+} from "../utils/tools/getRandomNumber";
 
 export function usePlayingBoard(
   player: Player,
   enemy: Player,
   board: Board,
-  setMessage: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>
+  setMessage: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>,
+  isGameOver: React.Dispatch<React.SetStateAction<boolean>>
 ): [
   boolean,
   { [key: string]: number },
@@ -84,6 +89,32 @@ export function usePlayingBoard(
     })
   );
 
+  function enemyAttack() {
+    const attack1: BouftouBite = {
+      dammage: getRandomIntMinMax(5, 25),
+    };
+
+    const audio1 = "./enemy-sound-effects/142_fx_741.mp3.mp3";
+    const audio2 = "./enemy-sound-effects/143_fx_740.mp3.mp3";
+    const effects = [audio1, audio2];
+    playAudio(effects[getRandomInt(effects.length)], 0.5, false, true);
+    const playerDamage = "./player-sound-effects/131_fx_751.mp3.mp3";
+    setTimeout(() => {
+      playAudio(playerDamage, 0.3, false, true);
+    }, 200);
+    setMessage((prevMessages) => [
+      ...prevMessages,
+      {
+        type: "Info",
+        message: `${enemy.name} inflige ${attack1.dammage} points de dommage à ${player.name}`,
+      },
+    ]);
+
+    player.pv -= attack1.dammage;
+
+    if (player.pv <= 0) isGameOver(true);
+  }
+
   function selectCell(key: string, currentPlayer: Player) {
     if (!targetedCell || !enemyCell) return;
 
@@ -99,21 +130,7 @@ export function usePlayingBoard(
     }
 
     if (turn.name === enemy.name && key === targetedCell) {
-      const audio1 = "./enemy-sound-effects/142_fx_741.mp3.mp3";
-      const audio2 = "./enemy-sound-effects/143_fx_740.mp3.mp3";
-      const effects = [audio1, audio2];
-      playAudio(effects[getRandomInt(effects.length)], 0.5, false, true);
-      const playerDamage = "./player-sound-effects/131_fx_751.mp3.mp3";
-      setTimeout(() => {
-        playAudio(playerDamage, 0.3, false, true);
-      }, 200);
-      setMessage((prevMessages) => [
-        ...prevMessages,
-        {
-          type: "Info",
-          message: `${enemy.name} inflige 10 points de dommage à ${player.name}`,
-        },
-      ]);
+      if (player.pv > 0) enemyAttack();
       return;
     }
 
