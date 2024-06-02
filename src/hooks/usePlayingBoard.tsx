@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
+import { BouftouBite } from "../types/attack";
 import { Board } from "../types/board";
 import { ChatInfoMessage } from "../types/chat-info-message";
 import { Player } from "../types/player";
 import { playAudio } from "../utils/music/handleAudio";
-import { getRandomInt } from "../utils/tools/getRandomNumber";
+import {
+  getRandomInt,
+  getRandomIntMinMax,
+} from "../utils/tools/getRandomNumber";
 
 export function usePlayingBoard(
   player: Player,
   enemy: Player,
   board: Board,
-  setMessage: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>
+  setMessage: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>,
+  isGameOver: React.Dispatch<React.SetStateAction<boolean>>
 ): [
   boolean,
   { [key: string]: number },
@@ -18,6 +23,7 @@ export function usePlayingBoard(
   JSX.Element[][],
   Player,
   (key: string, currentPlayer: Player) => void,
+  boolean,
   React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>
 ] {
   const [targetedCell, setTargetedCell] = useState<string>("6-1");
@@ -31,12 +37,12 @@ export function usePlayingBoard(
   const [enemyPosition, setEnemyPosition] = useState({ x: 1, y: 6 });
   const [currentPath, setCurrentPath] = useState<string[]>([]);
   const [isMoving, setIsMoving] = useState<boolean>(false);
-  //const [canPlayerPassTurn, setCanPlayerPassTurn] = useState<boolean>(false);
-  //const [canEnemyPassTurn, setCanEnemyPassTurn] = useState<boolean>(false);
+  const [canPlayerPassTurn, setCanPlayerPassTurn] = useState<boolean>(true);
 
   function passTurn(entity: string) {
     if (entity === player.name) {
-      player.pm = 3; //TODO: a variabliser
+      setCanPlayerPassTurn(false);
+      player.pm = 3;
       setTurn(enemy);
       setIsUserImageDisplayed(true);
       setTimeout(() => {
@@ -44,6 +50,8 @@ export function usePlayingBoard(
       }, 2000);
     }
     if (entity === enemy.name) {
+      setCanPlayerPassTurn(true);
+      enemy.pm = 3;
       const audioSource = "./200_fx_69.mp3.mp3";
       playAudio(audioSource, 0.5, false, true);
       setTurn(player);
@@ -84,6 +92,42 @@ export function usePlayingBoard(
     })
   );
 
+  function enemyAttack() {
+    const attack1: BouftouBite = {
+      dammage: getRandomIntMinMax(5, 25),
+    };
+    const audio1 = "./enemy-sound-effects/142_fx_741.mp3.mp3";
+    const audio2 = "./enemy-sound-effects/143_fx_740.mp3.mp3";
+    const effects = [audio1, audio2];
+    const playerDamage = "./player-sound-effects/damage/131_fx_751.mp3.mp3";
+    const playerDeath1 = "./player-sound-effects/death/317_fx_584.mp3.mp3";
+    const playerDeath2 = "./player-sound-effects/death/316_fx_585.mp3.mp3";
+
+    player.pv -= attack1.dammage;
+
+    if (player.pv <= 0) {
+      playAudio(playerDeath1, 0.5, false, true);
+      setTimeout(() => {
+        playAudio(playerDeath2, 0.5, false, true);
+        isGameOver(true);
+      }, 500);
+      return;
+    }
+
+    playAudio(effects[getRandomInt(effects.length)], 0.5, false, true);
+    setTimeout(() => {
+      playAudio(playerDamage, 0.3, false, true);
+    }, 200);
+
+    setMessage((prevMessages) => [
+      ...prevMessages,
+      {
+        type: "Info",
+        message: `${enemy.name} inflige ${attack1.dammage} points de dommage à ${player.name}`,
+      },
+    ]);
+  }
+
   function selectCell(key: string, currentPlayer: Player) {
     if (!targetedCell || !enemyCell) return;
 
@@ -99,21 +143,7 @@ export function usePlayingBoard(
     }
 
     if (turn.name === enemy.name && key === targetedCell) {
-      const audio1 = "./enemy-sound-effects/142_fx_741.mp3.mp3";
-      const audio2 = "./enemy-sound-effects/143_fx_740.mp3.mp3";
-      const effects = [audio1, audio2];
-      playAudio(effects[getRandomInt(effects.length)], 0.5, false, true);
-      const playerDamage = "./player-sound-effects/131_fx_751.mp3.mp3";
-      setTimeout(() => {
-        playAudio(playerDamage, 0.3, false, true);
-      }, 200);
-      setMessage((prevMessages) => [
-        ...prevMessages,
-        {
-          type: "Info",
-          message: `${enemy.name} inflige 10 points de dommage à ${player.name}`,
-        },
-      ]);
+      if (player.pv > 0) enemyAttack();
       return;
     }
 
@@ -143,6 +173,7 @@ export function usePlayingBoard(
         player.pm = player.pm - (newPath.length - 1);
       } else {
         setEnemyCell(key);
+        enemy.pm = enemy.pm - (newPath.length - 1);
       }
 
       setPath([]);
@@ -272,6 +303,7 @@ export function usePlayingBoard(
     grid,
     turn,
     selectCell,
+    canPlayerPassTurn,
     setMessage,
   ];
 }
