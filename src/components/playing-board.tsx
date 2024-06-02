@@ -43,6 +43,7 @@ export default function PlayingBoard({
     grid,
     turn,
     selectCell,
+    //canPlayerPassTurn, //A implémenter quand IA sera OK
   ] = usePlayingBoard(player, enemy, board, setMessages, setIsGameOver);
 
   return (
@@ -102,6 +103,9 @@ export default function PlayingBoard({
           <button
             type="button"
             className="border-2 w-36 h-12 hover:scale-110 transition-all delay-[10ms] hover:bg-gray-800"
+            // onClick={() => {
+            //   if (canPlayerPassTurn) passTurn(turn.name);
+            // }}
             onClick={() => passTurn(turn.name)}
           >
             Passer le tour

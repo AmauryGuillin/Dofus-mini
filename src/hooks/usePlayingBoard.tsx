@@ -23,6 +23,7 @@ export function usePlayingBoard(
   JSX.Element[][],
   Player,
   (key: string, currentPlayer: Player) => void,
+  boolean,
   React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>
 ] {
   const [targetedCell, setTargetedCell] = useState<string>("6-1");
@@ -36,12 +37,12 @@ export function usePlayingBoard(
   const [enemyPosition, setEnemyPosition] = useState({ x: 1, y: 6 });
   const [currentPath, setCurrentPath] = useState<string[]>([]);
   const [isMoving, setIsMoving] = useState<boolean>(false);
-  //const [canPlayerPassTurn, setCanPlayerPassTurn] = useState<boolean>(false);
-  //const [canEnemyPassTurn, setCanEnemyPassTurn] = useState<boolean>(false);
+  const [canPlayerPassTurn, setCanPlayerPassTurn] = useState<boolean>(true);
 
   function passTurn(entity: string) {
     if (entity === player.name) {
-      player.pm = 3; //TODO: a variabliser
+      setCanPlayerPassTurn(false);
+      player.pm = 3;
       setTurn(enemy);
       setIsUserImageDisplayed(true);
       setTimeout(() => {
@@ -49,6 +50,8 @@ export function usePlayingBoard(
       }, 2000);
     }
     if (entity === enemy.name) {
+      setCanPlayerPassTurn(true);
+      enemy.pm = 3;
       const audioSource = "./200_fx_69.mp3.mp3";
       playAudio(audioSource, 0.5, false, true);
       setTurn(player);
@@ -170,6 +173,7 @@ export function usePlayingBoard(
         player.pm = player.pm - (newPath.length - 1);
       } else {
         setEnemyCell(key);
+        enemy.pm = enemy.pm - (newPath.length - 1);
       }
 
       setPath([]);
@@ -299,6 +303,7 @@ export function usePlayingBoard(
     grid,
     turn,
     selectCell,
+    canPlayerPassTurn,
     setMessage,
   ];
 }
