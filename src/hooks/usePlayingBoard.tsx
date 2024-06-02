@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Board } from "../types/board";
+import { ChatInfoMessage } from "../types/chat-info-message";
 import { Player } from "../types/player";
 import { playAudio } from "../utils/music/handleAudio";
 import { getRandomInt } from "../utils/tools/getRandomNumber";
@@ -8,7 +9,7 @@ export function usePlayingBoard(
   player: Player,
   enemy: Player,
   board: Board,
-  setMessage: React.Dispatch<React.SetStateAction<string[]>>
+  setMessage: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>
 ): [
   boolean,
   { [key: string]: number },
@@ -17,7 +18,7 @@ export function usePlayingBoard(
   JSX.Element[][],
   Player,
   (key: string, currentPlayer: Player) => void,
-  React.Dispatch<React.SetStateAction<string[]>>
+  React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>
 ] {
   const [targetedCell, setTargetedCell] = useState<string>("6-1");
   const [enemyCell, setEnemyCell] = useState<string>("1-6");
@@ -87,7 +88,13 @@ export function usePlayingBoard(
     if (!targetedCell || !enemyCell) return;
 
     if (!canMove) {
-      console.log("Pas assez de PM");
+      setMessage((prevMessages) => [
+        ...prevMessages,
+        {
+          type: "Erreur",
+          message: `Pas assez de PM`,
+        },
+      ]);
       return;
     }
 
@@ -102,17 +109,22 @@ export function usePlayingBoard(
       }, 200);
       setMessage((prevMessages) => [
         ...prevMessages,
-        `${enemy.name} inflige 10 points de dommage à ${player.name}`,
+        {
+          type: "Info",
+          message: `${enemy.name} inflige 10 points de dommage à ${player.name}`,
+        },
       ]);
-    }
-
-    if (key === enemyCell) {
-      console.log("Action impossible");
       return;
     }
 
-    if (key === targetedCell) {
-      console.log("Action impossible");
+    if (turn.name === player.name && key === enemyCell) {
+      setMessage((prevMessages) => [
+        ...prevMessages,
+        {
+          type: "Erreur",
+          message: `Action impossible`,
+        },
+      ]);
       return;
     }
 
@@ -135,7 +147,13 @@ export function usePlayingBoard(
 
       setPath([]);
     } else {
-      alert("Pas assez de pm");
+      setMessage((prevMessages) => [
+        ...prevMessages,
+        {
+          type: "Erreur",
+          message: `Action impossible`,
+        },
+      ]);
     }
   }
 

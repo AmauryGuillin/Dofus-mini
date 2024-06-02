@@ -4,6 +4,7 @@ import { Board } from "../types/board";
 import { Player } from "../types/player";
 import PlayerInfo from "./player-info";
 import PlayerTurnImage from "./player-turn-image";
+import { ChatInfoMessage } from "../types/chat-info-message";
 
 const player: Player = {
   name: "Iopette",
@@ -26,7 +27,7 @@ const board: Board = {
 };
 
 type Props = {
-  setMessages: React.Dispatch<React.SetStateAction<string[]>>;
+  setMessages: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>;
 };
 
 export default function PlayingBoard({ setMessages }: Props) {
