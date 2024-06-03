@@ -26,15 +26,21 @@ export function usePlayingBoard(
   boolean,
   React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>
 ] {
-  const [targetedCell, setTargetedCell] = useState<string>("6-1");
-  const [enemyCell, setEnemyCell] = useState<string>("1-6");
+  const [targetedCell, setTargetedCell] = useState<string>("3-3");
+  const [enemyCell, setEnemyCell] = useState<string>("3-4");
   const [path, setPath] = useState<string[]>([]);
   const [canMove, setCanMove] = useState<boolean>(false);
   const [turn, setTurn] = useState<Player>(player);
   const [isUserImageDisplayed, setIsUserImageDisplayed] =
     useState<boolean>(false);
-  const [playerPosition, setPlayerPosition] = useState({ x: 6, y: 1 });
-  const [enemyPosition, setEnemyPosition] = useState({ x: 1, y: 6 });
+  const [playerPosition, setPlayerPosition] = useState({
+    x: Number(targetedCell.charAt(0)),
+    y: Number(targetedCell.charAt(2)),
+  });
+  const [enemyPosition, setEnemyPosition] = useState({
+    x: Number(enemyCell.charAt(0)),
+    y: Number(enemyCell.charAt(2)),
+  });
   const [currentPath, setCurrentPath] = useState<string[]>([]);
   const [isMoving, setIsMoving] = useState<boolean>(false);
   const [canPlayerPassTurn, setCanPlayerPassTurn] = useState<boolean>(true);
