@@ -5,7 +5,7 @@ export default function SpellBar() {
   ];
   return (
     <>
-      <div className="text-white h-[10vh] w-full flex items-start pt-2 pl-2 gap-1">
+      <div className="text-white h-full w-full flex items-start pt-2 pl-2 gap-1 bg-slate-950">
         {spellsSources.map((spell, index) => (
           <div
             key={index}
