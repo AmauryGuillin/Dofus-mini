@@ -92,7 +92,16 @@ export default function PlayingBoard({
           }}
           transition={{ duration: 0.4 }}
         >
-          <div className="w-24 h-24 border-4 border-red-400 hover:cursor-pointer rounded-full">
+          <div
+            className="w-24 h-24 border-4 border-red-400 hover:cursor-pointer rounded-full relative"
+            onClick={() => {
+              if (turn.name === player.name) {
+                selectCell(`${enemyPosition.x}-${enemyPosition.y}`, player);
+              } else {
+                selectCell(`${playerPosition.x}-${playerPosition.y}`, enemy);
+              }
+            }}
+          >
             <img
               src="./images/bouftou.png"
               className="absolute top-[-53%] left-[-27%] h-[165%] max-w-[101%] transform rotate-[-30deg] skew-x-[20deg]"

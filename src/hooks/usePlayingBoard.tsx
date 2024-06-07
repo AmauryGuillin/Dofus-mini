@@ -137,6 +137,10 @@ export function usePlayingBoard(
   function selectCell(key: string, currentPlayer: Player) {
     if (!targetedCell || !enemyCell) return;
 
+    console.log(turn.name, key);
+    console.log("player:", targetedCell);
+    console.log("enemy:", enemyCell);
+
     if (!canMove) {
       setMessage((prevMessages) => [
         ...prevMessages,
@@ -148,28 +152,26 @@ export function usePlayingBoard(
       return;
     }
 
-    if (turn.name === enemy.name && key === targetedCell) {
-      if (player.pv > 0) enemyAttack();
-      return;
-    }
-
-    if (turn.name === player.name && key === enemyCell) {
-      setMessage((prevMessages) => [
-        ...prevMessages,
-        {
-          type: "Erreur",
-          message: `Action impossible`,
-        },
-      ]);
-      return;
-    }
-
     let newPath: string[];
 
     if (turn.name === player.name) {
       newPath = calculatePath(targetedCell!, key, currentPlayer.pm, enemyCell);
+      if (key === enemyCell) {
+        setMessage((prevMessages) => [
+          ...prevMessages,
+          {
+            type: "Erreur",
+            message: `Action impossible`,
+          },
+        ]);
+        return;
+      }
     } else {
       newPath = calculatePath(enemyCell!, key, currentPlayer.pm, targetedCell);
+      if (key === targetedCell) {
+        if (player.pv > 0) enemyAttack();
+        return;
+      }
     }
 
     if (newPath.length - 1 <= currentPlayer.pm) {
