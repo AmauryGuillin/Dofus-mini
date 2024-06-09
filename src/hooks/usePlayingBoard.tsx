@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BouftouBite, Pression } from "../types/attack";
 import { Board } from "../types/board";
 import { ChatInfoMessage } from "../types/chat-info-message";
@@ -33,12 +33,9 @@ export function usePlayingBoard(
   selectedSpell: number | undefined
 ): [
   boolean,
-  { [key: string]: number },
-  { [key: string]: number },
   (entity: string) => void,
   JSX.Element[][],
-  Player,
-  (key: string, currentPlayer: Player) => void
+  Player
   //boolean
 ] {
   const [targetedCell, setTargetedCell] = useState<string>("3-3");
@@ -48,16 +45,6 @@ export function usePlayingBoard(
   const [turn, setTurn] = useState<Player>(player);
   const [isUserImageDisplayed, setIsUserImageDisplayed] =
     useState<boolean>(false);
-  const [playerPosition, setPlayerPosition] = useState({
-    x: Number(targetedCell.charAt(0)),
-    y: Number(targetedCell.charAt(2)),
-  });
-  const [enemyPosition, setEnemyPosition] = useState({
-    x: Number(enemyCell.charAt(0)),
-    y: Number(enemyCell.charAt(2)),
-  });
-  const [currentPath, setCurrentPath] = useState<string[]>([]);
-  const [isMoving, setIsMoving] = useState<boolean>(false);
   //const [canPlayerPassTurn, setCanPlayerPassTurn] = useState<boolean>(true);
 
   function passTurn(entity: string) {
@@ -93,9 +80,9 @@ export function usePlayingBoard(
         <div
           key={key}
           className={`w-24 h-24 border-2 border-gray-500 hover:cursor-pointer ${
-            !isMoving && key === targetedCell
+            key === targetedCell
               ? "border-4 border-blue-400 rounded-full"
-              : !isMoving && key === enemyCell
+              : key === enemyCell
               ? "border-4 border-red-400 rounded-full"
               : path.includes(key) && key !== targetedCell
               ? "bg-green-500"
@@ -248,7 +235,6 @@ export function usePlayingBoard(
     }
 
     if (newPath.length - 1 <= currentPlayer.pm) {
-      setCurrentPath(newPath);
       if (turn.name === player.name) {
         setTargetedCell(key);
         player.pm = player.pm - (newPath.length - 1);
@@ -344,32 +330,6 @@ export function usePlayingBoard(
     return [];
   }
 
-  useEffect(() => {
-    if (currentPath.length > 0) {
-      setIsMoving(true);
-      const interval = setInterval(() => {
-        setCurrentPath((prevPath) => {
-          if (prevPath.length === 0) {
-            clearInterval(interval);
-            setIsMoving(false);
-            return [];
-          }
-
-          const nextPosition = prevPath[0].split("-").map(Number);
-          if (turn.name === player.name) {
-            setPlayerPosition({ x: nextPosition[0], y: nextPosition[1] });
-          } else {
-            setEnemyPosition({ x: nextPosition[0], y: nextPosition[1] });
-          }
-
-          return prevPath.slice(1);
-        });
-      }, 300);
-
-      return () => clearInterval(interval);
-    }
-  }, [currentPath]);
-
   function calculateDistance(cell1: string, cell2: string): number {
     const [row1, col1] = cell1.split("-").map(Number);
     const [row2, col2] = cell2.split("-").map(Number);
@@ -398,12 +358,9 @@ export function usePlayingBoard(
 
   return [
     isUserImageDisplayed,
-    playerPosition,
-    enemyPosition,
     passTurn,
     grid,
     turn,
-    selectCell,
     //canPlayerPassTurn,
   ];
 }

@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { usePlayingBoard } from "../hooks/usePlayingBoard";
 import { Board } from "../types/board";
 import { ChatInfoMessage } from "../types/chat-info-message";
@@ -41,12 +40,9 @@ export default function PlayingBoard({
 }: Props) {
   const [
     isUserImageDisplayed,
-    playerPosition,
-    enemyPosition,
     passTurn,
     grid,
     turn,
-    selectCell,
     //canPlayerPassTurn, //A implémenter quand IA sera OK
   ] = usePlayingBoard(
     player,
@@ -70,56 +66,6 @@ export default function PlayingBoard({
             </div>
           );
         })}
-        <motion.div
-          className="absolute"
-          initial={false}
-          animate={{
-            top: playerPosition.x * 6 + "rem",
-            left: playerPosition.y * 6 + "rem",
-          }}
-          transition={{ duration: 0.4 }}
-        >
-          <div
-            className="w-24 h-24 border-4 border-blue-400 rounded-full hover:cursor-pointer relative"
-            onClick={() => {
-              if (turn.name === player.name) {
-                selectCell(`${enemyPosition.x}-${enemyPosition.y}`, player);
-              } else {
-                selectCell(`${playerPosition.x}-${playerPosition.y}`, enemy);
-              }
-            }}
-          >
-            <img
-              src="./images/player-front-bottom-right.png"
-              className="absolute top-[-138%] left-[-101%] h-[232%] max-w-[140%] transform rotate-[-30deg] skew-x-[20deg]"
-            />
-          </div>
-        </motion.div>
-        <motion.div
-          className="absolute"
-          initial={false}
-          animate={{
-            top: enemyPosition.x * 6 + "rem",
-            left: enemyPosition.y * 6 + "rem",
-          }}
-          transition={{ duration: 0.4 }}
-        >
-          <div
-            className="w-24 h-24 border-4 border-red-400 hover:cursor-pointer rounded-full relative"
-            onClick={() => {
-              if (turn.name === player.name) {
-                selectCell(`${enemyPosition.x}-${enemyPosition.y}`, player);
-              } else {
-                selectCell(`${playerPosition.x}-${playerPosition.y}`, enemy);
-              }
-            }}
-          >
-            <img
-              src="./images/bouftou.png"
-              className="absolute top-[-53%] left-[-27%] h-[165%] max-w-[101%] transform rotate-[-30deg] skew-x-[20deg]"
-            />
-          </div>
-        </motion.div>
         <div>
           <button
             type="button"
