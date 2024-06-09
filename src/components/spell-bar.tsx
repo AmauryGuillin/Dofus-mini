@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { playClickSounds } from "../utils/music/handleAudio";
 
 type Props = {
@@ -51,6 +51,25 @@ export default function SpellBar({ setSelectedSpell }: Props) {
     }
   }
 
+  const handleKeyPress = useCallback((event) => {
+    if (event.key === "&" || event.key === "1") {
+      selectSpell(0);
+      handleMouseDown(event, 0);
+    }
+    if (event.key === "é" || event.key === "2") {
+      selectSpell(1);
+      handleMouseDown(event, 1);
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyPress);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [handleKeyPress]);
+
   return (
     <>
       <div className="text-white h-full w-full flex items-start pt-2 pl-2 gap-1 bg-slate-950">
@@ -60,6 +79,7 @@ export default function SpellBar({ setSelectedSpell }: Props) {
             className="w-12 h-12 flex justify-center items-center hover:bg-gray-500 hover:cursor-pointer hover:scale-105"
             onClick={(event) => handleMouseDown(event, index)}
             onMouseDownCapture={() => selectSpell(index)}
+            onKeyDown={handleKeyPress}
           >
             <img src={spell} className="w-80" />
           </div>
