@@ -81,9 +81,9 @@ export function usePlayingBoard(
           key={key}
           className={`w-24 h-24 border-2 border-gray-500 hover:cursor-pointer ${
             key === targetedCell
-              ? "border-4 border-blue-400 rounded-full relative"
+              ? "border-2 relative"
               : key === enemyCell
-              ? "border-4 border-red-400 rounded-full relative"
+              ? "border-2 relative"
               : path.includes(key) && key !== targetedCell
               ? "bg-green-500"
               : undefined
@@ -99,17 +99,23 @@ export function usePlayingBoard(
           onMouseLeave={leave}
         >
           {key === targetedCell && (
-            <img
-              src="./images/player-front-bottom-right.png"
-              className="absolute top-[-138%] left-[-101%] h-[232%] max-w-[140%] transform rotate-[-30deg] skew-x-[20deg]"
-            />
+            <>
+              <img
+                src="./images/player-front-bottom-right.png"
+                className="absolute top-[-138%] left-[-101%] h-[232%] max-w-[140%] transform rotate-[-30deg] skew-x-[20deg] z-50"
+              />
+              <div className="absolute border-4 rounded-full border-blue-400 w-full h-full" />
+            </>
           )}
 
           {key === enemyCell && (
-            <img
-              src="./images/bouftou.png"
-              className="absolute top-[-53%] left-[-27%] h-[165%] max-w-[101%] transform rotate-[-30deg] skew-x-[20deg]"
-            />
+            <>
+              <img
+                src="./images/bouftou.png"
+                className="absolute top-[-53%] left-[-27%] h-[165%] max-w-[101%] transform rotate-[-30deg] skew-x-[20deg] z-50"
+              />
+              <div className="absolute border-4 rounded-full border-red-400 w-full h-full" />
+            </>
           )}
         </div>
       );
@@ -222,7 +228,6 @@ export function usePlayingBoard(
       }
 
       if (key === targetedCell) {
-        console.log("oiqsjf");
         //playerBoost();
         return;
       }
