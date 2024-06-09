@@ -167,6 +167,14 @@ export function usePlayingBoard(
   function playerAttack() {
     if (selectedSpell === undefined) return;
 
+    const enemyDamageSound1 = "./enemy-sound-effects/damage/209_fx_681.mp3.mp3";
+    const enemyDamageSound2 = "./enemy-sound-effects/damage/212_fx_679.mp3.mp3";
+    const enemyDamageSounds = [enemyDamageSound1, enemyDamageSound2];
+    const playerAttackSoundBefore =
+      "./player-sound-effects/attack/165_fx_720.mp3.mp3";
+    const playerAttackSoundAfter =
+      "./player-sound-effects/attack/372_fx_534.mp3.mp3";
+
     const distance = calculateDistance(targetedCell, enemyCell);
 
     switch (selectedSpell) {
@@ -185,6 +193,18 @@ export function usePlayingBoard(
           addErrorMessage("la cible est hors de portée");
           return;
         }
+
+        playAudio(playerAttackSoundBefore, 0.1, false, true);
+        playAudio(playerAttackSoundAfter, 0.1, false, true);
+
+        setTimeout(() => {
+          playAudio(
+            enemyDamageSounds[getRandomInt(enemyDamageSounds.length)],
+            0.1,
+            false,
+            true
+          );
+        }, 50);
 
         enemy.pv -= pression.dammage;
         addInfoMessage(`${player.name} lance ${pression.attackName}.`);
@@ -212,8 +232,6 @@ export function usePlayingBoard(
     let newPath: string[];
 
     if (turn.name === player.name) {
-      console.log(targetedCell);
-      console.log(key);
       if (key === enemyCell) {
         const distance = calculateDistance(targetedCell, enemyCell);
         if (distance <= pression.range) {
