@@ -6,6 +6,13 @@ import { Player } from "../types/player";
 import PlayerInfo from "./player-info";
 import PlayerTurnImage from "./player-turn-image";
 
+type Props = {
+  setMessages: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>;
+  setIsGameOver: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedSpell: React.Dispatch<React.SetStateAction<number | undefined>>;
+  selectedSpell: number | undefined;
+};
+
 const player: Player = {
   name: "Iopette",
   pv: 100,
@@ -26,12 +33,12 @@ const board: Board = {
   length: 8,
 };
 
-type Props = {
-  setMessages: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>;
-  setIsGameOver: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-export default function PlayingBoard({ setMessages, setIsGameOver }: Props) {
+export default function PlayingBoard({
+  setMessages,
+  setIsGameOver,
+  setSelectedSpell,
+  selectedSpell,
+}: Props) {
   const [
     isUserImageDisplayed,
     playerPosition,
@@ -41,7 +48,15 @@ export default function PlayingBoard({ setMessages, setIsGameOver }: Props) {
     turn,
     selectCell,
     //canPlayerPassTurn, //A implémenter quand IA sera OK
-  ] = usePlayingBoard(player, enemy, board, setMessages, setIsGameOver);
+  ] = usePlayingBoard(
+    player,
+    enemy,
+    board,
+    setMessages,
+    setIsGameOver,
+    setSelectedSpell,
+    selectedSpell
+  );
 
   return (
     <div className="h-screen flex justify-center items-center w-full text-white relative">

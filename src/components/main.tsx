@@ -12,6 +12,7 @@ export default function Main() {
   const music3 = "./37_fig_amakna.mp3.mp3";
   const musics = [music1, music2, music3];
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
+  const [selectedSpell, setSelectedSpell] = useState<number>();
   const [messages, setMessages] = useState<ChatInfoMessage[]>([
     {
       type: "Info",
@@ -30,8 +31,10 @@ export default function Main() {
           <PlayingBoard
             setMessages={setMessages}
             setIsGameOver={setIsGameOver}
+            setSelectedSpell={setSelectedSpell}
+            selectedSpell={selectedSpell}
           />
-          <ActionBar messages={messages} />
+          <ActionBar messages={messages} setSelectedSpell={setSelectedSpell} />
         </>
       ) : (
         <div className="text-white flex flex-col justify-center items-center">

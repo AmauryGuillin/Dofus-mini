@@ -5,6 +5,7 @@ export interface BouftouBite {
   attackName?: "Morsure du Bouftou";
   dammage: number;
   range: 1;
+  cost: 4;
 }
 
 export interface Pression {
@@ -12,4 +13,5 @@ export interface Pression {
   attackName: "Pression";
   dammage: number;
   range: 2;
+  cost: 3;
 }
