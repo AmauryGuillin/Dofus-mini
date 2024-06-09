@@ -2,6 +2,7 @@ import { usePlayingBoard } from "../hooks/usePlayingBoard";
 import { Board } from "../types/board";
 import { ChatInfoMessage } from "../types/chat-info-message";
 import { Player } from "../types/player";
+import EnemyInfo from "./enemy-info";
 import PlayerInfo from "./player-info";
 import PlayerTurnImage from "./player-turn-image";
 
@@ -57,6 +58,7 @@ export default function PlayingBoard({
   return (
     <div className="h-screen flex justify-center items-center w-full text-white relative">
       {isUserImageDisplayed && <PlayerTurnImage player={turn} />}
+      <EnemyInfo enemy={enemy} />
       <PlayerInfo player={player} />
       <div className="transform-gpu rotate-[30deg] -skew-x-[30deg]">
         {grid.map((row, rowIndex) => {
