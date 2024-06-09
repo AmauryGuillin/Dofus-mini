@@ -99,11 +99,17 @@ export function usePlayingBoard(
           onMouseLeave={leave}
         >
           {key === targetedCell && (
-            <div className="test absolute top-[-138%] left-[-101%] h-[232%] max-w-[140%] transform rotate-[-30deg] skew-x-[20deg] content-[url('./images/player-front-bottom-right.png')]"></div>
+            <img
+              src="./images/player-front-bottom-right.png"
+              className="absolute top-[-138%] left-[-101%] h-[232%] max-w-[140%] transform rotate-[-30deg] skew-x-[20deg]"
+            />
           )}
 
           {key === enemyCell && (
-            <div className="test absolute top-[-53%] left-[-27%] h-[165%] max-w-[101%] transform rotate-[-30deg] skew-x-[20deg] content-[url('./images/bouftou.png')]"></div>
+            <img
+              src="./images/bouftou.png"
+              className="absolute top-[-53%] left-[-27%] h-[165%] max-w-[101%] transform rotate-[-30deg] skew-x-[20deg]"
+            />
           )}
         </div>
       );
