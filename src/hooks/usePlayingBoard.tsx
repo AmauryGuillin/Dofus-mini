@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BouftouBite } from "../types/attack";
+import { BouftouBite, Pression } from "../types/attack";
 import { Board } from "../types/board";
 import { ChatInfoMessage } from "../types/chat-info-message";
 import { Player } from "../types/player";
@@ -9,12 +9,28 @@ import {
   getRandomIntMinMax,
 } from "../utils/tools/getRandomNumber";
 
+const bouftouBite: BouftouBite = {
+  attackName: "Morsure du Bouftou",
+  dammage: getRandomIntMinMax(5, 25),
+  range: 1,
+  cost: 4,
+};
+
+const pression: Pression = {
+  attackName: "Pression",
+  dammage: getRandomIntMinMax(7, 25),
+  range: 2,
+  cost: 3,
+};
+
 export function usePlayingBoard(
   player: Player,
   enemy: Player,
   board: Board,
   setMessage: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>,
-  isGameOver: React.Dispatch<React.SetStateAction<boolean>>
+  isGameOver: React.Dispatch<React.SetStateAction<boolean>>,
+  setSelectedSpell: React.Dispatch<React.SetStateAction<number | undefined>>,
+  selectedSpell: number | undefined
 ): [
   boolean,
   { [key: string]: number },
@@ -22,27 +38,33 @@ export function usePlayingBoard(
   (entity: string) => void,
   JSX.Element[][],
   Player,
-  (key: string, currentPlayer: Player) => void,
-  boolean,
-  React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>
+  (key: string, currentPlayer: Player) => void
+  //boolean
 ] {
-  const [targetedCell, setTargetedCell] = useState<string>("6-1");
-  const [enemyCell, setEnemyCell] = useState<string>("1-6");
+  const [targetedCell, setTargetedCell] = useState<string>("3-3");
+  const [enemyCell, setEnemyCell] = useState<string>("3-4");
   const [path, setPath] = useState<string[]>([]);
   const [canMove, setCanMove] = useState<boolean>(false);
   const [turn, setTurn] = useState<Player>(player);
   const [isUserImageDisplayed, setIsUserImageDisplayed] =
     useState<boolean>(false);
-  const [playerPosition, setPlayerPosition] = useState({ x: 6, y: 1 });
-  const [enemyPosition, setEnemyPosition] = useState({ x: 1, y: 6 });
+  const [playerPosition, setPlayerPosition] = useState({
+    x: Number(targetedCell.charAt(0)),
+    y: Number(targetedCell.charAt(2)),
+  });
+  const [enemyPosition, setEnemyPosition] = useState({
+    x: Number(enemyCell.charAt(0)),
+    y: Number(enemyCell.charAt(2)),
+  });
   const [currentPath, setCurrentPath] = useState<string[]>([]);
   const [isMoving, setIsMoving] = useState<boolean>(false);
-  const [canPlayerPassTurn, setCanPlayerPassTurn] = useState<boolean>(true);
+  //const [canPlayerPassTurn, setCanPlayerPassTurn] = useState<boolean>(true);
 
   function passTurn(entity: string) {
     if (entity === player.name) {
-      setCanPlayerPassTurn(false);
+      //setCanPlayerPassTurn(false);
       player.pm = 3;
+      player.pa = 6;
       setTurn(enemy);
       setIsUserImageDisplayed(true);
       setTimeout(() => {
@@ -50,8 +72,9 @@ export function usePlayingBoard(
       }, 2000);
     }
     if (entity === enemy.name) {
-      setCanPlayerPassTurn(true);
+      //setCanPlayerPassTurn(true);
       enemy.pm = 3;
+      enemy.pa = 6;
       const audioSource = "./200_fx_69.mp3.mp3";
       playAudio(audioSource, 0.5, false, true);
       setTurn(player);
@@ -93,9 +116,15 @@ export function usePlayingBoard(
   );
 
   function enemyAttack() {
-    const attack1: BouftouBite = {
-      dammage: getRandomIntMinMax(5, 25),
-    };
+    if (enemy.pa <= 0) return;
+    if (enemy.pa < bouftouBite.cost) return;
+
+    const distance = calculateDistance(enemyCell, targetedCell);
+
+    if (distance > bouftouBite.range) {
+      addErrorMessage(`La cible est hors de portée`);
+    }
+
     const audio1 = "./enemy-sound-effects/142_fx_741.mp3.mp3";
     const audio2 = "./enemy-sound-effects/143_fx_740.mp3.mp3";
     const effects = [audio1, audio2];
@@ -103,7 +132,7 @@ export function usePlayingBoard(
     const playerDeath1 = "./player-sound-effects/death/317_fx_584.mp3.mp3";
     const playerDeath2 = "./player-sound-effects/death/316_fx_585.mp3.mp3";
 
-    player.pv -= attack1.dammage;
+    player.pv -= bouftouBite.dammage;
 
     if (player.pv <= 0) {
       playAudio(playerDeath1, 0.5, false, true);
@@ -119,51 +148,103 @@ export function usePlayingBoard(
       playAudio(playerDamage, 0.3, false, true);
     }, 200);
 
-    setMessage((prevMessages) => [
-      ...prevMessages,
-      {
-        type: "Info",
-        message: `${enemy.name} inflige ${attack1.dammage} points de dommage à ${player.name}`,
-      },
-    ]);
+    addInfoMessage(`${enemy.name} lance ${bouftouBite.attackName}.`);
+    addInfoMessage(
+      `${enemy.name} inflige ${bouftouBite.dammage} points de dommage à ${player.name}.`
+    );
+
+    enemy.pa -= bouftouBite.cost;
   }
+
+  function playerAttack() {
+    if (selectedSpell === undefined) return;
+
+    const distance = calculateDistance(targetedCell, enemyCell);
+
+    switch (selectedSpell) {
+      case 0:
+        if (player.pa <= 0) {
+          addErrorMessage(`Plus assez de points d'action`);
+          return;
+        }
+
+        if (player.pa < pression.cost) {
+          addErrorMessage(`Plus assez de points d'action`);
+          return;
+        }
+
+        if (distance > pression.range) {
+          addErrorMessage("la cible est hors de portée");
+          return;
+        }
+
+        enemy.pv -= pression.dammage;
+        addInfoMessage(`${player.name} lance ${pression.attackName}.`);
+        addInfoMessage(
+          `${player.name} inflige ${pression.dammage} points de dommage à ${enemy.name}.`
+        );
+        setSelectedSpell(undefined);
+        player.pa -= pression.cost;
+        return;
+      default:
+        console.log("no spell selected");
+        return;
+    }
+  }
+
+  // function playerBoost() {
+  //   if (selectedSpell === undefined) return;
+  //   const distance = calculateDistance(targetedCell, targetedCell);
+  //   console.log("distance", distance);
+  // }
 
   function selectCell(key: string, currentPlayer: Player) {
     if (!targetedCell || !enemyCell) return;
 
-    if (!canMove) {
-      setMessage((prevMessages) => [
-        ...prevMessages,
-        {
-          type: "Erreur",
-          message: `Pas assez de PM`,
-        },
-      ]);
-      return;
-    }
-
-    if (turn.name === enemy.name && key === targetedCell) {
-      if (player.pv > 0) enemyAttack();
-      return;
-    }
-
-    if (turn.name === player.name && key === enemyCell) {
-      setMessage((prevMessages) => [
-        ...prevMessages,
-        {
-          type: "Erreur",
-          message: `Action impossible`,
-        },
-      ]);
-      return;
-    }
-
     let newPath: string[];
 
     if (turn.name === player.name) {
+      console.log(targetedCell);
+      console.log(key);
+      if (key === enemyCell) {
+        const distance = calculateDistance(targetedCell, enemyCell);
+        if (distance <= pression.range) {
+          if (enemy.pv > 0) {
+            setCanMove(true);
+            playerAttack();
+            return;
+          }
+        } else {
+          addErrorMessage(`La cible est hors de portée`);
+        }
+        return;
+      }
+
+      if (key === targetedCell) {
+        console.log("oiqsjf");
+        //playerBoost();
+        return;
+      }
       newPath = calculatePath(targetedCell!, key, currentPlayer.pm, enemyCell);
     } else {
+      if (key === targetedCell) {
+        const distance = calculateDistance(enemyCell, targetedCell);
+        if (distance <= bouftouBite.range) {
+          if (player.pv > 0) {
+            enemyAttack();
+            return;
+          }
+        } else {
+          addErrorMessage(`La cible est hors de portée`);
+        }
+        return;
+      }
       newPath = calculatePath(enemyCell!, key, currentPlayer.pm, targetedCell);
+    }
+
+    if (!canMove) {
+      addErrorMessage(`Pas assez de PM`);
+      return;
     }
 
     if (newPath.length - 1 <= currentPlayer.pm) {
@@ -178,13 +259,7 @@ export function usePlayingBoard(
 
       setPath([]);
     } else {
-      setMessage((prevMessages) => [
-        ...prevMessages,
-        {
-          type: "Erreur",
-          message: `Action impossible`,
-        },
-      ]);
+      addErrorMessage(`Action impossible`);
     }
   }
 
@@ -295,6 +370,32 @@ export function usePlayingBoard(
     }
   }, [currentPath]);
 
+  function calculateDistance(cell1: string, cell2: string): number {
+    const [row1, col1] = cell1.split("-").map(Number);
+    const [row2, col2] = cell2.split("-").map(Number);
+    return Math.abs(row1 - row2) + Math.abs(col1 - col2);
+  }
+
+  function addErrorMessage(errorMessage: string) {
+    setMessage((prevMessages) => [
+      ...prevMessages,
+      {
+        type: "Erreur",
+        message: errorMessage,
+      },
+    ]);
+  }
+
+  function addInfoMessage(infoMessage: string) {
+    setMessage((prevMessages) => [
+      ...prevMessages,
+      {
+        type: "Info",
+        message: infoMessage,
+      },
+    ]);
+  }
+
   return [
     isUserImageDisplayed,
     playerPosition,
@@ -303,7 +404,6 @@ export function usePlayingBoard(
     grid,
     turn,
     selectCell,
-    canPlayerPassTurn,
-    setMessage,
+    //canPlayerPassTurn,
   ];
 }

@@ -11,18 +11,18 @@ export default function Main() {
   const music2 = "./36_fig_cania.mp3.mp3";
   const music3 = "./37_fig_amakna.mp3.mp3";
   const musics = [music1, music2, music3];
-  useEffect(() => {
-    playAudio(musics[getRandomInt(musics.length)], 0.1, true);
-  }, []);
-
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
-
+  const [selectedSpell, setSelectedSpell] = useState<number>();
   const [messages, setMessages] = useState<ChatInfoMessage[]>([
     {
       type: "Info",
       message: "Le combat commence",
     },
   ]);
+
+  useEffect(() => {
+    playAudio(musics[getRandomInt(musics.length)], 0.1, true);
+  }, []);
 
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-900">
@@ -31,8 +31,10 @@ export default function Main() {
           <PlayingBoard
             setMessages={setMessages}
             setIsGameOver={setIsGameOver}
+            setSelectedSpell={setSelectedSpell}
+            selectedSpell={selectedSpell}
           />
-          <ActionBar messages={messages} />
+          <ActionBar messages={messages} setSelectedSpell={setSelectedSpell} />
         </>
       ) : (
         <div className="text-white flex flex-col justify-center items-center">

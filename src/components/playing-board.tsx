@@ -6,6 +6,13 @@ import { Player } from "../types/player";
 import PlayerInfo from "./player-info";
 import PlayerTurnImage from "./player-turn-image";
 
+type Props = {
+  setMessages: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>;
+  setIsGameOver: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedSpell: React.Dispatch<React.SetStateAction<number | undefined>>;
+  selectedSpell: number | undefined;
+};
+
 const player: Player = {
   name: "Iopette",
   pv: 100,
@@ -15,7 +22,7 @@ const player: Player = {
 
 const enemy: Player = {
   name: "Bouftou",
-  pv: 30,
+  pv: 100,
   pm: 3,
   pa: 6,
 };
@@ -26,14 +33,11 @@ const board: Board = {
   length: 8,
 };
 
-type Props = {
-  setMessages: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>;
-  setIsGameOver: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
 export default function PlayingBoard({
   setMessages,
-  setIsGameOver: setIsGameOver,
+  setIsGameOver,
+  setSelectedSpell,
+  selectedSpell,
 }: Props) {
   const [
     isUserImageDisplayed,
@@ -44,7 +48,15 @@ export default function PlayingBoard({
     turn,
     selectCell,
     //canPlayerPassTurn, //A implémenter quand IA sera OK
-  ] = usePlayingBoard(player, enemy, board, setMessages, setIsGameOver);
+  ] = usePlayingBoard(
+    player,
+    enemy,
+    board,
+    setMessages,
+    setIsGameOver,
+    setSelectedSpell,
+    selectedSpell
+  );
 
   return (
     <div className="h-screen flex justify-center items-center w-full text-white relative">
@@ -92,7 +104,16 @@ export default function PlayingBoard({
           }}
           transition={{ duration: 0.4 }}
         >
-          <div className="w-24 h-24 border-4 border-red-400 hover:cursor-pointer rounded-full">
+          <div
+            className="w-24 h-24 border-4 border-red-400 hover:cursor-pointer rounded-full relative"
+            onClick={() => {
+              if (turn.name === player.name) {
+                selectCell(`${enemyPosition.x}-${enemyPosition.y}`, player);
+              } else {
+                selectCell(`${playerPosition.x}-${playerPosition.y}`, enemy);
+              }
+            }}
+          >
             <img
               src="./images/bouftou.png"
               className="absolute top-[-53%] left-[-27%] h-[165%] max-w-[101%] transform rotate-[-30deg] skew-x-[20deg]"
