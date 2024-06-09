@@ -15,7 +15,7 @@ const player: Player = {
 
 const enemy: Player = {
   name: "Bouftou",
-  pv: 30,
+  pv: 100,
   pm: 3,
   pa: 6,
 };
@@ -31,10 +31,7 @@ type Props = {
   setIsGameOver: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function PlayingBoard({
-  setMessages,
-  setIsGameOver: setIsGameOver,
-}: Props) {
+export default function PlayingBoard({ setMessages, setIsGameOver }: Props) {
   const [
     isUserImageDisplayed,
     playerPosition,
