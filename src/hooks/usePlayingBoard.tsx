@@ -192,11 +192,11 @@ export function usePlayingBoard(
     }
   }
 
-  function playerBoost() {
-    if (selectedSpell === undefined) return;
-    const distance = calculateDistance(targetedCell, targetedCell);
-    console.log("distance", distance);
-  }
+  // function playerBoost() {
+  //   if (selectedSpell === undefined) return;
+  //   const distance = calculateDistance(targetedCell, targetedCell);
+  //   console.log("distance", distance);
+  // }
 
   function selectCell(key: string, currentPlayer: Player) {
     if (!targetedCell || !enemyCell) return;
