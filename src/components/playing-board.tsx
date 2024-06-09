@@ -11,6 +11,10 @@ type Props = {
   setIsGameOver: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedSpell: React.Dispatch<React.SetStateAction<number | undefined>>;
   selectedSpell: number | undefined;
+  setTurnCount: React.Dispatch<React.SetStateAction<number>>;
+  turnCount: number;
+  setBoostDuration: React.Dispatch<React.SetStateAction<number | undefined>>;
+  boostDuration: number | undefined;
 };
 
 const player: Player = {
@@ -38,6 +42,10 @@ export default function PlayingBoard({
   setIsGameOver,
   setSelectedSpell,
   selectedSpell,
+  setTurnCount,
+  turnCount,
+  setBoostDuration,
+  boostDuration,
 }: Props) {
   const [
     isUserImageDisplayed,
@@ -52,7 +60,11 @@ export default function PlayingBoard({
     setMessages,
     setIsGameOver,
     setSelectedSpell,
-    selectedSpell
+    selectedSpell,
+    setTurnCount,
+    turnCount,
+    setBoostDuration,
+    boostDuration
   );
 
   return (

@@ -43,12 +43,18 @@ export function usePlayingBoard(
   setMessage: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>,
   isGameOver: React.Dispatch<React.SetStateAction<boolean>>,
   setSelectedSpell: React.Dispatch<React.SetStateAction<number | undefined>>,
-  selectedSpell: number | undefined
+  selectedSpell: number | undefined,
+  setTurnCount: React.Dispatch<React.SetStateAction<number>>,
+  turnCount: number,
+  setBoostDuration: React.Dispatch<React.SetStateAction<number | undefined>>,
+  boostDuration: number | undefined
 ): [
   boolean,
   (entity: string) => void,
   JSX.Element[][],
-  Player
+  Player,
+  number,
+  number | undefined
   //boolean
 ] {
   const [targetedCell, setTargetedCell] = useState<string>("3-3");
@@ -62,8 +68,15 @@ export function usePlayingBoard(
   //const [canPlayerPassTurn, setCanPlayerPassTurn] = useState<boolean>(true);
 
   function passTurn(entity: string) {
+    setSelectedSpell(undefined);
     if (entity === player.name) {
       //setCanPlayerPassTurn(false);
+      if (boostDuration !== undefined) {
+        setBoostDuration(boostDuration - 1);
+        if (boostDuration === 1) {
+          setBoostDuration(undefined);
+        }
+      }
       player.pm = 3;
       player.pa = 6;
       setTurn(enemy);
@@ -74,6 +87,7 @@ export function usePlayingBoard(
     }
     if (entity === enemy.name) {
       //setCanPlayerPassTurn(true);
+      setTurnCount(turnCount + 1);
       enemy.pm = 3;
       enemy.pa = 6;
       const audioSource = "./200_fx_69.mp3.mp3";
@@ -200,16 +214,19 @@ export function usePlayingBoard(
       case 0:
         if (player.pa <= 0) {
           addErrorMessage(`Plus assez de points d'action`);
+          setSelectedSpell(undefined);
           return;
         }
 
         if (player.pa < pression.cost) {
           addErrorMessage(`Plus assez de points d'action`);
+          setSelectedSpell(undefined);
           return;
         }
 
         if (distance > pression.range) {
           addErrorMessage("la cible est hors de portée");
+          setSelectedSpell(undefined);
           return;
         }
 
@@ -240,6 +257,7 @@ export function usePlayingBoard(
   }
 
   function playerBoost() {
+    if (boostDuration !== undefined) return;
     if (selectedSpell === undefined) return;
     const boostSound = "./player-sound-effects/boost/233_fx_66.mp3.mp3";
     const distance = calculateDistance(targetedCell, targetedCell);
@@ -264,6 +282,7 @@ export function usePlayingBoard(
         addInfoMessage(
           `${player.name} gagne ${compulsion.boost} points de dommage pendant 5 tours.`
         );
+        setBoostDuration(5);
         setSelectedSpell(undefined);
         player.pa -= compulsion.cost;
         return;
@@ -295,6 +314,10 @@ export function usePlayingBoard(
       }
 
       if (key === targetedCell) {
+        if (boostDuration !== undefined) {
+          addErrorMessage("Action impossible");
+          return;
+        }
         playerBoost();
         return;
       }
@@ -449,6 +472,8 @@ export function usePlayingBoard(
     passTurn,
     grid,
     turn,
+    turnCount,
+    boostDuration,
     //canPlayerPassTurn,
   ];
 }

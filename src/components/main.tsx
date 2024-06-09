@@ -13,6 +13,8 @@ export default function Main() {
   const musics = [music1, music2, music3];
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
   const [selectedSpell, setSelectedSpell] = useState<number>();
+  const [turnCount, setTurnCount] = useState<number>(1);
+  const [boostDuration, setBoostDuration] = useState<number>();
   const [messages, setMessages] = useState<ChatInfoMessage[]>([
     {
       type: "Info",
@@ -25,7 +27,7 @@ export default function Main() {
   }, []);
 
   return (
-    <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-900">
+    <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-900 relative">
       {!isGameOver ? (
         <>
           <PlayingBoard
@@ -33,12 +35,19 @@ export default function Main() {
             setIsGameOver={setIsGameOver}
             setSelectedSpell={setSelectedSpell}
             selectedSpell={selectedSpell}
+            setTurnCount={setTurnCount}
+            turnCount={turnCount}
+            setBoostDuration={setBoostDuration}
+            boostDuration={boostDuration}
           />
           <ActionBar
             messages={messages}
             setSelectedSpell={setSelectedSpell}
-            selectedSpell={selectedSpell}
+            boostDuration={boostDuration}
           />
+          <div className="absolute top-2 right-0 border-2 w-14 h-14 text-white flex justify-center items-center font-bold text-xl border-r-0 rounded-tl-lg rounded-bl-lg">
+            {turnCount}
+          </div>
         </>
       ) : (
         <div className="text-white flex flex-col justify-center items-center">

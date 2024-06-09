@@ -3,10 +3,10 @@ import { playClickSounds } from "../utils/music/handleAudio";
 
 type Props = {
   setSelectedSpell: React.Dispatch<React.SetStateAction<number | undefined>>;
-  selectedSpell: number | undefined;
+  boostDuration: number | undefined;
 };
 
-export default function SpellBar({ setSelectedSpell, selectedSpell }: Props) {
+export default function SpellBar({ setSelectedSpell, boostDuration }: Props) {
   const spellsSources = [
     "./images/player-spells/141.svg",
     "./images/player-spells/144.svg",
@@ -32,6 +32,7 @@ export default function SpellBar({ setSelectedSpell, selectedSpell }: Props) {
 
     function handleMouseUp() {
       setDraggingSpell(null);
+      //setSelectedSpell(undefined);
     }
 
     document.addEventListener("mousemove", handleMouseMove);
@@ -49,6 +50,7 @@ export default function SpellBar({ setSelectedSpell, selectedSpell }: Props) {
   ) {
     if (draggingSpell === index) {
       setDraggingSpell(null);
+      setSelectedSpell(undefined);
     } else {
       setDraggingSpell(index);
       setMousePosition({ x: event.clientX, y: event.clientY });
@@ -82,14 +84,21 @@ export default function SpellBar({ setSelectedSpell, selectedSpell }: Props) {
         {spellsSources.map((spell, index) => (
           <div
             key={index}
-            className={`w-12 h-12 flex justify-center items-center hover:bg-gray-500 hover:cursor-pointer hover:scale-105 ${
-              index === selectedSpell ? "grayscale" : ""
+            className={`w-12 h-12 flex justify-center items-center hover:bg-gray-500 hover:cursor-pointer hover:scale-105 relative ${
+              index === 1 && boostDuration !== undefined
+                ? "grayscale contrast-75"
+                : ""
             }`}
             onClick={(event) => handleMouseDown(event, index)}
             onMouseDownCapture={() => selectSpell(index)}
             onKeyDown={() => handleKeyPress}
           >
             <img src={spell} className="w-80" />
+            {boostDuration !== undefined && index === 1 && (
+              <div className="absolute top-2 left-4 text-black font-extrabold text-2xl">
+                {boostDuration}
+              </div>
+            )}
           </div>
         ))}
       </div>
