@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BouftouBite, Comlpulsion, Pression } from "../types/attack";
+import { BouftouBite, Compulsion, Pression } from "../types/attack";
 import { Board } from "../types/board";
 import { ChatInfoMessage } from "../types/chat-info-message";
 import { Player } from "../types/player";
@@ -9,26 +9,53 @@ import {
   getRandomIntMinMax,
 } from "../utils/tools/getRandomNumber";
 
-const bouftouBite: BouftouBite = {
-  attackName: "Morsure du Bouftou",
-  dammage: getRandomIntMinMax(5, 25),
-  range: 1,
-  cost: 4,
-};
+// const bouftouBite: BouftouBite = {
+//   attackName: "Morsure du Bouftou",
+//   dammage: getRandomIntMinMax(5, 25),
+//   range: 1,
+//   cost: 4,
+// };
 
-const pression: Pression = {
-  attackName: "Pression",
-  dammage: getRandomIntMinMax(7, 25),
-  range: 2,
-  cost: 3,
-};
+// const pression: Pression = {
+//   attackName: "Pression",
+//   dammage: getRandomIntMinMax(7, 25),
+//   range: 2,
+//   cost: 3,
+// };
 
-const compulsion: Comlpulsion = {
-  attackName: "Compulsion",
-  boost: getRandomIntMinMax(6, 11),
-  range: 0,
-  cost: 3,
-};
+// const compulsion: Comlpulsion = {
+//   attackName: "Compulsion",
+//   boost: getRandomIntMinMax(6, 11),
+//   range: 0,
+//   cost: 3,
+// };
+
+function generateBouftouBite(): BouftouBite {
+  return {
+    attackName: "Morsure du Bouftou",
+    dammage: getRandomIntMinMax(5, 25),
+    range: 1,
+    cost: 4,
+  };
+}
+
+function generatePression(): Pression {
+  return {
+    attackName: "Pression",
+    dammage: getRandomIntMinMax(7, 25),
+    range: 2,
+    cost: 3,
+  };
+}
+
+function generateCompulsion(): Compulsion {
+  return {
+    attackName: "Compulsion",
+    boost: getRandomIntMinMax(6, 11),
+    range: 0,
+    cost: 3,
+  };
+}
 
 export function usePlayingBoard(
   player: Player,
@@ -132,6 +159,9 @@ export function usePlayingBoard(
 
   function enemyAttack() {
     if (enemy.pa <= 0) return;
+
+    const bouftouBite = generateBouftouBite();
+
     if (enemy.pa < bouftouBite.cost) return;
 
     const distance = calculateDistance(enemyCell, targetedCell);
@@ -183,6 +213,8 @@ export function usePlayingBoard(
     const playerAttackSoundAfter =
       "./player-sound-effects/attack/372_fx_534.mp3.mp3";
 
+    const pression = generatePression();
+
     const distance = calculateDistance(targetedCell, enemyCell);
 
     switch (selectedSpell) {
@@ -232,10 +264,21 @@ export function usePlayingBoard(
     if (selectedSpell === undefined) return;
     const boostSound = "./player-sound-effects/boost/233_fx_66.mp3.mp3";
     const distance = calculateDistance(targetedCell, targetedCell);
+    const compulsion = generateCompulsion();
 
     switch (selectedSpell) {
       case 1:
         if (distance > compulsion.range) return;
+
+        if (player.pa <= 0) {
+          addErrorMessage(`Plus assez de points d'action`);
+          return;
+        }
+
+        if (player.pa < compulsion.cost) {
+          addErrorMessage(`Plus assez de points d'action`);
+          return;
+        }
         playAudio(boostSound, 0.1, false, true);
         setPlayerBoostAmont(compulsion.boost);
         addInfoMessage(`${player.name} lance ${compulsion.attackName}.`);
@@ -259,6 +302,7 @@ export function usePlayingBoard(
     if (turn.name === player.name) {
       if (key === enemyCell) {
         const distance = calculateDistance(targetedCell, enemyCell);
+        const pression = generatePression();
         if (distance <= pression.range) {
           if (enemy.pv > 0) {
             setCanMove(true);
@@ -279,6 +323,7 @@ export function usePlayingBoard(
     } else {
       if (key === targetedCell) {
         const distance = calculateDistance(enemyCell, targetedCell);
+        const bouftouBite = generateBouftouBite();
         if (distance <= bouftouBite.range) {
           if (player.pv > 0) {
             enemyAttack();

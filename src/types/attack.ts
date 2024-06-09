@@ -16,7 +16,7 @@ export interface Pression {
   cost: 3;
 }
 
-export interface Comlpulsion {
+export interface Compulsion {
   target?: Player;
   attackName: "Compulsion";
   boost: number;
