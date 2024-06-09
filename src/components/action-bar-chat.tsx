@@ -7,7 +7,7 @@ type Props = {
 export default function Chat({ messages }: Props) {
   return (
     <>
-      <div className="w-[40%] h-36 flex flex-col overflow-y-scroll text-lg pt-2 pl-4 bg-slate-950">
+      <div className="w-[40%] h-full flex flex-col overflow-y-scroll text-lg pt-2 pl-4 bg-slate-950">
         {messages.map((message, index) => {
           return (
             <div key={index}>
