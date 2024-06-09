@@ -142,17 +142,18 @@ export function usePlayingBoard(
     player.pv -= bouftouBite.dammage;
 
     if (player.pv <= 0) {
-      playAudio(playerDeath1, 0.5, false, true);
+      playAudio(effects[getRandomInt(effects.length)], 0.2, false, true);
+      playAudio(playerDeath1, 0.2, false, true);
       setTimeout(() => {
-        playAudio(playerDeath2, 0.5, false, true);
+        playAudio(playerDeath2, 0.1, false, true);
         isGameOver(true);
       }, 500);
       return;
     }
 
-    playAudio(effects[getRandomInt(effects.length)], 0.5, false, true);
+    playAudio(effects[getRandomInt(effects.length)], 0.2, false, true);
     setTimeout(() => {
-      playAudio(playerDamage, 0.3, false, true);
+      playAudio(playerDamage, 0.2, false, true);
     }, 200);
 
     addInfoMessage(`${enemy.name} lance ${bouftouBite.attackName}.`);
