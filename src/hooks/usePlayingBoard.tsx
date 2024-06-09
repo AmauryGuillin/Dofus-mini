@@ -3,7 +3,7 @@ import { BouftouBite, Pression } from "../types/attack";
 import { Board } from "../types/board";
 import { ChatInfoMessage } from "../types/chat-info-message";
 import { Player } from "../types/player";
-import { playAudio } from "../utils/music/handleAudio";
+import { playAudio, playErrorSound } from "../utils/music/handleAudio";
 import {
   getRandomInt,
   getRandomIntMinMax,
@@ -357,6 +357,7 @@ export function usePlayingBoard(
   }
 
   function addErrorMessage(errorMessage: string) {
+    playErrorSound(0.1);
     setMessage((prevMessages) => [
       ...prevMessages,
       {

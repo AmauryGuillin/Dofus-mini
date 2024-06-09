@@ -16,3 +16,15 @@ export function playAudio(
     }, 5000);
   }
 }
+
+export function playErrorSound(volume: number) {
+  const music = document.createElement("audio");
+  music.src = "./global/error/374_fx_532.mp3.mp3";
+  music.autoplay = true;
+  music.loop = false;
+  music.volume = volume;
+  document.body.appendChild(music);
+  setTimeout(() => {
+    document.body.removeChild(music);
+  }, 5000);
+}
