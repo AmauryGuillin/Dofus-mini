@@ -9,27 +9,6 @@ import {
   getRandomIntMinMax,
 } from "../utils/tools/getRandomNumber";
 
-// const bouftouBite: BouftouBite = {
-//   attackName: "Morsure du Bouftou",
-//   dammage: getRandomIntMinMax(5, 25),
-//   range: 1,
-//   cost: 4,
-// };
-
-// const pression: Pression = {
-//   attackName: "Pression",
-//   dammage: getRandomIntMinMax(7, 25),
-//   range: 2,
-//   cost: 3,
-// };
-
-// const compulsion: Comlpulsion = {
-//   attackName: "Compulsion",
-//   boost: getRandomIntMinMax(6, 11),
-//   range: 0,
-//   cost: 3,
-// };
-
 function generateBouftouBite(): BouftouBite {
   return {
     attackName: "Morsure du Bouftou",

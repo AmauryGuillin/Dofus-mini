@@ -5,9 +5,14 @@ import SpellBar from "./spell-bar";
 type Props = {
   messages: ChatInfoMessage[];
   setSelectedSpell: React.Dispatch<React.SetStateAction<number | undefined>>;
+  selectedSpell: number | undefined;
 };
 
-export default function ActionBar({ messages, setSelectedSpell }: Props) {
+export default function ActionBar({
+  messages,
+  setSelectedSpell,
+  selectedSpell,
+}: Props) {
   return (
     <div className="border-t-8 rounded-tl-3xl rounded-tr-3xl border-gray-500 w-full h-64 overflow-hidden">
       <div className="flex justify-center items-start text-white h-full">
@@ -16,7 +21,10 @@ export default function ActionBar({ messages, setSelectedSpell }: Props) {
           information joueur
         </div>
         <div className="w-[40%] h-64">
-          <SpellBar setSelectedSpell={setSelectedSpell} />
+          <SpellBar
+            setSelectedSpell={setSelectedSpell}
+            selectedSpell={selectedSpell}
+          />
         </div>
       </div>
     </div>

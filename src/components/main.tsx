@@ -34,7 +34,11 @@ export default function Main() {
             setSelectedSpell={setSelectedSpell}
             selectedSpell={selectedSpell}
           />
-          <ActionBar messages={messages} setSelectedSpell={setSelectedSpell} />
+          <ActionBar
+            messages={messages}
+            setSelectedSpell={setSelectedSpell}
+            selectedSpell={selectedSpell}
+          />
         </>
       ) : (
         <div className="text-white flex flex-col justify-center items-center">

@@ -3,9 +3,10 @@ import { playClickSounds } from "../utils/music/handleAudio";
 
 type Props = {
   setSelectedSpell: React.Dispatch<React.SetStateAction<number | undefined>>;
+  selectedSpell: number | undefined;
 };
 
-export default function SpellBar({ setSelectedSpell }: Props) {
+export default function SpellBar({ setSelectedSpell, selectedSpell }: Props) {
   const spellsSources = [
     "./images/player-spells/141.svg",
     "./images/player-spells/144.svg",
@@ -47,7 +48,7 @@ export default function SpellBar({ setSelectedSpell }: Props) {
     index: number
   ) {
     if (draggingSpell === index) {
-      setDraggingSpell(null); // Cancel drag if clicked again
+      setDraggingSpell(null);
     } else {
       setDraggingSpell(index);
       setMousePosition({ x: event.clientX, y: event.clientY });
@@ -57,10 +58,12 @@ export default function SpellBar({ setSelectedSpell }: Props) {
   const handleKeyPress = useCallback((event: KeyboardEvent) => {
     if (event.key === "&" || event.key === "1") {
       selectSpell(0);
+      setSelectedSpell(0);
       handleMouseDown(event as unknown as React.MouseEvent<HTMLDivElement>, 0);
     }
     if (event.key === "é" || event.key === "2") {
       selectSpell(1);
+      setSelectedSpell(1);
       handleMouseDown(event as unknown as React.MouseEvent<HTMLDivElement>, 1);
     }
   }, []);
@@ -79,7 +82,9 @@ export default function SpellBar({ setSelectedSpell }: Props) {
         {spellsSources.map((spell, index) => (
           <div
             key={index}
-            className="w-12 h-12 flex justify-center items-center hover:bg-gray-500 hover:cursor-pointer hover:scale-105"
+            className={`w-12 h-12 flex justify-center items-center hover:bg-gray-500 hover:cursor-pointer hover:scale-105 ${
+              index === selectedSpell ? "grayscale" : ""
+            }`}
             onClick={(event) => handleMouseDown(event, index)}
             onMouseDownCapture={() => selectSpell(index)}
             onKeyDown={() => handleKeyPress}
