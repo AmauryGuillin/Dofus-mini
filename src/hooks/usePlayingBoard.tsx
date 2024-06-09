@@ -108,13 +108,7 @@ export function usePlayingBoard(
     const distance = calculateDistance(enemyCell, targetedCell);
 
     if (distance > attack.range) {
-      setMessage((prevMessages) => [
-        ...prevMessages,
-        {
-          type: "Erreur",
-          message: `La cible est hors de portée`,
-        },
-      ]);
+      addErrorMessage(`La cible est hors de portée`);
     }
 
     const audio1 = "./enemy-sound-effects/142_fx_741.mp3.mp3";
@@ -140,21 +134,10 @@ export function usePlayingBoard(
       playAudio(playerDamage, 0.3, false, true);
     }, 200);
 
-    setMessage((prevMessages) => [
-      ...prevMessages,
-      {
-        type: "Info",
-        message: `${enemy.name} lance ${attack.attackName}.`,
-      },
-    ]);
-
-    setMessage((prevMessages) => [
-      ...prevMessages,
-      {
-        type: "Info",
-        message: `${enemy.name} inflige ${attack.dammage} points de dommage à ${player.name}.`,
-      },
-    ]);
+    addInfoMessage(`${enemy.name} lance ${attack.attackName}.`);
+    addInfoMessage(
+      `${enemy.name} inflige ${attack.dammage} points de dommage à ${player.name}.`
+    );
   }
 
   function playerAttack() {
@@ -167,30 +150,14 @@ export function usePlayingBoard(
     const distance = calculateDistance(targetedCell, enemyCell);
 
     if (distance > pression.range) {
-      setMessage((prevMessages) => [
-        ...prevMessages,
-        {
-          type: "Erreur",
-          message: `La cible est hors de portée`,
-        },
-      ]);
+      addErrorMessage("la cible est hors de portée");
     }
 
     enemy.pv -= pression.dammage;
-    setMessage((prevMessages) => [
-      ...prevMessages,
-      {
-        type: "Info",
-        message: `${player.name} lance ${pression.attackName}.`,
-      },
-    ]);
-    setMessage((prevMessages) => [
-      ...prevMessages,
-      {
-        type: "Info",
-        message: `${player.name} inflige ${pression.dammage} points de dommage à ${enemy.name}.`,
-      },
-    ]);
+    addInfoMessage(`${player.name} lance ${pression.attackName}.`);
+    addInfoMessage(
+      `${player.name} inflige ${pression.dammage} points de dommage à ${enemy.name}.`
+    );
   }
 
   function selectCell(key: string, currentPlayer: Player) {
@@ -208,13 +175,7 @@ export function usePlayingBoard(
             return;
           }
         } else {
-          setMessage((prevMessages) => [
-            ...prevMessages,
-            {
-              type: "Erreur",
-              message: `La cible est hors de portée`,
-            },
-          ]);
+          addErrorMessage(`La cible est hors de portée`);
         }
         return;
       }
@@ -228,13 +189,7 @@ export function usePlayingBoard(
             return;
           }
         } else {
-          setMessage((prevMessages) => [
-            ...prevMessages,
-            {
-              type: "Erreur",
-              message: `La cible est hors de portée`,
-            },
-          ]);
+          addErrorMessage(`La cible est hors de portée`);
         }
         return;
       }
@@ -242,13 +197,7 @@ export function usePlayingBoard(
     }
 
     if (!canMove) {
-      setMessage((prevMessages) => [
-        ...prevMessages,
-        {
-          type: "Erreur",
-          message: `Pas assez de PM`,
-        },
-      ]);
+      addErrorMessage(`Pas assez de PM`);
       return;
     }
 
@@ -264,13 +213,7 @@ export function usePlayingBoard(
 
       setPath([]);
     } else {
-      setMessage((prevMessages) => [
-        ...prevMessages,
-        {
-          type: "Erreur",
-          message: `Action impossible`,
-        },
-      ]);
+      addErrorMessage(`Action impossible`);
     }
   }
 
@@ -385,6 +328,26 @@ export function usePlayingBoard(
     const [row1, col1] = cell1.split("-").map(Number);
     const [row2, col2] = cell2.split("-").map(Number);
     return Math.abs(row1 - row2) + Math.abs(col1 - col2);
+  }
+
+  function addErrorMessage(errorMessage: string) {
+    setMessage((prevMessages) => [
+      ...prevMessages,
+      {
+        type: "Erreur",
+        message: errorMessage,
+      },
+    ]);
+  }
+
+  function addInfoMessage(infoMessage: string) {
+    setMessage((prevMessages) => [
+      ...prevMessages,
+      {
+        type: "Info",
+        message: infoMessage,
+      },
+    ]);
   }
 
   return [
