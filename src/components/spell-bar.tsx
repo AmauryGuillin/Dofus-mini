@@ -42,7 +42,10 @@ export default function SpellBar({ setSelectedSpell }: Props) {
     };
   }, [draggingSpell]);
 
-  function handleMouseDown(event: React.MouseEvent, index: number) {
+  function handleMouseDown(
+    event: React.MouseEvent<HTMLDivElement>,
+    index: number
+  ) {
     if (draggingSpell === index) {
       setDraggingSpell(null); // Cancel drag if clicked again
     } else {
@@ -51,14 +54,14 @@ export default function SpellBar({ setSelectedSpell }: Props) {
     }
   }
 
-  const handleKeyPress = useCallback((event) => {
+  const handleKeyPress = useCallback((event: KeyboardEvent) => {
     if (event.key === "&" || event.key === "1") {
       selectSpell(0);
-      handleMouseDown(event, 0);
+      handleMouseDown(event as unknown as React.MouseEvent<HTMLDivElement>, 0);
     }
     if (event.key === "é" || event.key === "2") {
       selectSpell(1);
-      handleMouseDown(event, 1);
+      handleMouseDown(event as unknown as React.MouseEvent<HTMLDivElement>, 1);
     }
   }, []);
 
@@ -79,7 +82,7 @@ export default function SpellBar({ setSelectedSpell }: Props) {
             className="w-12 h-12 flex justify-center items-center hover:bg-gray-500 hover:cursor-pointer hover:scale-105"
             onClick={(event) => handleMouseDown(event, index)}
             onMouseDownCapture={() => selectSpell(index)}
-            onKeyDown={handleKeyPress}
+            onKeyDown={() => handleKeyPress}
           >
             <img src={spell} className="w-80" />
           </div>
