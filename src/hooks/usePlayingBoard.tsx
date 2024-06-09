@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BouftouBite, Pression } from "../types/attack";
+import { BouftouBite, Comlpulsion, Pression } from "../types/attack";
 import { Board } from "../types/board";
 import { ChatInfoMessage } from "../types/chat-info-message";
 import { Player } from "../types/player";
@@ -20,6 +20,13 @@ const pression: Pression = {
   attackName: "Pression",
   dammage: getRandomIntMinMax(7, 25),
   range: 2,
+  cost: 3,
+};
+
+const compulsion: Comlpulsion = {
+  attackName: "Compulsion",
+  boost: getRandomIntMinMax(6, 11),
+  range: 0,
   cost: 3,
 };
 
@@ -45,6 +52,7 @@ export function usePlayingBoard(
   const [turn, setTurn] = useState<Player>(player);
   const [isUserImageDisplayed, setIsUserImageDisplayed] =
     useState<boolean>(false);
+  const [playerBoostAmont, setPlayerBoostAmont] = useState<number>(0);
   //const [canPlayerPassTurn, setCanPlayerPassTurn] = useState<boolean>(true);
 
   function passTurn(entity: string) {
@@ -206,7 +214,7 @@ export function usePlayingBoard(
           );
         }, 50);
 
-        enemy.pv -= pression.dammage;
+        enemy.pv -= pression.dammage + playerBoostAmont;
         addInfoMessage(`${player.name} lance ${pression.attackName}.`);
         addInfoMessage(
           `${player.name} inflige ${pression.dammage} points de dommage à ${enemy.name}.`
@@ -220,11 +228,28 @@ export function usePlayingBoard(
     }
   }
 
-  // function playerBoost() {
-  //   if (selectedSpell === undefined) return;
-  //   const distance = calculateDistance(targetedCell, targetedCell);
-  //   console.log("distance", distance);
-  // }
+  function playerBoost() {
+    if (selectedSpell === undefined) return;
+    const boostSound = "./player-sound-effects/boost/233_fx_66.mp3.mp3";
+    const distance = calculateDistance(targetedCell, targetedCell);
+
+    switch (selectedSpell) {
+      case 1:
+        if (distance > compulsion.range) return;
+        playAudio(boostSound, 0.1, false, true);
+        setPlayerBoostAmont(compulsion.boost);
+        addInfoMessage(`${player.name} lance ${compulsion.attackName}.`);
+        addInfoMessage(
+          `${player.name} gagne ${compulsion.boost} points de dommage pendant 5 tours.`
+        );
+        setSelectedSpell(undefined);
+        player.pa -= compulsion.cost;
+        return;
+      default:
+        console.log("no spell selected");
+        return;
+    }
+  }
 
   function selectCell(key: string, currentPlayer: Player) {
     if (!targetedCell || !enemyCell) return;
@@ -247,7 +272,7 @@ export function usePlayingBoard(
       }
 
       if (key === targetedCell) {
-        //playerBoost();
+        playerBoost();
         return;
       }
       newPath = calculatePath(targetedCell!, key, currentPlayer.pm, enemyCell);

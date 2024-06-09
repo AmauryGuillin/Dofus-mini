@@ -15,3 +15,11 @@ export interface Pression {
   range: 2;
   cost: 3;
 }
+
+export interface Comlpulsion {
+  target?: Player;
+  attackName: "Compulsion";
+  boost: number;
+  range: 0;
+  cost: 3;
+}
