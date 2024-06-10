@@ -71,12 +71,6 @@ export function usePlayingBoard(
     setSelectedSpell(undefined);
     if (entity === player.name) {
       //setCanPlayerPassTurn(false);
-      if (boostDuration !== undefined) {
-        setBoostDuration(boostDuration - 1);
-        if (boostDuration === 1) {
-          setBoostDuration(undefined);
-        }
-      }
       player.pm = 3;
       player.pa = 6;
       setTurn(enemy);
@@ -87,6 +81,12 @@ export function usePlayingBoard(
     }
     if (entity === enemy.name) {
       //setCanPlayerPassTurn(true);
+      if (boostDuration !== undefined) {
+        setBoostDuration(boostDuration - 1);
+        if (boostDuration === 1) {
+          setBoostDuration(undefined);
+        }
+      }
       setTurnCount(turnCount + 1);
       enemy.pm = 3;
       enemy.pa = 6;
