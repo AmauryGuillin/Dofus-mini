@@ -207,8 +207,15 @@ export function usePlayingBoard(
     const enemyDamageSounds = [enemyDamageSound1, enemyDamageSound2];
     const playerAttackSoundBefore =
       "./player-sound-effects/attack/165_fx_720.mp3.mp3";
+    //const playerAttackSoundAfter = "./player-sound-effects/attack/372_fx_534.mp3.mp3";
     const playerAttackSoundAfter =
-      "./player-sound-effects/attack/372_fx_534.mp3.mp3";
+      "./player-sound-effects/attack/pression_attack.mp3";
+    const playerAttackSoundAfter2 =
+      "./player-sound-effects/attack/pression_attack_2.mp3";
+    const playerAttacksAfter = [
+      playerAttackSoundAfter,
+      playerAttackSoundAfter2,
+    ];
 
     const pression = generatePression();
 
@@ -235,7 +242,12 @@ export function usePlayingBoard(
         }
 
         playAudio(playerAttackSoundBefore, 0.1, false, true);
-        playAudio(playerAttackSoundAfter, 0.1, false, true);
+        playAudio(
+          playerAttacksAfter[getRandomInt(playerAttacksAfter.length)],
+          0.1,
+          false,
+          true
+        );
 
         setTimeout(() => {
           playAudio(
@@ -263,7 +275,8 @@ export function usePlayingBoard(
   function playerBoost() {
     if (boostDuration !== undefined) return;
     if (selectedSpell === undefined) return;
-    const boostSound = "./player-sound-effects/boost/233_fx_66.mp3.mp3";
+    const boostSoundBefore = "./player-sound-effects/boost/iop_boost.mp3";
+    const boostSoundAfter = "./player-sound-effects/boost/233_fx_66.mp3.mp3";
     const distance = calculateDistance(playerCell, playerCell);
     const compulsion = generateCompulsion();
 
@@ -280,7 +293,11 @@ export function usePlayingBoard(
           addErrorMessage(`Plus assez de points d'action`);
           return;
         }
-        playAudio(boostSound, 0.1, false, true);
+        playAudio(boostSoundBefore, 0.1, false, true);
+        setTimeout(() => {
+          playAudio(boostSoundAfter, 0.1, false, true);
+        }, 50);
+
         setPlayerBoostAmont(compulsion.boost);
         addInfoMessage(`${player.name} lance ${compulsion.attackName}.`);
         addInfoMessage(
