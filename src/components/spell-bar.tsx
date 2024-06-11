@@ -4,9 +4,14 @@ import { playClickSounds } from "../utils/music/handleAudio";
 type Props = {
   setSelectedSpell: React.Dispatch<React.SetStateAction<number | undefined>>;
   boostDuration: number | undefined;
+  setAttackRangeDisplay: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
-export default function SpellBar({ setSelectedSpell, boostDuration }: Props) {
+export default function SpellBar({
+  setSelectedSpell,
+  boostDuration,
+  setAttackRangeDisplay,
+}: Props) {
   const spellsSources = [
     "./images/player-spells/141.svg",
     "./images/player-spells/144.svg",
@@ -21,6 +26,7 @@ export default function SpellBar({ setSelectedSpell, boostDuration }: Props) {
   function selectSpell(spell: number) {
     playClickSounds(0.3);
     setSelectedSpell(spell);
+    calculAttackRangeDisplay();
   }
 
   useEffect(() => {
@@ -32,6 +38,7 @@ export default function SpellBar({ setSelectedSpell, boostDuration }: Props) {
 
     function handleMouseUp() {
       setDraggingSpell(null);
+      setAttackRangeDisplay([]);
       //setSelectedSpell(undefined);
     }
 
@@ -51,6 +58,7 @@ export default function SpellBar({ setSelectedSpell, boostDuration }: Props) {
     if (draggingSpell === index) {
       setDraggingSpell(null);
       setSelectedSpell(undefined);
+      setAttackRangeDisplay([]);
     } else {
       setDraggingSpell(index);
       setMousePosition({ x: event.clientX, y: event.clientY });
@@ -77,6 +85,24 @@ export default function SpellBar({ setSelectedSpell, boostDuration }: Props) {
       document.removeEventListener("keydown", handleKeyPress);
     };
   }, [handleKeyPress]);
+
+  function calculAttackRangeDisplay() {
+    setAttackRangeDisplay((prevCells) => [
+      ...prevCells,
+      "3-4",
+      "3-5",
+      "3-2",
+      "3-1",
+      "2-3",
+      "1-3",
+      "4-3",
+      "5-3",
+      "4-2",
+      "2-2",
+      "2-4",
+      "4-4",
+    ]);
+  }
 
   return (
     <>

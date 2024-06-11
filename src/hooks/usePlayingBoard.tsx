@@ -47,7 +47,8 @@ export function usePlayingBoard(
   setTurnCount: React.Dispatch<React.SetStateAction<number>>,
   turnCount: number,
   setBoostDuration: React.Dispatch<React.SetStateAction<number | undefined>>,
-  boostDuration: number | undefined
+  boostDuration: number | undefined,
+  attackRangeDisplay: string[]
 ): [
   boolean,
   (entity: string) => void,
@@ -57,8 +58,8 @@ export function usePlayingBoard(
   number | undefined
   //boolean
 ] {
-  const [targetedCell, setTargetedCell] = useState<string>("3-3");
-  const [enemyCell, setEnemyCell] = useState<string>("3-4");
+  const [playerCell, setPlayerCell] = useState<string>("3-3");
+  const [enemyCell, setEnemyCell] = useState<string>("1-6");
   const [path, setPath] = useState<string[]>([]);
   const [canMove, setCanMove] = useState<boolean>(false);
   const [turn, setTurn] = useState<Player>(player);
@@ -108,11 +109,11 @@ export function usePlayingBoard(
         <div
           key={key}
           className={`w-24 h-24 border-2 border-gray-500 hover:cursor-pointer ${
-            key === targetedCell
+            key === playerCell
               ? "border-2 relative"
               : key === enemyCell
               ? "border-2 relative"
-              : path.includes(key) && key !== targetedCell
+              : path.includes(key) && key !== playerCell
               ? "bg-green-500"
               : undefined
           }`}
@@ -126,7 +127,7 @@ export function usePlayingBoard(
           onMouseEnter={() => enter(key, turn)}
           onMouseLeave={leave}
         >
-          {key === targetedCell && (
+          {key === playerCell && (
             <>
               <img
                 src="./images/player-front-bottom-right.png"
@@ -145,6 +146,9 @@ export function usePlayingBoard(
               <div className="absolute border-4 rounded-full border-red-400 w-full h-full" />
             </>
           )}
+          {attackRangeDisplay.includes(key) && (
+            <div className="bg-blue-400 w-24 h-24 border-2 opacity-35"></div>
+          )}
         </div>
       );
     })
@@ -157,7 +161,7 @@ export function usePlayingBoard(
 
     if (enemy.pa < bouftouBite.cost) return;
 
-    const distance = calculateDistance(enemyCell, targetedCell);
+    const distance = calculateDistance(enemyCell, playerCell);
 
     if (distance > bouftouBite.range) {
       addErrorMessage(`La cible est hors de portée`);
@@ -208,7 +212,7 @@ export function usePlayingBoard(
 
     const pression = generatePression();
 
-    const distance = calculateDistance(targetedCell, enemyCell);
+    const distance = calculateDistance(playerCell, enemyCell);
 
     switch (selectedSpell) {
       case 0:
@@ -260,7 +264,7 @@ export function usePlayingBoard(
     if (boostDuration !== undefined) return;
     if (selectedSpell === undefined) return;
     const boostSound = "./player-sound-effects/boost/233_fx_66.mp3.mp3";
-    const distance = calculateDistance(targetedCell, targetedCell);
+    const distance = calculateDistance(playerCell, playerCell);
     const compulsion = generateCompulsion();
 
     switch (selectedSpell) {
@@ -293,13 +297,13 @@ export function usePlayingBoard(
   }
 
   function selectCell(key: string, currentPlayer: Player) {
-    if (!targetedCell || !enemyCell) return;
+    if (!playerCell || !enemyCell) return;
 
     let newPath: string[];
 
     if (turn.name === player.name) {
       if (key === enemyCell) {
-        const distance = calculateDistance(targetedCell, enemyCell);
+        const distance = calculateDistance(playerCell, enemyCell);
         const pression = generatePression();
         if (distance <= pression.range) {
           if (enemy.pv > 0) {
@@ -313,7 +317,7 @@ export function usePlayingBoard(
         return;
       }
 
-      if (key === targetedCell) {
+      if (key === playerCell) {
         if (boostDuration !== undefined) {
           addErrorMessage("Action impossible");
           return;
@@ -321,10 +325,10 @@ export function usePlayingBoard(
         playerBoost();
         return;
       }
-      newPath = calculatePath(targetedCell!, key, currentPlayer.pm, enemyCell);
+      newPath = calculatePath(playerCell!, key, currentPlayer.pm, enemyCell);
     } else {
-      if (key === targetedCell) {
-        const distance = calculateDistance(enemyCell, targetedCell);
+      if (key === playerCell) {
+        const distance = calculateDistance(enemyCell, playerCell);
         const bouftouBite = generateBouftouBite();
         if (distance <= bouftouBite.range) {
           if (player.pv > 0) {
@@ -336,7 +340,7 @@ export function usePlayingBoard(
         }
         return;
       }
-      newPath = calculatePath(enemyCell!, key, currentPlayer.pm, targetedCell);
+      newPath = calculatePath(enemyCell!, key, currentPlayer.pm, playerCell);
     }
 
     if (!canMove) {
@@ -346,7 +350,7 @@ export function usePlayingBoard(
 
     if (newPath.length - 1 <= currentPlayer.pm) {
       if (turn.name === player.name) {
-        setTargetedCell(key);
+        setPlayerCell(key);
         player.pm = player.pm - (newPath.length - 1);
       } else {
         setEnemyCell(key);
@@ -360,14 +364,14 @@ export function usePlayingBoard(
   }
 
   function enter(key: string, currentPlayer: Player) {
-    if (!targetedCell || !enemyCell) return;
+    if (!playerCell || !enemyCell) return;
 
     let newPath: string[];
 
     if (turn.name === player.name) {
-      newPath = calculatePath(targetedCell!, key, currentPlayer.pm, enemyCell);
+      newPath = calculatePath(playerCell!, key, currentPlayer.pm, enemyCell);
     } else {
-      newPath = calculatePath(enemyCell!, key, currentPlayer.pm, targetedCell);
+      newPath = calculatePath(enemyCell!, key, currentPlayer.pm, playerCell);
     }
 
     setPath(newPath);

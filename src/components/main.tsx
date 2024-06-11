@@ -15,6 +15,7 @@ export default function Main() {
   const [selectedSpell, setSelectedSpell] = useState<number>();
   const [turnCount, setTurnCount] = useState<number>(1);
   const [boostDuration, setBoostDuration] = useState<number>();
+  const [attackRangeDisplay, setAttackRangeDisplay] = useState<string[]>([]);
   const [messages, setMessages] = useState<ChatInfoMessage[]>([
     {
       type: "Info",
@@ -39,11 +40,13 @@ export default function Main() {
             turnCount={turnCount}
             setBoostDuration={setBoostDuration}
             boostDuration={boostDuration}
+            attackRangeDisplay={attackRangeDisplay}
           />
           <ActionBar
             messages={messages}
             setSelectedSpell={setSelectedSpell}
             boostDuration={boostDuration}
+            setAttackRangeDisplay={setAttackRangeDisplay}
           />
           <div className="absolute top-2 right-0 border-2 w-14 h-14 text-white flex justify-center items-center font-bold text-xl border-r-0 rounded-tl-lg rounded-bl-lg">
             {turnCount}

@@ -15,6 +15,7 @@ type Props = {
   turnCount: number;
   setBoostDuration: React.Dispatch<React.SetStateAction<number | undefined>>;
   boostDuration: number | undefined;
+  attackRangeDisplay: string[];
 };
 
 const player: Player = {
@@ -46,6 +47,7 @@ export default function PlayingBoard({
   turnCount,
   setBoostDuration,
   boostDuration,
+  attackRangeDisplay,
 }: Props) {
   const [
     isUserImageDisplayed,
@@ -64,7 +66,8 @@ export default function PlayingBoard({
     setTurnCount,
     turnCount,
     setBoostDuration,
-    boostDuration
+    boostDuration,
+    attackRangeDisplay
   );
 
   return (

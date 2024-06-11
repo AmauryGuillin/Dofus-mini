@@ -6,12 +6,14 @@ type Props = {
   messages: ChatInfoMessage[];
   setSelectedSpell: React.Dispatch<React.SetStateAction<number | undefined>>;
   boostDuration: number | undefined;
+  setAttackRangeDisplay: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 export default function ActionBar({
   messages,
   setSelectedSpell,
   boostDuration,
+  setAttackRangeDisplay,
 }: Props) {
   return (
     <div className="border-t-8 rounded-tl-3xl rounded-tr-3xl border-gray-500 w-full h-64 overflow-hidden">
@@ -24,6 +26,7 @@ export default function ActionBar({
           <SpellBar
             setSelectedSpell={setSelectedSpell}
             boostDuration={boostDuration}
+            setAttackRangeDisplay={setAttackRangeDisplay}
           />
         </div>
       </div>
