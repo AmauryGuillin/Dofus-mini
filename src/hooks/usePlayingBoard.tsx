@@ -66,6 +66,8 @@ export function usePlayingBoard(
   const [isUserImageDisplayed, setIsUserImageDisplayed] =
     useState<boolean>(false);
   const [playerBoostAmont, setPlayerBoostAmont] = useState<number>(0);
+  const [showPlayerInfo, setShowPlayerInfo] = useState<boolean>(false);
+  const [showEnemyInfo, setShowEnemyInfo] = useState<boolean>(false);
   //const [canPlayerPassTurn, setCanPlayerPassTurn] = useState<boolean>(true);
 
   function passTurn(entity: string) {
@@ -132,7 +134,23 @@ export function usePlayingBoard(
               <img
                 src="./images/player-front-bottom-right.png"
                 className="absolute top-[-138%] left-[-101%] h-[232%] max-w-[140%] transform rotate-[-30deg] skew-x-[20deg] z-50"
+                onMouseEnter={() => {
+                  setShowPlayerInfo(true);
+                }}
+                onMouseLeave={() => {
+                  setShowPlayerInfo(false);
+                }}
               />
+              {showPlayerInfo && (
+                <div className="absolute top-[-176%] left-[-262%] w-48 h-20 border-2 transform rotate-[-38deg] skew-x-[11deg] flex flex-col justify-center items-center rounded bg-gray-600 gap-4">
+                  <div>{player.name}</div>
+                  <div className="flex justify-center items-center">
+                    <progress max="100" value={player.pv}>
+                      {player.pv}
+                    </progress>
+                  </div>
+                </div>
+              )}
               <div className="absolute border-4 rounded-full border-blue-400 w-full h-full" />
             </>
           )}
@@ -142,7 +160,23 @@ export function usePlayingBoard(
               <img
                 src="./images/bouftou.png"
                 className="absolute top-[-53%] left-[-27%] h-[165%] max-w-[101%] transform rotate-[-30deg] skew-x-[20deg] z-50"
+                onMouseEnter={() => {
+                  setShowEnemyInfo(true);
+                }}
+                onMouseLeave={() => {
+                  setShowEnemyInfo(false);
+                }}
               />
+              {showEnemyInfo && (
+                <div className="absolute top-[-220%] left-[-311%] w-48 h-20 border-2 transform rotate-[-38deg] skew-x-[11deg] flex flex-col justify-center items-center rounded bg-gray-600 gap-4">
+                  <div>{enemy.name}</div>
+                  <div className="flex justify-center items-center">
+                    <progress max="100" value={enemy.pv}>
+                      {player.pv}
+                    </progress>
+                  </div>
+                </div>
+              )}
               <div className="absolute border-4 rounded-full border-red-400 w-full h-full" />
             </>
           )}
