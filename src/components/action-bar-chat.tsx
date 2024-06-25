@@ -26,7 +26,7 @@ export default function Chat({ messages }: Props) {
                   message.type === "Info" ? "text-green-500" : "text-red-500"
                 }`}
               >
-                {message.type}:
+                [{message.type}]
               </span>
               <span
                 className={`${
