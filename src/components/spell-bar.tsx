@@ -26,7 +26,7 @@ export default function SpellBar({
   function selectSpell(spell: number) {
     playClickSounds(0.3);
     setSelectedSpell(spell);
-    calculAttackRangeDisplay();
+    calculAttackRangeDisplay("3-3", 2, 8, 8); //TODO : A modifier avec le refonte des useStates pour intégrer la position du joueur en temps réel.
   }
 
   useEffect(() => {
@@ -86,22 +86,37 @@ export default function SpellBar({
     };
   }, [handleKeyPress]);
 
-  function calculAttackRangeDisplay() {
-    setAttackRangeDisplay((prevCells) => [
-      ...prevCells,
-      "3-4",
-      "3-5",
-      "3-2",
-      "3-1",
-      "2-3",
-      "1-3",
-      "4-3",
-      "5-3",
-      "4-2",
-      "2-2",
-      "2-4",
-      "4-4",
-    ]);
+  function calculAttackRangeDisplay(
+    playerPosition: string,
+    range: number,
+    boardWidth: number,
+    boardHeight: number
+  ) {
+    const [playerRow, playerCol] = playerPosition.split("-").map(Number);
+    const attackRangeCells = [];
+
+    for (let rowOffset = -range; rowOffset <= range; rowOffset++) {
+      for (let colOffset = -range; colOffset <= range; colOffset++) {
+        const newRow = playerRow + rowOffset;
+        const newCol = playerCol + colOffset;
+
+        // Calculate the Manhattan distance
+        const manhattanDistance = Math.abs(rowOffset) + Math.abs(colOffset);
+
+        // Check if the new position is within the bounds of the board and within the attack range
+        if (
+          newRow >= 0 &&
+          newRow < boardHeight &&
+          newCol >= 0 &&
+          newCol < boardWidth &&
+          manhattanDistance <= range
+        ) {
+          attackRangeCells.push(`${newRow}-${newCol}`);
+        }
+      }
+    }
+
+    setAttackRangeDisplay(attackRangeCells);
   }
 
   return (
