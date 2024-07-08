@@ -12,10 +12,8 @@ export default function Main() {
   const music3 = "./37_fig_amakna.mp3.mp3";
   const musics = [music1, music2, music3];
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
-  const [selectedSpell, setSelectedSpell] = useState<number>();
   const [turnCount, setTurnCount] = useState<number>(1);
   const [boostDuration, setBoostDuration] = useState<number>();
-  const [attackRangeDisplay, setAttackRangeDisplay] = useState<string[]>([]);
   const [messages, setMessages] = useState<ChatInfoMessage[]>([
     {
       type: "Info",
@@ -34,20 +32,12 @@ export default function Main() {
           <PlayingBoard
             setMessages={setMessages}
             setIsGameOver={setIsGameOver}
-            setSelectedSpell={setSelectedSpell}
-            selectedSpell={selectedSpell}
             setTurnCount={setTurnCount}
             turnCount={turnCount}
             setBoostDuration={setBoostDuration}
             boostDuration={boostDuration}
-            attackRangeDisplay={attackRangeDisplay}
           />
-          <ActionBar
-            messages={messages}
-            setSelectedSpell={setSelectedSpell}
-            boostDuration={boostDuration}
-            setAttackRangeDisplay={setAttackRangeDisplay}
-          />
+          <ActionBar messages={messages} boostDuration={boostDuration} />
           <div className="absolute top-2 right-0 border-2 w-14 h-14 text-white flex justify-center items-center font-bold text-xl border-r-0 rounded-tl-lg rounded-bl-lg">
             {turnCount}
           </div>

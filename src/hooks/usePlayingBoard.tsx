@@ -8,6 +8,7 @@ import {
   getRandomInt,
   getRandomIntMinMax,
 } from "../utils/tools/getRandomNumber";
+import { useStore } from "./store";
 
 function generateBouftouBite(): BouftouBite {
   return {
@@ -42,13 +43,10 @@ export function usePlayingBoard(
   board: Board,
   setMessage: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>,
   isGameOver: React.Dispatch<React.SetStateAction<boolean>>,
-  setSelectedSpell: React.Dispatch<React.SetStateAction<number | undefined>>,
-  selectedSpell: number | undefined,
   setTurnCount: React.Dispatch<React.SetStateAction<number>>,
   turnCount: number,
   setBoostDuration: React.Dispatch<React.SetStateAction<number | undefined>>,
-  boostDuration: number | undefined,
-  attackRangeDisplay: string[]
+  boostDuration: number | undefined
 ): [
   boolean,
   (entity: string) => void,
@@ -58,7 +56,17 @@ export function usePlayingBoard(
   number | undefined
   //boolean
 ] {
-  const [playerCell, setPlayerCell] = useState<string>("3-3");
+  const playerCell = useStore((state) => state.playerCell);
+  const setPlayerCell = useStore((state) => state.setPlayerCell);
+
+  const selectedSpell = useStore((state) => state.selectedSpell);
+  const setSelectedSpell = useStore((state) => state.setSelectedSpell);
+
+  const attackRangeDisplay = useStore((state) => state.attackRangeDisplay);
+  const setAttackRangeDisplay = useStore(
+    (state) => state.setAttackRangeDisplay
+  );
+
   const [enemyCell, setEnemyCell] = useState<string>("1-6");
   const [path, setPath] = useState<string[]>([]);
   const [canMove, setCanMove] = useState<boolean>(false);
@@ -71,7 +79,7 @@ export function usePlayingBoard(
   //const [canPlayerPassTurn, setCanPlayerPassTurn] = useState<boolean>(true);
 
   function passTurn(entity: string) {
-    setSelectedSpell(undefined);
+    setSelectedSpell(null);
     if (entity === player.name) {
       //setCanPlayerPassTurn(false);
       player.pm = 3;
@@ -234,7 +242,7 @@ export function usePlayingBoard(
   }
 
   function playerAttack() {
-    if (selectedSpell === undefined) return;
+    if (selectedSpell === null) return;
 
     const enemyDamageSound1 = "./enemy-sound-effects/damage/209_fx_681.mp3.mp3";
     const enemyDamageSound2 = "./enemy-sound-effects/damage/212_fx_679.mp3.mp3";
@@ -259,21 +267,27 @@ export function usePlayingBoard(
       case 0:
         if (player.pa <= 0) {
           addErrorMessage(`Plus assez de points d'action`);
-          setSelectedSpell(undefined);
+          setSelectedSpell(null);
+          setAttackRangeDisplay([]);
           return;
         }
 
         if (player.pa < pression.cost) {
           addErrorMessage(`Plus assez de points d'action`);
-          setSelectedSpell(undefined);
+          setSelectedSpell(null);
+          setAttackRangeDisplay([]);
           return;
         }
 
         if (distance > pression.range) {
           addErrorMessage("la cible est hors de portée");
-          setSelectedSpell(undefined);
+          setSelectedSpell(null);
+          setAttackRangeDisplay([]);
+          console.log('"ldkswjfgsodijkô"');
           return;
         }
+
+        //setSelectedSpell(undefined)
 
         playAudio(playerAttackSoundBefore, 0.1, false, true);
         playAudio(
@@ -293,22 +307,24 @@ export function usePlayingBoard(
         }, 50);
 
         enemy.pv -= pression.dammage + playerBoostAmont;
+        setSelectedSpell(null);
+        player.pa -= pression.cost;
+        setAttackRangeDisplay([]);
         addInfoMessage(`${player.name} lance ${pression.attackName}.`);
         addInfoMessage(
           `${player.name} inflige ${pression.dammage} points de dommage à ${enemy.name}.`
         );
-        setSelectedSpell(undefined);
-        player.pa -= pression.cost;
         return;
       default:
         console.log("no spell selected");
+        setSelectedSpell(null);
         return;
     }
   }
 
   function playerBoost() {
     if (boostDuration !== undefined) return;
-    if (selectedSpell === undefined) return;
+    if (selectedSpell === null) return;
     const boostSoundBefore = "./player-sound-effects/boost/iop_boost.mp3";
     const boostSoundAfter = "./player-sound-effects/boost/233_fx_66.mp3.mp3";
     const distance = calculateDistance(playerCell, playerCell);
@@ -338,7 +354,7 @@ export function usePlayingBoard(
           `${player.name} gagne ${compulsion.boost} points de dommage pendant 5 tours.`
         );
         setBoostDuration(5);
-        setSelectedSpell(undefined);
+        setSelectedSpell(null);
         player.pa -= compulsion.cost;
         return;
       default:
@@ -358,11 +374,12 @@ export function usePlayingBoard(
         const pression = generatePression();
         if (distance <= pression.range) {
           if (enemy.pv > 0) {
-            setCanMove(true);
+            setCanMove(false);
             playerAttack();
             return;
           }
         } else {
+          setAttackRangeDisplay([]);
           addErrorMessage(`La cible est hors de portée`);
         }
         return;
@@ -374,6 +391,7 @@ export function usePlayingBoard(
           return;
         }
         playerBoost();
+        setSelectedSpell(null);
         return;
       }
       newPath = calculatePath(playerCell!, key, currentPlayer.pm, enemyCell);

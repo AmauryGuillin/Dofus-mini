@@ -9,13 +9,10 @@ import PlayerTurnImage from "./player-turn-image";
 type Props = {
   setMessages: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>;
   setIsGameOver: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectedSpell: React.Dispatch<React.SetStateAction<number | undefined>>;
-  selectedSpell: number | undefined;
   setTurnCount: React.Dispatch<React.SetStateAction<number>>;
   turnCount: number;
   setBoostDuration: React.Dispatch<React.SetStateAction<number | undefined>>;
   boostDuration: number | undefined;
-  attackRangeDisplay: string[];
 };
 
 const player: Player = {
@@ -41,13 +38,10 @@ const board: Board = {
 export default function PlayingBoard({
   setMessages,
   setIsGameOver,
-  setSelectedSpell,
-  selectedSpell,
   setTurnCount,
   turnCount,
   setBoostDuration,
   boostDuration,
-  attackRangeDisplay,
 }: Props) {
   const [
     isUserImageDisplayed,
@@ -61,13 +55,10 @@ export default function PlayingBoard({
     board,
     setMessages,
     setIsGameOver,
-    setSelectedSpell,
-    selectedSpell,
     setTurnCount,
     turnCount,
     setBoostDuration,
-    boostDuration,
-    attackRangeDisplay
+    boostDuration
   );
 
   return (
