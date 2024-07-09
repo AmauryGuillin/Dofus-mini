@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useStore } from "../hooks/store";
 import { ChatInfoMessage } from "../types/chat-info-message";
 import { playAudio } from "../utils/music/handleAudio";
 import { getRandomInt } from "../utils/tools/getRandomNumber";
@@ -11,7 +12,7 @@ export default function Main() {
   const music2 = "./36_fig_cania.mp3.mp3";
   const music3 = "./37_fig_amakna.mp3.mp3";
   const musics = [music1, music2, music3];
-  const [isGameOver, setIsGameOver] = useState<boolean>(false);
+  const isGameOver = useStore((state) => state.isGameOver);
   const [turnCount, setTurnCount] = useState<number>(1);
   const [boostDuration, setBoostDuration] = useState<number>();
   const [messages, setMessages] = useState<ChatInfoMessage[]>([
@@ -31,7 +32,6 @@ export default function Main() {
         <>
           <PlayingBoard
             setMessages={setMessages}
-            setIsGameOver={setIsGameOver}
             setTurnCount={setTurnCount}
             turnCount={turnCount}
             setBoostDuration={setBoostDuration}

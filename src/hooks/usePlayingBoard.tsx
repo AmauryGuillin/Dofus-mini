@@ -42,7 +42,6 @@ export function usePlayingBoard(
   enemy: Player,
   board: Board,
   setMessage: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>,
-  isGameOver: React.Dispatch<React.SetStateAction<boolean>>,
   setTurnCount: React.Dispatch<React.SetStateAction<number>>,
   turnCount: number,
   setBoostDuration: React.Dispatch<React.SetStateAction<number | undefined>>,
@@ -66,6 +65,8 @@ export function usePlayingBoard(
   const setAttackRangeDisplay = useStore(
     (state) => state.setAttackRangeDisplay
   );
+
+  const setIsGameOver = useStore((state) => state.setIsGameOver);
 
   const [enemyCell, setEnemyCell] = useState<string>("1-6");
   const [path, setPath] = useState<string[]>([]);
@@ -223,7 +224,7 @@ export function usePlayingBoard(
       playAudio(playerDeath1, 0.2, false, true);
       setTimeout(() => {
         playAudio(playerDeath2, 0.1, false, true);
-        isGameOver(true);
+        setIsGameOver(true);
       }, 500);
       return;
     }
