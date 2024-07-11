@@ -6,6 +6,7 @@ type InitialState = {
   selectedSpell: number | null;
   attackRangeDisplay: string[];
   isGameOver: boolean;
+  turnCount: number;
 };
 
 type Actions = {
@@ -13,6 +14,7 @@ type Actions = {
   setSelectedSpell: (spell: number | null) => void;
   setAttackRangeDisplay: (range: string[]) => void;
   setIsGameOver: (value: boolean) => void;
+  setTurnCount: (value: number) => void;
 };
 
 type Store = InitialState & Actions;
@@ -22,6 +24,7 @@ const initialState: InitialState = {
   selectedSpell: null,
   attackRangeDisplay: [],
   isGameOver: false,
+  turnCount: 1,
 };
 
 export const useStore = create<Store>()(
@@ -32,5 +35,6 @@ export const useStore = create<Store>()(
     setAttackRangeDisplay: (range) =>
       set(() => ({ attackRangeDisplay: range })),
     setIsGameOver: (value) => set(() => ({ isGameOver: value })),
+    setTurnCount: (value) => set(() => ({ turnCount: value })),
   }))
 );

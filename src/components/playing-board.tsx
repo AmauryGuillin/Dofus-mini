@@ -8,8 +8,6 @@ import PlayerTurnImage from "./player-turn-image";
 
 type Props = {
   setMessages: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>;
-  setTurnCount: React.Dispatch<React.SetStateAction<number>>;
-  turnCount: number;
   setBoostDuration: React.Dispatch<React.SetStateAction<number | undefined>>;
   boostDuration: number | undefined;
 };
@@ -36,8 +34,6 @@ const board: Board = {
 
 export default function PlayingBoard({
   setMessages,
-  setTurnCount,
-  turnCount,
   setBoostDuration,
   boostDuration,
 }: Props) {
@@ -52,8 +48,6 @@ export default function PlayingBoard({
     enemy,
     board,
     setMessages,
-    setTurnCount,
-    turnCount,
     setBoostDuration,
     boostDuration
   );
