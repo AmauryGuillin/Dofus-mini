@@ -1,7 +1,7 @@
-import { Compulsion } from "../../types/attack";
+import { Spell } from "../../types/attack";
 import { getRandomIntMinMax } from "../tools/getRandomNumber";
 
-export function generateCompulsion(): Compulsion {
+export function generateCompulsion(): Spell {
   return {
     attackName: "Compulsion",
     boost: getRandomIntMinMax(6, 11),

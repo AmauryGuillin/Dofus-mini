@@ -207,7 +207,7 @@ export function usePlayingBoard(
     const playerDeath1 = "./player-sound-effects/death/317_fx_584.mp3.mp3";
     const playerDeath2 = "./player-sound-effects/death/316_fx_585.mp3.mp3";
 
-    player.pv -= bouftouBite.dammage;
+    player.pv -= bouftouBite.damage!;
 
     if (player.pv <= 0) {
       playAudio(effects[getRandomInt(effects.length)], 0.2, false, true);
@@ -226,7 +226,9 @@ export function usePlayingBoard(
 
     addInfoMessage(`${enemy.name} lance ${bouftouBite.attackName}.`);
     addInfoMessage(
-      `${enemy.name} inflige ${bouftouBite.dammage} points de dommage à ${player.name}.`
+      `${enemy.name} inflige ${bouftouBite.damage!} points de dommage à ${
+        player.name
+      }.`
     );
 
     enemy.pa -= bouftouBite.cost;
@@ -254,8 +256,8 @@ export function usePlayingBoard(
 
     const distance = calculateDistance(playerCell, enemyCell);
 
-    switch (selectedSpell) {
-      case 0:
+    switch (selectedSpell.attackName) {
+      case "Pression":
         if (player.pa <= 0) {
           addErrorMessage(`Plus assez de points d'action`);
           setSelectedSpell(null);
@@ -297,13 +299,13 @@ export function usePlayingBoard(
           );
         }, 50);
 
-        enemy.pv -= pression.dammage + playerBoostAmont;
+        enemy.pv -= pression.damage! + playerBoostAmont;
         setSelectedSpell(null);
         player.pa -= pression.cost;
         setAttackRangeDisplay([]);
         addInfoMessage(`${player.name} lance ${pression.attackName}.`);
         addInfoMessage(
-          `${player.name} inflige ${pression.dammage} points de dommage à ${enemy.name}.`
+          `${player.name} inflige ${pression.damage} points de dommage à ${enemy.name}.`
         );
         return;
       default:
@@ -321,8 +323,8 @@ export function usePlayingBoard(
     const distance = calculateDistance(playerCell, playerCell);
     const compulsion = generateCompulsion();
 
-    switch (selectedSpell) {
-      case 1:
+    switch (selectedSpell.attackName) {
+      case "Compulsion":
         if (distance > compulsion.range) return;
 
         if (player.pa <= 0) {
@@ -339,7 +341,7 @@ export function usePlayingBoard(
           playAudio(boostSoundAfter, 0.1, false, true);
         }, 50);
 
-        setPlayerBoostAmont(compulsion.boost);
+        setPlayerBoostAmont(compulsion.boost!);
         addInfoMessage(`${player.name} lance ${compulsion.attackName}.`);
         addInfoMessage(
           `${player.name} gagne ${compulsion.boost} points de dommage pendant 5 tours.`

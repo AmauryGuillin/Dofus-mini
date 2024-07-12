@@ -1,4 +1,7 @@
 import { useStore } from "../hooks/store";
+import { Spell } from "../types/attack";
+import { generatePression } from "../utils/gamedesign/player-attack-generator";
+import { generateCompulsion } from "../utils/gamedesign/player-boost-generator";
 import { playClickSounds } from "../utils/music/handleAudio";
 
 export default function SpellBar() {
@@ -12,12 +15,26 @@ export default function SpellBar() {
     (state) => state.setPlayerOnAttackMode
   );
 
-  const spellsSources = [
-    "./images/player-spells/141.svg",
-    "./images/player-spells/144.svg",
+  type SpellSource = {
+    id: string;
+    image: string;
+    spell: Spell;
+  };
+
+  const spellsSources: SpellSource[] = [
+    {
+      id: crypto.randomUUID(),
+      image: "./images/player-spells/141.svg",
+      spell: generatePression(),
+    },
+    {
+      id: crypto.randomUUID(),
+      image: "./images/player-spells/144.svg",
+      spell: generateCompulsion(),
+    },
   ];
 
-  function selectSpell(spell: number) {
+  function selectSpell(spell: Spell) {
     playClickSounds(0.3);
     setSelectedSpell(spell);
     calculAttackRangeDisplay(playerCell, 2, 8, 8);
@@ -66,23 +83,24 @@ export default function SpellBar() {
   return (
     <>
       <div className="text-white h-full w-full flex items-start pt-2 pl-2 gap-1 bg-slate-950">
-        {spellsSources.map((spell, index) => (
+        {spellsSources.map((spell) => (
           <div
-            key={index}
+            key={spell.id}
             className={`w-12 h-12 flex justify-center items-center hover:bg-gray-500 hover:cursor-pointer hover:scale-105 relative ${
-              index === 1 && boostDuration !== undefined
+              spell.spell.attackName === "Compulsion" &&
+              boostDuration !== undefined
                 ? "grayscale contrast-75"
                 : ""
             }`}
-            onClick={() => selectSpell(index)}
-            onMouseDownCapture={() => selectSpell(index)}
+            onClick={() => selectSpell(spell.spell)}
           >
-            <img src={spell} className="w-80" />
-            {boostDuration !== undefined && index === 1 && (
-              <div className="absolute top-2 left-4 text-black font-extrabold text-2xl">
-                {boostDuration}
-              </div>
-            )}
+            <img src={spell.image} className="w-80" />
+            {boostDuration !== undefined &&
+              spell.spell.attackName === "Compulsion" && (
+                <div className="absolute top-2 left-4 text-black font-extrabold text-2xl">
+                  {boostDuration}
+                </div>
+              )}
           </div>
         ))}
       </div>

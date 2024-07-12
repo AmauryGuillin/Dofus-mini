@@ -1,9 +1,10 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
+import { Spell } from "../types/attack";
 
 type InitialState = {
   playerCell: string;
-  selectedSpell: number | null;
+  selectedSpell: Spell | null;
   attackRangeDisplay: string[];
   isGameOver: boolean;
   turnCount: number;
@@ -13,7 +14,7 @@ type InitialState = {
 
 type Actions = {
   setPlayerCell: (position: string) => void;
-  setSelectedSpell: (spell: number | null) => void;
+  setSelectedSpell: (spell: Spell | null) => void;
   setAttackRangeDisplay: (range: string[]) => void;
   setIsGameOver: (value: boolean) => void;
   setTurnCount: (value: number) => void;
