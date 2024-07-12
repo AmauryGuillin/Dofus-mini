@@ -348,7 +348,10 @@ export function usePlayingBoard(
         );
         setBoostDuration(5);
         setSelectedSpell(null);
+        setPlayerOnAttackMode(false);
+        setAttackRangeDisplay([]);
         player.pa -= compulsion.cost;
+
         return;
       default:
         console.log("no spell selected");

@@ -37,21 +37,25 @@ export default function SpellBar() {
   function selectSpell(spell: Spell) {
     playClickSounds(0.3);
     setSelectedSpell(spell);
-    calculAttackRangeDisplay(playerCell, 2, 8, 8);
+    calculAttackRangeDisplay(playerCell, spell, 8, 8);
     setPlayerOnAttackMode(true);
   }
 
   function calculAttackRangeDisplay(
     playerPosition: string,
-    range: number,
+    spell: Spell,
     boardWidth: number,
     boardHeight: number
   ) {
     const [playerRow, playerCol] = playerPosition.split("-").map(Number);
     const attackRangeCells = [];
 
-    for (let rowOffset = -range; rowOffset <= range; rowOffset++) {
-      for (let colOffset = -range; colOffset <= range; colOffset++) {
+    for (let rowOffset = -spell.range; rowOffset <= spell.range; rowOffset++) {
+      for (
+        let colOffset = -spell.range;
+        colOffset <= spell.range;
+        colOffset++
+      ) {
         const newRow = playerRow + rowOffset;
         const newCol = playerCol + colOffset;
 
@@ -64,20 +68,22 @@ export default function SpellBar() {
           newRow < boardHeight &&
           newCol >= 0 &&
           newCol < boardWidth &&
-          manhattanDistance <= range
+          manhattanDistance <= spell.range
         ) {
           attackRangeCells.push(`${newRow}-${newCol}`);
         }
       }
     }
 
-    // const RangewithoutPlayerCell = attackRangeCells.filter(
-    //   (e) => e != `${playerRow}-${playerCol}`
-    // );
-
-    // const RangeWithPlayerCell = attackRangeCells;
-
-    setAttackRangeDisplay(attackRangeCells);
+    if (spell.canAutoTarget) {
+      const RangeWithPlayerCell = attackRangeCells;
+      setAttackRangeDisplay(RangeWithPlayerCell);
+    } else {
+      const RangewithoutPlayerCell = attackRangeCells.filter(
+        (e) => e != `${playerRow}-${playerCol}`
+      );
+      setAttackRangeDisplay(RangewithoutPlayerCell);
+    }
   }
 
   return (
