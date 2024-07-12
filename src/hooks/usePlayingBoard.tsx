@@ -1,3 +1,4 @@
+import { Progress } from "@/components/ui/progress";
 import { useState } from "react";
 import { Board } from "../types/board";
 import { ChatInfoMessage } from "../types/chat-info-message";
@@ -130,12 +131,10 @@ export function usePlayingBoard(
                 }}
               />
               {showPlayerInfo && (
-                <div className="absolute top-[-180%] left-[-305%] w-48 h-20 border-2 transform rotate-[-45deg] skew-x-[9deg] flex flex-col justify-center items-center rounded bg-gray-600 gap-4">
+                <div className="absolute top-[-180%] left-[-305%] w-48 h-20 border-2 transform rotate-[-45deg] skew-x-[9deg] flex flex-col justify-center items-center rounded bg-gray-600 gap-4 z-[999]">
                   <div>{player.name}</div>
-                  <div className="flex justify-center items-center">
-                    <progress max="100" value={player.pv}>
-                      {player.pv}
-                    </progress>
+                  <div className="flex justify-center items-center z-10">
+                    <Progress value={player.pv} />
                   </div>
                 </div>
               )}
@@ -162,12 +161,10 @@ export function usePlayingBoard(
                 }}
               />
               {showEnemyInfo && (
-                <div className="absolute top-[-111%] left-[-210%] w-48 h-20 border-2 transform rotate-[-45deg] skew-x-[9deg] flex flex-col justify-center items-center rounded bg-gray-600 gap-4">
+                <div className="absolute top-[-111%] left-[-210%] w-48 h-20 border-2 transform rotate-[-45deg] skew-x-[9deg] flex flex-col justify-center items-center rounded bg-gray-600 gap-4 z-[999]">
                   <div>{enemy.name}</div>
                   <div className="flex justify-center items-center">
-                    <progress max="100" value={enemy.pv}>
-                      {player.pv}
-                    </progress>
+                    <Progress value={enemy.pv} />
                   </div>
                 </div>
               )}
