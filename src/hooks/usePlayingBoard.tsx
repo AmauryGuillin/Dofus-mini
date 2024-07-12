@@ -25,22 +25,18 @@ export function usePlayingBoard(
 ] {
   const playerCell = useStore((state) => state.playerCell);
   const setPlayerCell = useStore((state) => state.setPlayerCell);
-
   const selectedSpell = useStore((state) => state.selectedSpell);
   const setSelectedSpell = useStore((state) => state.setSelectedSpell);
-
   const attackRangeDisplay = useStore((state) => state.attackRangeDisplay);
   const setAttackRangeDisplay = useStore(
     (state) => state.setAttackRangeDisplay
   );
-
   const setIsGameOver = useStore((state) => state.setIsGameOver);
-
   const turnCount = useStore((state) => state.turnCount);
   const setTurnCount = useStore((state) => state.setTurnCount);
-
   const boostDuration = useStore((state) => state.boostDuration);
   const setBoostDuration = useStore((state) => state.setBoostDuration);
+  const playerOnAttackMode = useStore((state) => state.playerOnAttackMode);
 
   const [enemyCell, setEnemyCell] = useState<string>("1-6");
   const [path, setPath] = useState<string[]>([]);
@@ -389,6 +385,11 @@ export function usePlayingBoard(
 
     if (!canMove) {
       addErrorMessage(`Pas assez de PM`);
+      return;
+    }
+
+    if (playerOnAttackMode) {
+      addErrorMessage("Mode attaque activé. Ne peut pas bouger");
       return;
     }
 

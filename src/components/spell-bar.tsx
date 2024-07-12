@@ -8,6 +8,9 @@ export default function SpellBar() {
     (state) => state.setAttackRangeDisplay
   );
   const boostDuration = useStore((state) => state.boostDuration);
+  const setPlayerOnAttackMode = useStore(
+    (state) => state.setPlayerOnAttackMode
+  );
 
   const spellsSources = [
     "./images/player-spells/141.svg",
@@ -18,6 +21,7 @@ export default function SpellBar() {
     playClickSounds(0.3);
     setSelectedSpell(spell);
     calculAttackRangeDisplay(playerCell, 2, 8, 8);
+    setPlayerOnAttackMode(true);
   }
 
   function calculAttackRangeDisplay(

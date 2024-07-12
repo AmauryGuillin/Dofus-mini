@@ -8,7 +8,7 @@ type InitialState = {
   isGameOver: boolean;
   turnCount: number;
   boostDuration: number | undefined;
-  playerCanMove: boolean;
+  playerOnAttackMode: boolean;
 };
 
 type Actions = {
@@ -18,7 +18,7 @@ type Actions = {
   setIsGameOver: (value: boolean) => void;
   setTurnCount: (value: number) => void;
   setBoostDuration: (value: number | undefined) => void;
-  setPlayerCanMove: (value: boolean) => void;
+  setPlayerOnAttackMode: (value: boolean) => void;
 };
 
 type Store = InitialState & Actions;
@@ -30,7 +30,7 @@ const initialState: InitialState = {
   isGameOver: false,
   turnCount: 1,
   boostDuration: undefined,
-  playerCanMove: true,
+  playerOnAttackMode: false,
 };
 
 export const useStore = create<Store>()(
@@ -43,6 +43,7 @@ export const useStore = create<Store>()(
     setIsGameOver: (value) => set(() => ({ isGameOver: value })),
     setTurnCount: (value) => set(() => ({ turnCount: value })),
     setBoostDuration: (value) => set(() => ({ boostDuration: value })),
-    setPlayerCanMove: (value) => set(() => ({ playerCanMove: value })),
+    setPlayerOnAttackMode: (value) =>
+      set(() => ({ playerOnAttackMode: value })),
   }))
 );
