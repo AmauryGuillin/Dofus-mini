@@ -7,6 +7,7 @@ type InitialState = {
   selectedSpell: Spell | null;
   attackRangeDisplay: string[];
   isGameOver: boolean;
+  isGameWin: boolean;
   turnCount: number;
   boostDuration: number | undefined;
   playerOnAttackMode: boolean;
@@ -17,6 +18,7 @@ type Actions = {
   setSelectedSpell: (spell: Spell | null) => void;
   setAttackRangeDisplay: (range: string[]) => void;
   setIsGameOver: (value: boolean) => void;
+  setIsGameWin: (value: boolean) => void;
   setTurnCount: (value: number) => void;
   setBoostDuration: (value: number | undefined) => void;
   setPlayerOnAttackMode: (value: boolean) => void;
@@ -29,6 +31,7 @@ const initialState: InitialState = {
   selectedSpell: null,
   attackRangeDisplay: [],
   isGameOver: false,
+  isGameWin: false,
   turnCount: 1,
   boostDuration: undefined,
   playerOnAttackMode: false,
@@ -42,6 +45,7 @@ export const useStore = create<Store>()(
     setAttackRangeDisplay: (range) =>
       set(() => ({ attackRangeDisplay: range })),
     setIsGameOver: (value) => set(() => ({ isGameOver: value })),
+    setIsGameWin: (value) => set(() => ({ isGameWin: value })),
     setTurnCount: (value) => set(() => ({ turnCount: value })),
     setBoostDuration: (value) => set(() => ({ boostDuration: value })),
     setPlayerOnAttackMode: (value) =>

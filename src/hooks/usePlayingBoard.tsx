@@ -32,6 +32,7 @@ export function usePlayingBoard(
     (state) => state.setAttackRangeDisplay
   );
   const setIsGameOver = useStore((state) => state.setIsGameOver);
+  const setIsGameWin = useStore((state) => state.setIsGameWin);
   const turnCount = useStore((state) => state.turnCount);
   const setTurnCount = useStore((state) => state.setTurnCount);
   const boostDuration = useStore((state) => state.boostDuration);
@@ -276,7 +277,6 @@ export function usePlayingBoard(
           addErrorMessage("la cible est hors de portée");
           setSelectedSpell(null);
           setAttackRangeDisplay([]);
-          console.log('"ldkswjfgsodijkô"');
           return;
         }
 
@@ -307,6 +307,7 @@ export function usePlayingBoard(
         addInfoMessage(
           `${player.name} inflige ${pression.damage} points de dommage à ${enemy.name}.`
         );
+        if (enemy.pv <= 0) setIsGameWin(true);
         return;
       default:
         console.log("no spell selected");
