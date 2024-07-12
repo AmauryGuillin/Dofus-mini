@@ -37,6 +37,9 @@ export function usePlayingBoard(
   const boostDuration = useStore((state) => state.boostDuration);
   const setBoostDuration = useStore((state) => state.setBoostDuration);
   const playerOnAttackMode = useStore((state) => state.playerOnAttackMode);
+  const setPlayerOnAttackMode = useStore(
+    (state) => state.setPlayerOnAttackMode
+  );
 
   const [enemyCell, setEnemyCell] = useState<string>("1-6");
   const [path, setPath] = useState<string[]>([]);
@@ -384,12 +387,16 @@ export function usePlayingBoard(
     }
 
     if (!canMove) {
-      addErrorMessage(`Pas assez de PM`);
+      setSelectedSpell(null);
+      setAttackRangeDisplay([]);
+      setPlayerOnAttackMode(false);
       return;
     }
 
     if (playerOnAttackMode) {
-      addErrorMessage("Mode attaque activé. Ne peut pas bouger");
+      setSelectedSpell(null);
+      setAttackRangeDisplay([]);
+      setPlayerOnAttackMode(false);
       return;
     }
 
@@ -413,12 +420,19 @@ export function usePlayingBoard(
 
     let newPath: string[];
 
-    if (turn.name === player.name) {
+    if (turn.name === player.name && !playerOnAttackMode) {
       newPath = calculatePath(playerCell!, key, currentPlayer.pm, enemyCell);
-    } else {
-      newPath = calculatePath(enemyCell!, key, currentPlayer.pm, playerCell);
+      setPath(newPath);
+      return;
     }
 
+    if (turn.name === enemy.name) {
+      newPath = calculatePath(enemyCell!, key, currentPlayer.pm, playerCell);
+      setPath(newPath);
+      return;
+    }
+
+    newPath = [];
     setPath(newPath);
   }
 

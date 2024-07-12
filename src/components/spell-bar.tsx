@@ -32,7 +32,6 @@ export default function SpellBar() {
   ) {
     const [playerRow, playerCol] = playerPosition.split("-").map(Number);
     const attackRangeCells = [];
-    console.log(playerPosition);
 
     for (let rowOffset = -range; rowOffset <= range; rowOffset++) {
       for (let colOffset = -range; colOffset <= range; colOffset++) {
