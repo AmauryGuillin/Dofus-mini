@@ -7,5 +7,6 @@ export function generateCompulsion(): Compulsion {
     boost: getRandomIntMinMax(6, 11),
     range: 0,
     cost: 3,
+    canAutoTarget: true,
   };
 }

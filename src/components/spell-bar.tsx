@@ -54,6 +54,12 @@ export default function SpellBar() {
       }
     }
 
+    // const RangewithoutPlayerCell = attackRangeCells.filter(
+    //   (e) => e != `${playerRow}-${playerCol}`
+    // );
+
+    // const RangeWithPlayerCell = attackRangeCells;
+
     setAttackRangeDisplay(attackRangeCells);
   }
 

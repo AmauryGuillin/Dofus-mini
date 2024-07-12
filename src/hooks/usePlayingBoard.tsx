@@ -102,6 +102,8 @@ export function usePlayingBoard(
               ? "bg-green-500"
               : (keyL + keyR) % 2 == 0
               ? "bg-gray-800"
+              : (keyL + keyR) % 2 != 0
+              ? "bg-gray-700"
               : undefined
           }`}
           onClick={() => {
@@ -136,7 +138,13 @@ export function usePlayingBoard(
                   </div>
                 </div>
               )}
-              <div className="absolute border-4 rounded-full border-blue-400 w-full h-full" />
+              <div className="absolute border-4 rounded-full border-blue-400 w-full h-full z-10" />
+              {(keyL + keyR) % 2 == 0 && (
+                <div className="absolute bg-gray-800 w-full h-full"></div>
+              )}
+              {(keyL + keyR) % 2 != 0 && (
+                <div className="absolute bg-gray-700 w-full h-full"></div>
+              )}
             </>
           )}
 
@@ -162,11 +170,17 @@ export function usePlayingBoard(
                   </div>
                 </div>
               )}
-              <div className="absolute border-4 rounded-full border-red-400 w-full h-full" />
+              <div className="absolute border-4 rounded-full border-red-400 w-full h-full z-10" />
+              {(keyL + keyR) % 2 == 0 && (
+                <div className="absolute bg-gray-800 w-full h-full"></div>
+              )}
+              {(keyL + keyR) % 2 != 0 && (
+                <div className="absolute bg-gray-700 w-full h-full"></div>
+              )}
             </>
           )}
           {attackRangeDisplay.includes(key) && (
-            <div className="bg-blue-400 w-24 h-24 border-2 opacity-35"></div>
+            <div className="bg-blue-500 w-24 h-24 border-2 opacity-35"></div>
           )}
         </div>
       );

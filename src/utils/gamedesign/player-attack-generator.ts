@@ -7,5 +7,6 @@ export function generatePression(): Pression {
     dammage: getRandomIntMinMax(7, 25),
     range: 2,
     cost: 3,
+    canAutoTarget: false,
   };
 }

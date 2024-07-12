@@ -6,6 +6,7 @@ export interface BouftouBite {
   dammage: number;
   range: 1;
   cost: 4;
+  canAutoTarget: false;
 }
 
 export interface Pression {
@@ -14,6 +15,7 @@ export interface Pression {
   dammage: number;
   range: 2;
   cost: 3;
+  canAutoTarget: false;
 }
 
 export interface Compulsion {
@@ -22,4 +24,5 @@ export interface Compulsion {
   boost: number;
   range: 0;
   cost: 3;
+  canAutoTarget: true;
 }

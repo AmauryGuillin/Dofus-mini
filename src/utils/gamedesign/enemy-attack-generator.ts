@@ -7,5 +7,6 @@ export function generateBouftouBite(): BouftouBite {
     dammage: getRandomIntMinMax(5, 25),
     range: 1,
     cost: 4,
+    canAutoTarget: false,
   };
 }
