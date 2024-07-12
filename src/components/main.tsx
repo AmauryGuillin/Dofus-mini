@@ -16,7 +16,6 @@ export default function Main() {
   const isGameOver = useStore((state) => state.isGameOver);
   const turnCount = useStore((state) => state.turnCount);
 
-  //const [boostDuration, setBoostDuration] = useState<number>();
   const [messages, setMessages] = useState<ChatInfoMessage[]>([
     {
       type: "Info",

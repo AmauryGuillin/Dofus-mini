@@ -44,7 +44,7 @@ export default function PlayingBoard({ setMessages }: Props) {
       {isUserImageDisplayed && <PlayerTurnImage player={turn} />}
       <EnemyInfo enemy={enemy} />
       <PlayerInfo player={player} />
-      <div className="transform-gpu rotate-[30deg] -skew-x-[30deg]">
+      <div className="transform-gpu rotate-[30deg] -skew-x-[38deg]">
         {grid.map((row, rowIndex) => {
           return (
             <div key={rowIndex} className="flex">

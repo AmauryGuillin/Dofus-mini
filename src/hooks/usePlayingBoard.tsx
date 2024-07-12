@@ -144,7 +144,7 @@ export function usePlayingBoard(
             <>
               <img
                 src="./images/player-front-bottom-right.png"
-                className="absolute top-[-138%] left-[-101%] h-[232%] max-w-[140%] transform rotate-[-30deg] skew-x-[20deg] z-50"
+                className="absolute top-[-130%] left-[-111%] h-[232%] max-w-[140%] transform rotate-[-38deg] skew-x-[16deg] z-50" //-130 -111 -38 26
                 onMouseEnter={() => {
                   setShowPlayerInfo(true);
                 }}
@@ -153,7 +153,7 @@ export function usePlayingBoard(
                 }}
               />
               {showPlayerInfo && (
-                <div className="absolute top-[-176%] left-[-262%] w-48 h-20 border-2 transform rotate-[-38deg] skew-x-[11deg] flex flex-col justify-center items-center rounded bg-gray-600 gap-4">
+                <div className="absolute top-[-180%] left-[-305%] w-48 h-20 border-2 transform rotate-[-45deg] skew-x-[9deg] flex flex-col justify-center items-center rounded bg-gray-600 gap-4">
                   <div>{player.name}</div>
                   <div className="flex justify-center items-center">
                     <progress max="100" value={player.pv}>
@@ -170,7 +170,7 @@ export function usePlayingBoard(
             <>
               <img
                 src="./images/bouftou.png"
-                className="absolute top-[-53%] left-[-27%] h-[165%] max-w-[101%] transform rotate-[-30deg] skew-x-[20deg] z-50"
+                className="absolute top-[-53%] left-[-27%] h-[165%] max-w-[101%] transform rotate-[-44deg] skew-x-[8deg] z-50"
                 onMouseEnter={() => {
                   setShowEnemyInfo(true);
                 }}
@@ -179,7 +179,7 @@ export function usePlayingBoard(
                 }}
               />
               {showEnemyInfo && (
-                <div className="absolute top-[-220%] left-[-311%] w-48 h-20 border-2 transform rotate-[-38deg] skew-x-[11deg] flex flex-col justify-center items-center rounded bg-gray-600 gap-4">
+                <div className="absolute top-[-111%] left-[-210%] w-48 h-20 border-2 transform rotate-[-45deg] skew-x-[9deg] flex flex-col justify-center items-center rounded bg-gray-600 gap-4">
                   <div>{enemy.name}</div>
                   <div className="flex justify-center items-center">
                     <progress max="100" value={enemy.pv}>

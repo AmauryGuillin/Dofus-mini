@@ -65,10 +65,8 @@ export default function SpellBar() {
                 ? "grayscale contrast-75"
                 : ""
             }`}
-            //onClick={(event) => handleMouseDown(event, index)}
             onClick={() => selectSpell(index)}
             onMouseDownCapture={() => selectSpell(index)}
-            //onKeyDown={() => handleKeyPress}
           >
             <img src={spell} className="w-80" />
             {boostDuration !== undefined && index === 1 && (
