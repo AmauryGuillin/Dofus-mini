@@ -344,16 +344,20 @@ export function usePlayingBoard(
 
     if (turn.name === player.name) {
       if (key === enemyCell) {
+        if (!playerOnAttackMode) return;
         const distance = calculateDistance(playerCell, enemyCell);
         const pression = generatePression();
         if (distance <= pression.range) {
           if (enemy.pv > 0) {
             setCanMove(false);
             playerAttack();
+            setPlayerOnAttackMode(false);
             return;
           }
         } else {
+          setSelectedSpell(null);
           setAttackRangeDisplay([]);
+          setPlayerOnAttackMode(false);
           addErrorMessage(`La cible est hors de portée`);
         }
         return;
