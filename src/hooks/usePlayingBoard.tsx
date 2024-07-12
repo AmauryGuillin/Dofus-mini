@@ -1,41 +1,13 @@
 import { useState } from "react";
-import { BouftouBite, Compulsion, Pression } from "../types/attack";
 import { Board } from "../types/board";
 import { ChatInfoMessage } from "../types/chat-info-message";
 import { Player } from "../types/player";
+import { generateBouftouBite } from "../utils/gamedesign/enemy-attack-generator";
+import { generatePression } from "../utils/gamedesign/player-attack-generator";
+import { generateCompulsion } from "../utils/gamedesign/player-boost-generator";
 import { playAudio, playErrorSound } from "../utils/music/handleAudio";
-import {
-  getRandomInt,
-  getRandomIntMinMax,
-} from "../utils/tools/getRandomNumber";
+import { getRandomInt } from "../utils/tools/getRandomNumber";
 import { useStore } from "./store";
-
-function generateBouftouBite(): BouftouBite {
-  return {
-    attackName: "Morsure du Bouftou",
-    dammage: getRandomIntMinMax(5, 25),
-    range: 1,
-    cost: 4,
-  };
-}
-
-function generatePression(): Pression {
-  return {
-    attackName: "Pression",
-    dammage: getRandomIntMinMax(7, 25),
-    range: 2,
-    cost: 3,
-  };
-}
-
-function generateCompulsion(): Compulsion {
-  return {
-    attackName: "Compulsion",
-    boost: getRandomIntMinMax(6, 11),
-    range: 0,
-    cost: 3,
-  };
-}
 
 export function usePlayingBoard(
   player: Player,
