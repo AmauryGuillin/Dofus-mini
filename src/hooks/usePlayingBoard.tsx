@@ -88,6 +88,7 @@ export function usePlayingBoard(
   const grid = Array.from({ length: board.length }, (_, rowIndex) =>
     Array.from({ length: board.width }, (_, colIndex) => {
       const key = `${rowIndex}-${colIndex}`;
+      const [keyL, keyR] = key.split("-").map(Number);
 
       return (
         <div
@@ -99,6 +100,8 @@ export function usePlayingBoard(
               ? "border-2 relative"
               : path.includes(key) && key !== playerCell
               ? "bg-green-500"
+              : (keyL + keyR) % 2 == 0
+              ? "bg-gray-800"
               : undefined
           }`}
           onClick={() => {
