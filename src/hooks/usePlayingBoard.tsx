@@ -41,9 +41,7 @@ export function usePlayingBoard(
   player: Player,
   enemy: Player,
   board: Board,
-  setMessage: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>,
-  setBoostDuration: React.Dispatch<React.SetStateAction<number | undefined>>,
-  boostDuration: number | undefined
+  setMessage: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>
 ): [
   boolean,
   (entity: string) => void,
@@ -68,6 +66,9 @@ export function usePlayingBoard(
 
   const turnCount = useStore((state) => state.turnCount);
   const setTurnCount = useStore((state) => state.setTurnCount);
+
+  const boostDuration = useStore((state) => state.boostDuration);
+  const setBoostDuration = useStore((state) => state.setBoostDuration);
 
   const [enemyCell, setEnemyCell] = useState<string>("1-6");
   const [path, setPath] = useState<string[]>([]);

@@ -7,6 +7,7 @@ type InitialState = {
   attackRangeDisplay: string[];
   isGameOver: boolean;
   turnCount: number;
+  boostDuration: number | undefined;
 };
 
 type Actions = {
@@ -15,6 +16,7 @@ type Actions = {
   setAttackRangeDisplay: (range: string[]) => void;
   setIsGameOver: (value: boolean) => void;
   setTurnCount: (value: number) => void;
+  setBoostDuration: (value: number | undefined) => void;
 };
 
 type Store = InitialState & Actions;
@@ -25,6 +27,7 @@ const initialState: InitialState = {
   attackRangeDisplay: [],
   isGameOver: false,
   turnCount: 1,
+  boostDuration: undefined,
 };
 
 export const useStore = create<Store>()(
@@ -36,5 +39,6 @@ export const useStore = create<Store>()(
       set(() => ({ attackRangeDisplay: range })),
     setIsGameOver: (value) => set(() => ({ isGameOver: value })),
     setTurnCount: (value) => set(() => ({ turnCount: value })),
+    setBoostDuration: (value) => set(() => ({ boostDuration: value })),
   }))
 );

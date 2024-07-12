@@ -16,7 +16,7 @@ export default function Main() {
   const isGameOver = useStore((state) => state.isGameOver);
   const turnCount = useStore((state) => state.turnCount);
 
-  const [boostDuration, setBoostDuration] = useState<number>();
+  //const [boostDuration, setBoostDuration] = useState<number>();
   const [messages, setMessages] = useState<ChatInfoMessage[]>([
     {
       type: "Info",
@@ -32,12 +32,8 @@ export default function Main() {
     <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-900 relative">
       {!isGameOver ? (
         <>
-          <PlayingBoard
-            setMessages={setMessages}
-            setBoostDuration={setBoostDuration}
-            boostDuration={boostDuration}
-          />
-          <ActionBar messages={messages} boostDuration={boostDuration} />
+          <PlayingBoard setMessages={setMessages} />
+          <ActionBar messages={messages} />
           <div className="absolute top-2 right-0 border-2 w-14 h-14 text-white flex justify-center items-center font-bold text-xl border-r-0 rounded-tl-lg rounded-bl-lg">
             {turnCount}
           </div>

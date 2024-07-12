@@ -8,8 +8,6 @@ import PlayerTurnImage from "./player-turn-image";
 
 type Props = {
   setMessages: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>;
-  setBoostDuration: React.Dispatch<React.SetStateAction<number | undefined>>;
-  boostDuration: number | undefined;
 };
 
 const player: Player = {
@@ -32,25 +30,14 @@ const board: Board = {
   length: 8,
 };
 
-export default function PlayingBoard({
-  setMessages,
-  setBoostDuration,
-  boostDuration,
-}: Props) {
+export default function PlayingBoard({ setMessages }: Props) {
   const [
     isUserImageDisplayed,
     passTurn,
     grid,
     turn,
     //canPlayerPassTurn, //A implémenter quand IA sera OK
-  ] = usePlayingBoard(
-    player,
-    enemy,
-    board,
-    setMessages,
-    setBoostDuration,
-    boostDuration
-  );
+  ] = usePlayingBoard(player, enemy, board, setMessages);
 
   return (
     <div className="h-screen flex justify-center items-center w-full text-white relative">

@@ -1,16 +1,13 @@
 import { useStore } from "../hooks/store";
 import { playClickSounds } from "../utils/music/handleAudio";
 
-type Props = {
-  boostDuration: number | undefined;
-};
-
-export default function SpellBar({ boostDuration }: Props) {
+export default function SpellBar() {
   const playerCell = useStore((state) => state.playerCell);
   const setSelectedSpell = useStore((state) => state.setSelectedSpell);
   const setAttackRangeDisplay = useStore(
     (state) => state.setAttackRangeDisplay
   );
+  const boostDuration = useStore((state) => state.boostDuration);
 
   const spellsSources = [
     "./images/player-spells/141.svg",
