@@ -14,6 +14,7 @@ export default function SpellBar() {
   const setPlayerOnAttackMode = useStore(
     (state) => state.setPlayerOnAttackMode
   );
+  const board = useStore((state) => state.board);
 
   type SpellSource = {
     id: string;
@@ -37,7 +38,7 @@ export default function SpellBar() {
   function selectSpell(spell: Spell) {
     playClickSounds(0.3);
     setSelectedSpell(spell);
-    calculAttackRangeDisplay(playerCell, spell, 8, 8);
+    calculAttackRangeDisplay(playerCell, spell, board.width, board.length);
     setPlayerOnAttackMode(true);
   }
 
@@ -45,7 +46,7 @@ export default function SpellBar() {
     playerPosition: string,
     spell: Spell,
     boardWidth: number,
-    boardHeight: number
+    boardLength: number
   ) {
     const [playerRow, playerCol] = playerPosition.split("-").map(Number);
     const attackRangeCells = [];
@@ -65,7 +66,7 @@ export default function SpellBar() {
         // Check if the new position is within the bounds of the board and within the attack range
         if (
           newRow >= 0 &&
-          newRow < boardHeight &&
+          newRow < boardLength &&
           newCol >= 0 &&
           newCol < boardWidth &&
           manhattanDistance <= spell.range

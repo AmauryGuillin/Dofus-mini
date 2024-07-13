@@ -1,5 +1,5 @@
 export interface Board {
-  name: string;
-  width: number;
-  length: number;
+  name: "main";
+  width: 8;
+  length: 8;
 }

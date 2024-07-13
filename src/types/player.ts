@@ -1,5 +1,5 @@
 export interface Player {
-  name: string;
+  name: "Iopette" | "Bouftou";
   pv: number;
   pm: number;
   pa: number;

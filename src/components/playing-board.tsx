@@ -1,33 +1,10 @@
 import { usePlayingBoard } from "../hooks/usePlayingBoard";
-import { Board } from "../types/board";
 import { ChatInfoMessage } from "../types/chat-info-message";
-import { Player } from "../types/player";
 import EnemyInfo from "./enemy-info";
-import PlayerInfo from "./player-info";
 import PlayerTurnImage from "./player-turn-image";
 
 type Props = {
   setMessages: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>;
-};
-
-const player: Player = {
-  name: "Iopette",
-  pv: 100,
-  pm: 3,
-  pa: 6,
-};
-
-const enemy: Player = {
-  name: "Bouftou",
-  pv: 100,
-  pm: 3,
-  pa: 6,
-};
-
-const board: Board = {
-  name: "main",
-  width: 8,
-  length: 8,
 };
 
 export default function PlayingBoard({ setMessages }: Props) {
@@ -37,13 +14,12 @@ export default function PlayingBoard({ setMessages }: Props) {
     grid,
     turn,
     //canPlayerPassTurn, //A implémenter quand IA sera OK
-  ] = usePlayingBoard(player, enemy, board, setMessages);
+  ] = usePlayingBoard(setMessages);
 
   return (
     <div className="h-screen flex justify-center items-center w-full text-white relative">
       {isUserImageDisplayed && <PlayerTurnImage player={turn} />}
-      <EnemyInfo enemy={enemy} />
-      <PlayerInfo player={player} />
+      <EnemyInfo />
       <div className="transform-gpu rotate-[30deg] -skew-x-[38deg]">
         {grid.map((row, rowIndex) => {
           return (

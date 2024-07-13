@@ -1,6 +1,5 @@
 import { Progress } from "@/components/ui/progress";
 import { useState } from "react";
-import { Board } from "../types/board";
 import { ChatInfoMessage } from "../types/chat-info-message";
 import { Player } from "../types/player";
 import { generateBouftouBite } from "../utils/gamedesign/enemy-attack-generator";
@@ -11,9 +10,6 @@ import { getRandomInt } from "../utils/tools/getRandomNumber";
 import { useStore } from "./store";
 
 export function usePlayingBoard(
-  player: Player,
-  enemy: Player,
-  board: Board,
   setMessage: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>
 ): [
   boolean,
@@ -24,6 +20,12 @@ export function usePlayingBoard(
   number | undefined
   //boolean
 ] {
+  const board = useStore((state) => state.board);
+
+  const player = useStore((state) => state.player);
+
+  const enemy = useStore((state) => state.enemy);
+
   const playerCell = useStore((state) => state.playerCell);
   const setPlayerCell = useStore((state) => state.setPlayerCell);
   const selectedSpell = useStore((state) => state.selectedSpell);

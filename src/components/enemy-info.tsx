@@ -1,10 +1,8 @@
-import { Player } from "../types/player";
+import { useStore } from "@/hooks/store";
 
-type Props = {
-  enemy: Player;
-};
+export default function EnemyInfo() {
+  const enemy = useStore((state) => state.enemy);
 
-export default function EnemyInfo({ enemy }: Props) {
   return (
     <>
       <div className="absolute top-[75%] left-[75%] border-2 w-[10%] h-[20%] p-2 rounded-lg">

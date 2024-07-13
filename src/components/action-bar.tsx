@@ -1,5 +1,6 @@
 import { ChatInfoMessage } from "../types/chat-info-message";
 import Chat from "./action-bar-chat";
+import PlayerInfo from "./player-info";
 import SpellBar from "./spell-bar";
 
 type Props = {
@@ -12,7 +13,7 @@ export default function ActionBar({ messages }: Props) {
       <div className="flex justify-center items-start text-white h-full">
         <Chat messages={messages} />
         <div className="border-l-8 border-r-8 rounded-tl-2xl rounded-tr-2xl border-gray-500 w-[20%] h-64 text-center">
-          information joueur
+          <PlayerInfo />
         </div>
         <div className="w-[40%] h-64">
           <SpellBar />
