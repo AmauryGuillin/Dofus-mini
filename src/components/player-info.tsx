@@ -11,7 +11,7 @@ export default function PlayerInfo() {
         <Avatar className="h-[calc(100vh-80vh)] w-[calc(100vw-87vw)] border-4">
           <AvatarImage src="./images/1.png" />
         </Avatar>
-        <div className="absolute top-2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div className="absolute top-2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-default">
           <Heart
             strokeWidth={0.7}
             stroke="white"
