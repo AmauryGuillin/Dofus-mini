@@ -5,8 +5,10 @@ import { ChatInfoMessage } from "../types/chat-info-message";
 import { playAudio } from "../utils/music/handleAudio";
 import { getRandomInt } from "../utils/tools/getRandomNumber";
 import { reloadPage } from "../utils/tools/windowControls";
-import ActionBar from "./action-bar";
+import Chat from "./action-bar-chat";
+import PlayerInfo from "./player-info";
 import PlayingBoard from "./playing-board";
+import SpellBar from "./spell-bar";
 
 export default function Main() {
   const music1 = "./33_fig_otomai.mp3.mp3";
@@ -34,7 +36,7 @@ export default function Main() {
       <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-900 relative">
         <Confetti gravity={0.05} />
         <div className="text-white flex flex-col justify-center items-center">
-          <div className="m-10 text-3xl  font-bold">Felicitations !</div>
+          <div className="m-10 text-3xl  font-bold">Félicitations !</div>
           <div>
             <button
               className="border-2 w-fit h-14 p-3 hover:scale-110 transition hover:bg-gray-600"
@@ -69,7 +71,19 @@ export default function Main() {
     <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-900 relative">
       <>
         <PlayingBoard setMessages={setMessages} />
-        <ActionBar messages={messages} />
+
+        <div className="grid grid-cols-3 gap-6 w-full mx-auto py-12 max-h-full">
+          <div className="flex flex-col overflow-hidden h-64 border-l-0 border-2 rounded-tr-md rounded-br-md border-gray-700">
+            <Chat messages={messages} />
+          </div>
+          <div className="flex flex-col items-center justify-center">
+            <PlayerInfo />
+          </div>
+          <div className="flex flex-col items-center justify-center border-r-0 border-2 rounded-tl-md rounded-bl-md border-gray-700">
+            <SpellBar />
+          </div>
+        </div>
+        {/* <ActionBar messages={messages} /> */}
         <div className="absolute top-2 right-0 border-2 w-14 h-14 text-white flex justify-center items-center font-bold text-xl border-r-0 rounded-tl-lg rounded-bl-lg">
           {turnCount}
         </div>

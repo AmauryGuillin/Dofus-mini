@@ -89,7 +89,7 @@ export default function SpellBar() {
 
   return (
     <>
-      <div className="text-white h-full w-full flex items-start pt-2 pl-2 gap-1 bg-slate-950">
+      <div className="text-white h-full w-full flex items-start pt-2 pl-2 gap-1 bg-slate-950 rounded-tl-lg rounded-bl-lg">
         {spellsSources.map((spell) => (
           <div
             key={spell.id}
