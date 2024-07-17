@@ -7,5 +7,6 @@ export function generatePlayer(): Player {
     pm: 3,
     pa: 6,
     isTurnToPlay: true,
+    damageTaken: null,
   };
 }

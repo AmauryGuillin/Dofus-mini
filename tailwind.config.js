@@ -66,8 +66,17 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "damage-taken-animation": {
+          "75%": {
+            transform: "scale(2) translateY(-50%)",
+            rotate: "-45deg",
+            opacity: 0,
+          },
+          "100%": { transform: "scale(2)", opacity: 0 },
+        },
       },
       animation: {
+        "damage-taken-animation": "damage-taken-animation 1.2s",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },

@@ -3,6 +3,7 @@ import { Spell } from "../types/attack";
 import { generatePression } from "../utils/gamedesign/player-attack-generator";
 import { generateCompulsion } from "../utils/gamedesign/player-boost-generator";
 import { playClickSounds } from "../utils/music/handleAudio";
+import { Card, CardContent } from "./ui/card";
 
 export default function SpellBar() {
   const playerCell = useStore((state) => state.playerCell);
@@ -88,8 +89,8 @@ export default function SpellBar() {
   }
 
   return (
-    <>
-      <div className="text-white h-full w-full flex items-start pt-2 pl-2 gap-1 bg-slate-950 rounded-tl-lg rounded-bl-lg">
+    <Card className="h-full bg-transparent">
+      <CardContent className="flex h-full gap-2 overflow-auto p-2">
         {spellsSources.map((spell) => (
           <div
             key={spell.id}
@@ -110,7 +111,7 @@ export default function SpellBar() {
               )}
           </div>
         ))}
-      </div>
-    </>
+      </CardContent>
+    </Card>
   );
 }

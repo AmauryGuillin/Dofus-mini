@@ -12,12 +12,7 @@ import { useStore } from "./store";
 
 export function usePlayingBoard(
   setMessage: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>
-): [
-  boolean,
-  (entity: string) => void,
-  JSX.Element[][]
-  //boolean
-] {
+): [boolean, (entity: string) => void, JSX.Element[][]] {
   const board = useStore((state) => state.board);
 
   const player = useStore((state) => state.player);
@@ -29,6 +24,10 @@ export function usePlayingBoard(
 
   const playerCell = useStore((state) => state.playerCell);
   const setPlayerCell = useStore((state) => state.setPlayerCell);
+
+  const enemyCell = useStore((state) => state.enemyCell);
+  const setEnemyCell = useStore((state) => state.setEnemyCell);
+
   const selectedSpell = useStore((state) => state.selectedSpell);
   const setSelectedSpell = useStore((state) => state.setSelectedSpell);
   const attackRangeDisplay = useStore((state) => state.attackRangeDisplay);
@@ -46,7 +45,6 @@ export function usePlayingBoard(
     (state) => state.setPlayerOnAttackMode
   );
 
-  const [enemyCell, setEnemyCell] = useState<string>("1-6");
   const [path, setPath] = useState<string[]>([]);
   const [canMove, setCanMove] = useState<boolean>(false);
   const [isUserImageDisplayed, setIsUserImageDisplayed] =
@@ -96,7 +94,7 @@ export function usePlayingBoard(
       return (
         <div
           key={key}
-          className={`size-[3dvw] border-2 border-gray-500 hover:cursor-pointer ${
+          className={`size-[3.5dvw] border-2 border-gray-500 hover:cursor-pointer ${
             key === playerCell
               ? "border-2 relative"
               : key === enemyCell
@@ -131,8 +129,13 @@ export function usePlayingBoard(
                   setShowPlayerInfo(false);
                 }}
               />
+              {player.damageTaken && (
+                <div className="absolute -top-[57px] -left-[99px] -translate-x-1/2 -translate-y-1/2 text-red-500 font-bold text-3xl z-[999] -rotate-[47deg] skew-x-[8deg] animate-damage-taken-animation">
+                  -{player.damageTaken}
+                </div>
+              )}
               {showPlayerInfo && (
-                <div className="absolute top-[-180%] left-[-305%] w-48 h-20 border-2 transform rotate-[-45deg] skew-x-[9deg] flex flex-col justify-center items-center rounded bg-gray-600 gap-4 z-[999]">
+                <div className="absolute top-[-180%] left-[-305%] w-48 h-20 border-2 transform rotate-[-45deg] skew-x-[9deg] flex flex-col justify-center items-center rounded bg-gray-600 gap-4 z-[999] text-white">
                   <div>{player.name}</div>
                   <div className="flex justify-center items-center z-10">
                     <Progress value={player.pv} />
@@ -161,8 +164,13 @@ export function usePlayingBoard(
                   setShowEnemyInfo(false);
                 }}
               />
+              {enemy.damageTaken && (
+                <div className="absolute -top-[21px] -left-[38px] -translate-x-1/2 -translate-y-1/2 text-red-500 font-bold text-3xl z-[999] -rotate-[47deg] skew-x-[8deg] animate-damage-taken-animation">
+                  -{enemy.damageTaken}
+                </div>
+              )}
               {showEnemyInfo && (
-                <div className="absolute top-[-111%] left-[-210%] w-48 h-20 border-2 transform rotate-[-45deg] skew-x-[9deg] flex flex-col justify-center items-center rounded bg-gray-600 gap-4 z-[999]">
+                <div className="absolute top-[-216%] left-[-381%] w-48 h-20 border-2 transform rotate-[-45deg] skew-x-[9deg] flex flex-col justify-center items-center rounded bg-gray-600 gap-4 z-[999] text-white">
                   <div>{enemy.name}</div>
                   <div className="flex justify-center items-center">
                     <Progress value={enemy.pv} />
@@ -179,7 +187,7 @@ export function usePlayingBoard(
             </>
           )}
           {attackRangeDisplay.includes(key) && (
-            <div className="bg-blue-500 w-24 h-24 border-2 opacity-35"></div>
+            <div className="bg-blue-500 size-[3.5dvw] border-2 opacity-35"></div>
           )}
         </div>
       );
@@ -207,6 +215,11 @@ export function usePlayingBoard(
     const playerDeath2 = "./player-sound-effects/death/316_fx_585.mp3.mp3";
 
     setPlayerInfo("pv", (player.pv -= bouftouBite.damage!));
+    setPlayerInfo("damageTaken", bouftouBite.damage!);
+
+    setTimeout(() => {
+      setPlayerInfo("damageTaken", null);
+    }, 1100);
 
     if (player.pv <= 0) {
       playAudio(effects[getRandomInt(effects.length)], 0.2, false, true);
@@ -295,6 +308,10 @@ export function usePlayingBoard(
         }, 50);
 
         setEnemyInfo("pv", (enemy.pv -= pression.damage! + playerBoostAmont));
+        setEnemyInfo("damageTaken", pression.damage!);
+        setTimeout(() => {
+          setEnemyInfo("damageTaken", null);
+        }, 1100);
         setSelectedSpell(null);
         setPlayerInfo("pa", (player.pa -= pression.cost));
         setAttackRangeDisplay([]);

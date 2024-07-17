@@ -7,5 +7,6 @@ export function generateEnemy(): Enemy {
     pm: 3,
     pa: 6,
     isTurnToPlay: false,
+    damageTaken: null,
   };
 }

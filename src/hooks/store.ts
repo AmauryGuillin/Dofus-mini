@@ -13,6 +13,7 @@ type InitialState = {
   player: Player;
   enemy: Enemy;
   playerCell: string;
+  enemyCell: string;
   selectedSpell: Spell | null;
   attackRangeDisplay: string[];
   isGameOver: boolean;
@@ -25,11 +26,18 @@ type InitialState = {
 type Actions = {
   setBoard: (board: Board) => void;
   setPlayer: (player: Player) => void;
-  setPlayerInfo: (info: keyof Player, value: number | string | boolean) => void;
+  setPlayerInfo: (
+    info: keyof Player,
+    value: number | string | boolean | null
+  ) => void;
   setPlayerPM: (pm: number) => void; //deprecated
   setEnemy: (enemy: Enemy) => void;
-  setEnemyInfo: (info: keyof Enemy, value: number | string | boolean) => void;
+  setEnemyInfo: (
+    info: keyof Enemy,
+    value: number | string | boolean | null
+  ) => void;
   setPlayerCell: (position: string) => void;
+  setEnemyCell: (position: string) => void;
   setSelectedSpell: (spell: Spell | null) => void;
   setAttackRangeDisplay: (range: string[]) => void;
   setIsGameOver: (value: boolean) => void;
@@ -46,6 +54,7 @@ const initialState: InitialState = {
   player: generatePlayer(),
   enemy: generateEnemy(),
   playerCell: "3-3",
+  enemyCell: "3-4",
   selectedSpell: null,
   attackRangeDisplay: [],
   isGameOver: false,
@@ -67,6 +76,7 @@ export const useStore = create<Store>()(
     setEnemyInfo: (info, value) =>
       set((state) => ({ enemy: { ...state.enemy, [info]: value } })),
     setPlayerCell: (position) => set(() => ({ playerCell: position })),
+    setEnemyCell: (position) => set(() => ({ enemyCell: position })),
     setSelectedSpell: (spell) => set(() => ({ selectedSpell: spell })),
     setAttackRangeDisplay: (range) =>
       set(() => ({ attackRangeDisplay: range })),

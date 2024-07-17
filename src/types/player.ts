@@ -4,4 +4,5 @@ export interface Player {
   pm: number;
   pa: number;
   isTurnToPlay: boolean;
+  damageTaken: number | null;
 }

@@ -6,7 +6,6 @@ import { playAudio } from "../utils/music/handleAudio";
 import { getRandomInt } from "../utils/tools/getRandomNumber";
 import { reloadPage } from "../utils/tools/windowControls";
 import Chat from "./action-bar-chat";
-import PlayerInfo from "./player-info";
 import PlayingBoard from "./playing-board";
 import SpellBar from "./spell-bar";
 
@@ -68,18 +67,20 @@ export default function Main() {
     );
 
   return (
-    <div className="w-[80dvw] mx-auto h-screen flex flex-col justify-center items-center bg-gray-900 relative">
-      <>
-        <PlayingBoard setMessages={setMessages} />
+    <>
+      <div className="w-[80dvw] mx-auto h-screen flex flex-col justify-center items-center bg-gray-900 relative">
+        <div className="flex flex-1 items-center justify-center">
+          <PlayingBoard setMessages={setMessages} />
+        </div>
 
-        <div className="grid grid-cols-3 gap-6 w-full mx-auto py-12 max-h-full">
-          <div className="flex flex-col overflow-hidden h-64 border-l-0 border-2 rounded-tr-md rounded-br-md border-gray-700">
+        <div className="grid grid-cols-3 gap-6 w-full mx-auto max-h-full">
+          <div className="flex flex-col h-44 md:h-52">
             <Chat messages={messages} />
           </div>
           <div className="flex flex-col items-center justify-center">
-            <PlayerInfo />
+            {/* <PlayerInfo /> */}
           </div>
-          <div className="flex flex-col items-center justify-center border-r-0 border-2 rounded-tl-md rounded-bl-md border-gray-700">
+          <div className="flex flex-col h-44 md:h-52">
             <SpellBar />
           </div>
         </div>
@@ -87,7 +88,7 @@ export default function Main() {
         <div className="absolute top-2 right-0 border-2 w-14 h-14 text-white flex justify-center items-center font-bold text-xl border-r-0 rounded-tl-lg rounded-bl-lg">
           {turnCount}
         </div>
-      </>
-    </div>
+      </div>
+    </>
   );
 }
