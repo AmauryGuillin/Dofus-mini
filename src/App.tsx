@@ -4,7 +4,9 @@ import Main from "./components/main";
 function App() {
   return (
     <>
-      <Main />
+      <div className="bg-gray-950">
+        <Main />
+      </div>
     </>
   );
 }

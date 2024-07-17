@@ -68,7 +68,7 @@ export default function Main() {
     );
 
   return (
-    <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-900 relative">
+    <div className="w-[80dvw] mx-auto h-screen flex flex-col justify-center items-center bg-gray-900 relative">
       <>
         <PlayingBoard setMessages={setMessages} />
 

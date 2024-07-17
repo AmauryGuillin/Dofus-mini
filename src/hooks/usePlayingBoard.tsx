@@ -96,7 +96,7 @@ export function usePlayingBoard(
       return (
         <div
           key={key}
-          className={`w-24 h-24 border-2 border-gray-500 hover:cursor-pointer ${
+          className={`size-[3dvw] border-2 border-gray-500 hover:cursor-pointer ${
             key === playerCell
               ? "border-2 relative"
               : key === enemyCell
