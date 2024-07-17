@@ -1,3 +1,4 @@
+import { useStore } from "@/hooks/store";
 import { usePlayingBoard } from "../hooks/usePlayingBoard";
 import { ChatInfoMessage } from "../types/chat-info-message";
 import EnemyInfo from "./enemy-info";
@@ -8,17 +9,19 @@ type Props = {
 };
 
 export default function PlayingBoard({ setMessages }: Props) {
+  const player = useStore((state) => state.player);
+  const enemy = useStore((state) => state.enemy);
+
   const [
     isUserImageDisplayed,
     passTurn,
     grid,
-    turn,
     //canPlayerPassTurn, //A implémenter quand IA sera OK
   ] = usePlayingBoard(setMessages);
 
   return (
     <div className="h-screen flex justify-center items-center w-full text-white relative">
-      {isUserImageDisplayed && <PlayerTurnImage player={turn} />}
+      {isUserImageDisplayed && <PlayerTurnImage />}
       <EnemyInfo />
       <div className="transform-gpu rotate-[30deg] -skew-x-[38deg]">
         {grid.map((row, rowIndex) => {
@@ -35,7 +38,10 @@ export default function PlayingBoard({ setMessages }: Props) {
             // onClick={() => {
             //   if (canPlayerPassTurn) passTurn(turn.name);
             // }}
-            onClick={() => passTurn(turn.name)}
+            //onClick={() => passTurn(turn.name)}
+            onClick={() =>
+              player.isTurnToPlay ? passTurn(player.name) : passTurn(enemy.name)
+            }
           >
             Passer le tour
           </button>

@@ -1,10 +1,11 @@
-import { Player } from "@/types/player";
+import { Enemy } from "@/types/enemy";
 
-export function generateEnemy(): Player {
+export function generateEnemy(): Enemy {
   return {
     name: "Bouftou",
     pv: 100,
     pm: 3,
     pa: 6,
+    isTurnToPlay: false,
   };
 }

@@ -1,10 +1,16 @@
 import { useStore } from "@/hooks/store";
 import { Circle, Heart } from "lucide-react";
+import { useEffect } from "react";
 import { Avatar, AvatarImage } from "./ui/avatar";
 
 export default function PlayerInfo() {
   const player = useStore((state) => state.player);
 
+  useEffect(() => {
+    console.log("useeffect");
+  }, [player]);
+
+  console.log(player);
   return (
     <>
       <div className="relative flex justify-center items-center h-full">

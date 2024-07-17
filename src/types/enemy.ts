@@ -1,5 +1,5 @@
-export interface Player {
-  name: "Iopette";
+export interface Enemy {
+  name: "Bouftou";
   pv: number;
   pm: number;
   pa: number;

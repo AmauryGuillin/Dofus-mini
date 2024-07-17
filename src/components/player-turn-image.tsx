@@ -1,17 +1,20 @@
-import { Player } from "../types/player";
+import { useStore } from "@/hooks/store";
 
-type Props = {
-  player: Player;
-};
+export default function PlayerTurnImage() {
+  const player = useStore((state) => state.player);
+  const enemy = useStore((state) => state.enemy);
 
-export default function PlayerTurnImage({ player }: Props) {
   return (
     <div className="absolute top-4 left-8 w-48 h-[253px] bg-gray-300 rounded-lg">
       <div className="animate-slideInFromLeft delay-500">
-        <div className="text-black font-bold text-xl pl-2">{player.name}</div>
+        {player.isTurnToPlay ? (
+          <div className="text-black font-bold text-xl pl-2">{player.name}</div>
+        ) : (
+          <div className="text-black font-bold text-xl pl-2">{enemy.name}</div>
+        )}
       </div>
       <div className="animate-slideInFromLeft">
-        {player.name !== "Bouftou" ? (
+        {player.isTurnToPlay ? (
           <img src="./images/1.png" className="animate-slideInFromLeft" />
         ) : (
           <img src="./images/bouftou.png" className="animate-slideInFromLeft" />

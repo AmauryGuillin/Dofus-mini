@@ -1,4 +1,5 @@
 import { Progress } from "@/components/ui/progress";
+import { Enemy } from "@/types/enemy";
 import { useState } from "react";
 import { ChatInfoMessage } from "../types/chat-info-message";
 import { Player } from "../types/player";
@@ -14,17 +15,17 @@ export function usePlayingBoard(
 ): [
   boolean,
   (entity: string) => void,
-  JSX.Element[][],
-  Player,
-  number,
-  number | undefined
+  JSX.Element[][]
   //boolean
 ] {
   const board = useStore((state) => state.board);
 
   const player = useStore((state) => state.player);
+  const setPlayerInfo = useStore((state) => state.setPlayerInfo);
+  //const setPlayer = useStore((state) => state.setPlayer);
 
   const enemy = useStore((state) => state.enemy);
+  const setEnemyInfo = useStore((state) => state.setEnemyInfo);
 
   const playerCell = useStore((state) => state.playerCell);
   const setPlayerCell = useStore((state) => state.setPlayerCell);
@@ -48,28 +49,25 @@ export function usePlayingBoard(
   const [enemyCell, setEnemyCell] = useState<string>("1-6");
   const [path, setPath] = useState<string[]>([]);
   const [canMove, setCanMove] = useState<boolean>(false);
-  const [turn, setTurn] = useState<Player>(player);
   const [isUserImageDisplayed, setIsUserImageDisplayed] =
     useState<boolean>(false);
   const [playerBoostAmont, setPlayerBoostAmont] = useState<number>(0);
   const [showPlayerInfo, setShowPlayerInfo] = useState<boolean>(false);
   const [showEnemyInfo, setShowEnemyInfo] = useState<boolean>(false);
-  //const [canPlayerPassTurn, setCanPlayerPassTurn] = useState<boolean>(true);
 
   function passTurn(entity: string) {
     setSelectedSpell(null);
     if (entity === player.name) {
-      //setCanPlayerPassTurn(false);
       player.pm = 3;
       player.pa = 6;
-      setTurn(enemy);
+      setEnemyInfo("isTurnToPlay", true);
+      setPlayerInfo("isTurnToPlay", false);
       setIsUserImageDisplayed(true);
       setTimeout(() => {
         setIsUserImageDisplayed(false);
       }, 2000);
     }
     if (entity === enemy.name) {
-      //setCanPlayerPassTurn(true);
       if (boostDuration !== undefined) {
         setBoostDuration(boostDuration - 1);
         if (boostDuration === 1) {
@@ -81,7 +79,8 @@ export function usePlayingBoard(
       enemy.pa = 6;
       const audioSource = "./200_fx_69.mp3.mp3";
       playAudio(audioSource, 0.5, false, true);
-      setTurn(player);
+      setEnemyInfo("isTurnToPlay", false);
+      setPlayerInfo("isTurnToPlay", true);
       setIsUserImageDisplayed(true);
       setTimeout(() => {
         setIsUserImageDisplayed(false);
@@ -111,13 +110,13 @@ export function usePlayingBoard(
               : undefined
           }`}
           onClick={() => {
-            if (turn.name === player.name) {
+            if (player.isTurnToPlay) {
               selectCell(key, player);
             } else {
               selectCell(key, enemy);
             }
           }}
-          onMouseEnter={() => enter(key, turn)}
+          onMouseEnter={() => enter(key)}
           onMouseLeave={leave}
         >
           {key === playerCell && (
@@ -207,7 +206,7 @@ export function usePlayingBoard(
     const playerDeath1 = "./player-sound-effects/death/317_fx_584.mp3.mp3";
     const playerDeath2 = "./player-sound-effects/death/316_fx_585.mp3.mp3";
 
-    player.pv -= bouftouBite.damage!;
+    setPlayerInfo("pv", (player.pv -= bouftouBite.damage!));
 
     if (player.pv <= 0) {
       playAudio(effects[getRandomInt(effects.length)], 0.2, false, true);
@@ -231,7 +230,7 @@ export function usePlayingBoard(
       }.`
     );
 
-    enemy.pa -= bouftouBite.cost;
+    setEnemyInfo("pa", (enemy.pa -= bouftouBite.cost));
   }
 
   function playerAttack() {
@@ -242,7 +241,6 @@ export function usePlayingBoard(
     const enemyDamageSounds = [enemyDamageSound1, enemyDamageSound2];
     const playerAttackSoundBefore =
       "./player-sound-effects/attack/165_fx_720.mp3.mp3";
-    //const playerAttackSoundAfter = "./player-sound-effects/attack/372_fx_534.mp3.mp3";
     const playerAttackSoundAfter =
       "./player-sound-effects/attack/pression_attack.mp3";
     const playerAttackSoundAfter2 =
@@ -279,8 +277,6 @@ export function usePlayingBoard(
           return;
         }
 
-        //setSelectedSpell(undefined)
-
         playAudio(playerAttackSoundBefore, 0.1, false, true);
         playAudio(
           playerAttacksAfter[getRandomInt(playerAttacksAfter.length)],
@@ -298,9 +294,9 @@ export function usePlayingBoard(
           );
         }, 50);
 
-        enemy.pv -= pression.damage! + playerBoostAmont;
+        setEnemyInfo("pv", (enemy.pv -= pression.damage! + playerBoostAmont));
         setSelectedSpell(null);
-        player.pa -= pression.cost;
+        setPlayerInfo("pa", (player.pa -= pression.cost));
         setAttackRangeDisplay([]);
         addInfoMessage(`${player.name} lance ${pression.attackName}.`);
         addInfoMessage(
@@ -350,7 +346,7 @@ export function usePlayingBoard(
         setSelectedSpell(null);
         setPlayerOnAttackMode(false);
         setAttackRangeDisplay([]);
-        player.pa -= compulsion.cost;
+        setPlayerInfo("pa", (player.pa -= compulsion.cost));
 
         return;
       default:
@@ -359,12 +355,12 @@ export function usePlayingBoard(
     }
   }
 
-  function selectCell(key: string, currentPlayer: Player) {
+  function selectCell(key: string, currentPlayer: Player | Enemy) {
     if (!playerCell || !enemyCell) return;
 
     let newPath: string[];
 
-    if (turn.name === player.name) {
+    if (player.isTurnToPlay) {
       if (key === enemyCell) {
         if (!playerOnAttackMode) return;
         const distance = calculateDistance(playerCell, enemyCell);
@@ -427,12 +423,12 @@ export function usePlayingBoard(
     }
 
     if (newPath.length - 1 <= currentPlayer.pm) {
-      if (turn.name === player.name) {
+      if (player.isTurnToPlay) {
         setPlayerCell(key);
-        player.pm = player.pm - (newPath.length - 1);
+        setPlayerInfo("pm", player.pm - (newPath.length - 1));
       } else {
         setEnemyCell(key);
-        enemy.pm = enemy.pm - (newPath.length - 1);
+        setEnemyInfo("pm", enemy.pm - (newPath.length - 1));
       }
 
       setPath([]);
@@ -441,19 +437,19 @@ export function usePlayingBoard(
     }
   }
 
-  function enter(key: string, currentPlayer: Player) {
+  function enter(key: string) {
     if (!playerCell || !enemyCell) return;
 
     let newPath: string[];
 
-    if (turn.name === player.name && !playerOnAttackMode) {
-      newPath = calculatePath(playerCell!, key, currentPlayer.pm, enemyCell);
+    if (player.isTurnToPlay && !playerOnAttackMode) {
+      newPath = calculatePath(playerCell!, key, player.pm, enemyCell);
       setPath(newPath);
       return;
     }
 
-    if (turn.name === enemy.name) {
-      newPath = calculatePath(enemyCell!, key, currentPlayer.pm, playerCell);
+    if (enemy.isTurnToPlay) {
+      newPath = calculatePath(enemyCell!, key, enemy.pm, playerCell);
       setPath(newPath);
       return;
     }
@@ -556,13 +552,5 @@ export function usePlayingBoard(
     ]);
   }
 
-  return [
-    isUserImageDisplayed,
-    passTurn,
-    grid,
-    turn,
-    turnCount,
-    boostDuration,
-    //canPlayerPassTurn,
-  ];
+  return [isUserImageDisplayed, passTurn, grid];
 }
