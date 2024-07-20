@@ -319,7 +319,22 @@ export function usePlayingBoard(
         addInfoMessage(
           `${player.name} inflige ${pression.damage} points de dommage à ${enemy.name}.`
         );
-        if (enemy.pv <= 0) setIsGameWin(true);
+        if (enemy.pv <= 0) {
+          const bouftoudeathBefore =
+            "./enemy-sound-effects/death/331_fx_571.mp3.mp3";
+          const bouftoudeathAfter =
+            "./enemy-sound-effects/death/316_fx_585.mp3.mp3";
+          console.log("sound 1");
+          playAudio(bouftoudeathBefore, 0.3, false, true);
+          setTimeout(() => {
+            console.log("sound 2");
+            playAudio(bouftoudeathAfter, 0.3, false, true);
+          }, 500);
+          setTimeout(() => {
+            console.log("sound 2");
+            setIsGameWin(true);
+          }, 1500);
+        }
         return;
       default:
         console.log("no spell selected");
