@@ -120,8 +120,14 @@ export function usePlayingBoard(
           {key === playerCell && (
             <>
               <img
-                src="./images/player-front-bottom-right.png"
-                className="absolute top-[-130%] left-[-111%] h-[232%] max-w-[140%] transform rotate-[-38deg] skew-x-[16deg] z-50" //-130 -111 -38 26
+                src={player.illustration}
+                className={`absolute ${
+                  player.isBoostAnimated
+                    ? "top-[-256%] left-[-162%] h-[383%] max-w-[133%]"
+                    : player.isAttackAnimated
+                    ? "top-[-122%] left-[-110%] h-[254%] max-w-[165%]"
+                    : "top-[-82%] left-[-42%] h-[180%] max-w-[55%]"
+                } transform rotate-[-38deg] skew-x-[16deg] z-50`}
                 onMouseEnter={() => {
                   setShowPlayerInfo(true);
                 }}
@@ -263,6 +269,8 @@ export function usePlayingBoard(
       playerAttackSoundAfter2,
     ];
 
+    const initialImage = player.illustration;
+
     const pression = generatePression();
 
     const distance = calculateDistance(playerCell, enemyCell);
@@ -290,13 +298,29 @@ export function usePlayingBoard(
           return;
         }
 
-        playAudio(playerAttackSoundBefore, 0.1, false, true);
-        playAudio(
-          playerAttacksAfter[getRandomInt(playerAttacksAfter.length)],
-          0.1,
-          false,
-          true
+        setPlayerInfo("isAttackAnimated", true);
+
+        setPlayerInfo(
+          "illustration",
+          "./player-animations/attack-close-animation-1.gif"
         );
+        setTimeout(() => {
+          setPlayerInfo("illustration", initialImage);
+          setPlayerInfo("isAttackAnimated", false);
+        }, 1000);
+
+        setTimeout(() => {
+          playAudio(playerAttackSoundBefore, 0.1, false, true);
+        }, 400);
+
+        setTimeout(() => {
+          playAudio(
+            playerAttacksAfter[getRandomInt(playerAttacksAfter.length)],
+            0.1,
+            false,
+            true
+          );
+        }, 400);
 
         setTimeout(() => {
           playAudio(
@@ -305,13 +329,18 @@ export function usePlayingBoard(
             false,
             true
           );
-        }, 50);
+        }, 450);
 
         setEnemyInfo("pv", (enemy.pv -= pression.damage! + playerBoostAmont));
-        setEnemyInfo("damageTaken", pression.damage!);
+
+        setTimeout(() => {
+          setEnemyInfo("damageTaken", pression.damage!);
+        }, 400);
+
         setTimeout(() => {
           setEnemyInfo("damageTaken", null);
-        }, 1100);
+        }, 1400);
+
         setSelectedSpell(null);
         setPlayerInfo("pa", (player.pa -= pression.cost));
         setAttackRangeDisplay([]);
@@ -350,6 +379,7 @@ export function usePlayingBoard(
     const boostSoundAfter = "./player-sound-effects/boost/233_fx_66.mp3.mp3";
     const distance = calculateDistance(playerCell, playerCell);
     const compulsion = generateCompulsion();
+    const initialImage = player.illustration;
 
     switch (selectedSpell.attackName) {
       case "Compulsion":
@@ -364,10 +394,25 @@ export function usePlayingBoard(
           addErrorMessage(`Plus assez de points d'action`);
           return;
         }
-        playAudio(boostSoundBefore, 0.1, false, true);
+
+        setPlayerInfo("isBoostAnimated", true);
+
+        setPlayerInfo(
+          "illustration",
+          "./player-animations/boost-animation.gif"
+        );
+        setTimeout(() => {
+          setPlayerInfo("illustration", initialImage);
+          setPlayerInfo("isBoostAnimated", false);
+        }, 1000);
+
+        setTimeout(() => {
+          playAudio(boostSoundBefore, 0.1, false, true);
+        }, 100);
+
         setTimeout(() => {
           playAudio(boostSoundAfter, 0.1, false, true);
-        }, 50);
+        }, 150);
 
         setPlayerBoostAmont(compulsion.boost!);
         addInfoMessage(`${player.name} lance ${compulsion.attackName}.`);
