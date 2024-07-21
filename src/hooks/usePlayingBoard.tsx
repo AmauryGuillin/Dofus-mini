@@ -631,5 +631,26 @@ export function usePlayingBoard(
     ]);
   }
 
+  function calculateEnemyPositionComparedToPlayer(
+    enemyCell: string,
+    playerCell: string
+  ): string | undefined {
+    let position: "left" | "right" | "up" | "down" | undefined;
+
+    const [enemyRow, enemyCol] = enemyCell.split("-").map(Number);
+    const [playerRow, playerCol] = playerCell.split("-").map(Number);
+
+    if (enemyRow === playerRow && enemyCol < playerCol) position = "left";
+    if (enemyRow > playerRow && enemyCol < playerCol) position = "down";
+    if (enemyRow > playerRow && enemyCol === playerCol) position = "down";
+    if (enemyRow > playerRow && enemyCol > playerCol) position = "down";
+    if (enemyRow === playerRow && enemyCol > playerCol) position = "right";
+    if (enemyRow < playerRow && enemyCol > playerCol) position = "right";
+    if (enemyRow < playerRow && enemyCol === playerCol) position = "up";
+    if (enemyRow < playerRow && enemyCol < playerCol) position = "up";
+
+    return position;
+  }
+
   return [isUserImageDisplayed, passTurn, grid];
 }
