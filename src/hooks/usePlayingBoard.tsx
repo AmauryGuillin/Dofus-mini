@@ -122,12 +122,12 @@ export function usePlayingBoard(
               <img
                 src={player.illustration}
                 className={`absolute ${
-                  player.isBoostAnimated
+                  player.isCompulsionAnimated
                     ? "top-[-256%] left-[-162%] h-[383%] max-w-[133%]"
-                    : player.isAttackAnimated
-                    ? "top-[-122%] left-[-110%] h-[254%] max-w-[165%]"
+                    : player.isPressionAnimated
+                    ? "top-[-122%] left-[-130%] h-[254%] max-w-[200%]"
                     : "top-[-82%] left-[-42%] h-[180%] max-w-[55%]"
-                } transform rotate-[-38deg] skew-x-[16deg] z-50`}
+                } transform rotate-[-38deg] skew-x-[16deg] z-50 transition-transform`}
                 onMouseEnter={() => {
                   setShowPlayerInfo(true);
                 }}
@@ -298,7 +298,7 @@ export function usePlayingBoard(
           return;
         }
 
-        setPlayerInfo("isAttackAnimated", true);
+        setPlayerInfo("isPressionAnimated", true);
 
         setPlayerInfo(
           "illustration",
@@ -306,7 +306,7 @@ export function usePlayingBoard(
         );
         setTimeout(() => {
           setPlayerInfo("illustration", initialImage);
-          setPlayerInfo("isAttackAnimated", false);
+          setPlayerInfo("isPressionAnimated", false);
         }, 1000);
 
         setTimeout(() => {
@@ -395,7 +395,7 @@ export function usePlayingBoard(
           return;
         }
 
-        setPlayerInfo("isBoostAnimated", true);
+        setPlayerInfo("isCompulsionAnimated", true);
 
         setPlayerInfo(
           "illustration",
@@ -403,7 +403,7 @@ export function usePlayingBoard(
         );
         setTimeout(() => {
           setPlayerInfo("illustration", initialImage);
-          setPlayerInfo("isBoostAnimated", false);
+          setPlayerInfo("isCompulsionAnimated", false);
         }, 1000);
 
         setTimeout(() => {

@@ -6,11 +6,11 @@ export function generatePlayer(): Player {
     illustration: "./player-static/player-static-front-right.png",
     //illustration: "./player-animations/attack-close-animation-1.gif",
     pv: 100,
-    pm: 3,
-    pa: 6,
+    pm: 999,
+    pa: 999,
     isTurnToPlay: true,
     damageTaken: null,
-    isBoostAnimated: false,
-    isAttackAnimated: false,
+    isCompulsionAnimated: false,
+    isPressionAnimated: false,
   };
 }

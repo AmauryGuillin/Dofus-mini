@@ -6,6 +6,6 @@ export interface Player {
   pa: number;
   isTurnToPlay: boolean;
   damageTaken: number | null;
-  isBoostAnimated: boolean;
-  isAttackAnimated: boolean;
+  isCompulsionAnimated: boolean;
+  isPressionAnimated: boolean;
 }
