@@ -50,16 +50,11 @@ export function usePlayingBoard(
   const [showPlayerInfo, setShowPlayerInfo] = useState<boolean>(false);
   const [showEnemyInfo, setShowEnemyInfo] = useState<boolean>(false);
 
-  const playerPA = player.pa;
-  const playerPM = player.pm;
-  const enemyPA = enemy.pa;
-  const enemyMP = enemy.pm;
-
   function passTurn(entity: string) {
     setSelectedSpell(null);
     if (entity === player.name) {
-      player.pm = playerPM;
-      player.pa = playerPA;
+      player.pm = 3;
+      player.pa = 6;
       setEnemyInfo("isTurnToPlay", true);
       setPlayerInfo("isTurnToPlay", false);
       setIsUserImageDisplayed(true);
@@ -75,8 +70,8 @@ export function usePlayingBoard(
         }
       }
       setTurnCount(turnCount + 1);
-      enemy.pm = enemyMP;
-      enemy.pa = enemyPA;
+      enemy.pm = 3;
+      enemy.pa = 6;
       const audioSource = "./200_fx_69.mp3.mp3";
       playAudio(audioSource, 0.5, false, true);
       setEnemyInfo("isTurnToPlay", false);
@@ -142,7 +137,7 @@ export function usePlayingBoard(
                 }}
               />
               {player.damageTaken && (
-                <div className="absolute -top-[57px] -left-[99px] -translate-x-1/2 -translate-y-1/2 text-red-500 font-bold text-3xl z-[999] -rotate-[47deg] skew-x-[8deg] animate-damage-taken-animation">
+                <div className="absolute -top-[67%] -left-[142%] -translate-x-1/2 -translate-y-1/2 text-red-500 font-bold text-3xl z-[999] -rotate-[47deg] skew-x-[8deg] animate-damage-taken-animation">
                   -{player.damageTaken}
                 </div>
               )}
@@ -177,7 +172,7 @@ export function usePlayingBoard(
                 }}
               />
               {enemy.damageTaken && (
-                <div className="absolute -top-[21px] -left-[38px] -translate-x-1/2 -translate-y-1/2 text-red-500 font-bold text-3xl z-[999] -rotate-[47deg] skew-x-[8deg] animate-damage-taken-animation">
+                <div className="absolute -top-[29%] -left-[61%] -translate-x-1/2 -translate-y-1/2 text-red-500 font-bold text-3xl z-[999] -rotate-[47deg] skew-x-[8deg] animate-damage-taken-animation">
                   -{enemy.damageTaken}
                 </div>
               )}
@@ -275,7 +270,7 @@ export function usePlayingBoard(
       playerAttackSoundAfter2,
     ];
 
-    const initialImage = player.illustration;
+    const initialImage = "./player-static/player-static-front-right.png";
 
     const pression = generatePression();
 
@@ -309,18 +304,72 @@ export function usePlayingBoard(
           return;
         }
 
-        console.log(position);
-
-        setPlayerInfo("isPressionAnimated", true);
-
-        setPlayerInfo(
-          "illustration",
-          "./player-animations/attack-close-animation-1.gif"
-        );
-        setTimeout(() => {
-          setPlayerInfo("illustration", initialImage);
-          setPlayerInfo("isPressionAnimated", false);
-        }, 1000);
+        switch (position) {
+          case "up":
+            setPlayerInfo("isPressionAnimated", true);
+            setPlayerInfo("isIllustrationReverted", true);
+            setPlayerInfo(
+              "illustration",
+              "./player-animations/attack-close-animation-left.gif"
+            );
+            setTimeout(() => {
+              setPlayerInfo("illustration", initialImage);
+              setPlayerInfo("isPressionAnimated", false);
+              setPlayerInfo(
+                "illustration",
+                "./player-static/player-static-left.png"
+              );
+            }, 1000);
+            break;
+          case "down":
+            setPlayerInfo("isPressionAnimated", true);
+            setPlayerInfo("isIllustrationReverted", true);
+            setPlayerInfo(
+              "illustration",
+              "./player-animations/attack-close-animation-1.gif"
+            );
+            setTimeout(() => {
+              setPlayerInfo("illustration", initialImage);
+              setPlayerInfo("isPressionAnimated", false);
+              setPlayerInfo(
+                "illustration",
+                "./player-static/player-static-front-right.png"
+              );
+            }, 1000);
+            break;
+          case "left":
+            setPlayerInfo("isPressionAnimated", true);
+            setPlayerInfo("isIllustrationReverted", false);
+            setPlayerInfo(
+              "illustration",
+              "./player-animations/attack-close-animation-left.gif"
+            );
+            setTimeout(() => {
+              setPlayerInfo("illustration", initialImage);
+              setPlayerInfo("isPressionAnimated", false);
+              setPlayerInfo(
+                "illustration",
+                "./player-static/player-static-left.png"
+              );
+            }, 1000);
+            break;
+          case "right":
+            console.log("ici");
+            setPlayerInfo("isPressionAnimated", true);
+            setPlayerInfo("isIllustrationReverted", false);
+            setPlayerInfo(
+              "illustration",
+              "./player-animations/attack-close-animation-1.gif"
+            );
+            setTimeout(() => {
+              setPlayerInfo("illustration", initialImage);
+              setPlayerInfo("isPressionAnimated", false);
+            }, 1000);
+            break;
+          default:
+            console.log("nothing to do");
+            break;
+        }
 
         setTimeout(() => {
           playAudio(playerAttackSoundBefore, 0.1, false, true);
@@ -555,6 +604,9 @@ export function usePlayingBoard(
               "illustration",
               "./player-static/player-static-front-right.png"
             );
+            break;
+          default:
+            console.log("nothing to do");
             break;
         }
         setPlayerInfo("position", key);
