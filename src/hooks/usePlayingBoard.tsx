@@ -22,9 +22,6 @@ export function usePlayingBoard(
   const enemy = useStore((state) => state.enemy);
   const setEnemyInfo = useStore((state) => state.setEnemyInfo);
 
-  const playerCell = useStore((state) => state.playerCell);
-  const setPlayerCell = useStore((state) => state.setPlayerCell);
-
   const enemyCell = useStore((state) => state.enemyCell);
   const setEnemyCell = useStore((state) => state.setEnemyCell);
 
@@ -95,11 +92,11 @@ export function usePlayingBoard(
         <div
           key={key}
           className={`size-[3.5dvw] border-2 border-gray-500 hover:cursor-pointer ${
-            key === playerCell
+            key === player.position
               ? "border-2 relative"
               : key === enemyCell
               ? "border-2 relative"
-              : path.includes(key) && key !== playerCell
+              : path.includes(key) && key !== player.position
               ? "bg-green-500"
               : (keyL + keyR) % 2 == 0
               ? "bg-gray-800"
@@ -117,7 +114,7 @@ export function usePlayingBoard(
           onMouseEnter={() => enter(key)}
           onMouseLeave={leave}
         >
-          {key === playerCell && (
+          {key === player.position && (
             <>
               <img
                 src={player.illustration}
@@ -125,9 +122,13 @@ export function usePlayingBoard(
                   player.isCompulsionAnimated
                     ? "top-[-256%] left-[-162%] h-[383%] max-w-[133%]"
                     : player.isPressionAnimated
-                    ? "top-[-122%] left-[-130%] h-[254%] max-w-[200%]"
+                    ? "top-[-122%] left-[-130%] h-[254%] max-w-[200%]" //transform -scale-x-100 to attack down
                     : "top-[-82%] left-[-42%] h-[180%] max-w-[55%]"
-                } transform rotate-[-38deg] skew-x-[16deg] z-50 transition-transform`}
+                } transform rotate-[-38deg] skew-x-[16deg] z-50 ${
+                  player.isIllustrationReverted
+                    ? "transform -scale-x-100"
+                    : undefined
+                }`}
                 onMouseEnter={() => {
                   setShowPlayerInfo(true);
                 }}
@@ -207,7 +208,7 @@ export function usePlayingBoard(
 
     if (enemy.pa < bouftouBite.cost) return;
 
-    const distance = calculateDistance(enemyCell, playerCell);
+    const distance = calculateDistance(enemyCell, player.position);
 
     if (distance > bouftouBite.range) {
       addErrorMessage(`La cible est hors de portée`);
@@ -273,7 +274,12 @@ export function usePlayingBoard(
 
     const pression = generatePression();
 
-    const distance = calculateDistance(playerCell, enemyCell);
+    const distance = calculateDistance(player.position, enemyCell);
+
+    const position = calculateEnemyPositionComparedToPlayer(
+      enemyCell,
+      player.position
+    );
 
     switch (selectedSpell.attackName) {
       case "Pression":
@@ -297,6 +303,8 @@ export function usePlayingBoard(
           setAttackRangeDisplay([]);
           return;
         }
+
+        console.log(position);
 
         setPlayerInfo("isPressionAnimated", true);
 
@@ -379,7 +387,7 @@ export function usePlayingBoard(
     if (selectedSpell === null) return;
     const boostSoundBefore = "./player-sound-effects/boost/iop_boost.mp3";
     const boostSoundAfter = "./player-sound-effects/boost/233_fx_66.mp3.mp3";
-    const distance = calculateDistance(playerCell, playerCell);
+    const distance = calculateDistance(player.position, player.position);
     const compulsion = generateCompulsion();
     const initialImage = player.illustration;
 
@@ -435,14 +443,14 @@ export function usePlayingBoard(
   }
 
   function selectCell(key: string, currentPlayer: Player | Enemy) {
-    if (!playerCell || !enemyCell) return;
+    if (!player.position || !enemyCell) return;
 
     let newPath: string[];
 
     if (player.isTurnToPlay) {
       if (key === enemyCell) {
         if (!playerOnAttackMode) return;
-        const distance = calculateDistance(playerCell, enemyCell);
+        const distance = calculateDistance(player.position, enemyCell);
         const pression = generatePression();
         if (distance <= pression.range) {
           if (enemy.pv > 0) {
@@ -460,7 +468,7 @@ export function usePlayingBoard(
         return;
       }
 
-      if (key === playerCell) {
+      if (key === player.position) {
         if (boostDuration !== undefined) {
           addErrorMessage("Action impossible");
           return;
@@ -469,10 +477,15 @@ export function usePlayingBoard(
         setSelectedSpell(null);
         return;
       }
-      newPath = calculatePath(playerCell!, key, currentPlayer.pm, enemyCell);
+      newPath = calculatePath(
+        player.position!,
+        key,
+        currentPlayer.pm,
+        enemyCell
+      );
     } else {
-      if (key === playerCell) {
-        const distance = calculateDistance(enemyCell, playerCell);
+      if (key === player.position) {
+        const distance = calculateDistance(enemyCell, player.position);
         const bouftouBite = generateBouftouBite();
         if (distance <= bouftouBite.range) {
           if (player.pv > 0) {
@@ -484,7 +497,12 @@ export function usePlayingBoard(
         }
         return;
       }
-      newPath = calculatePath(enemyCell!, key, currentPlayer.pm, playerCell);
+      newPath = calculatePath(
+        enemyCell!,
+        key,
+        currentPlayer.pm,
+        player.position
+      );
     }
 
     if (!canMove) {
@@ -503,7 +521,38 @@ export function usePlayingBoard(
 
     if (newPath.length - 1 <= currentPlayer.pm) {
       if (player.isTurnToPlay) {
-        setPlayerCell(key);
+        const position = handlePlayerMovementDirection(player.position, key);
+        switch (position) {
+          case "up":
+            setPlayerInfo("isIllustrationReverted", true);
+            setPlayerInfo(
+              "illustration",
+              "./player-static/player-static-left.png"
+            );
+            break;
+          case "down":
+            setPlayerInfo("isIllustrationReverted", true);
+            setPlayerInfo(
+              "illustration",
+              "./player-static/player-static-front-right.png"
+            );
+            break;
+          case "left":
+            setPlayerInfo("isIllustrationReverted", false);
+            setPlayerInfo(
+              "illustration",
+              "./player-static/player-static-left.png"
+            );
+            break;
+          case "right":
+            setPlayerInfo("isIllustrationReverted", false);
+            setPlayerInfo(
+              "illustration",
+              "./player-static/player-static-front-right.png"
+            );
+            break;
+        }
+        setPlayerInfo("position", key);
         setPlayerInfo("pm", player.pm - (newPath.length - 1));
       } else {
         setEnemyCell(key);
@@ -517,18 +566,18 @@ export function usePlayingBoard(
   }
 
   function enter(key: string) {
-    if (!playerCell || !enemyCell) return;
+    if (!player.position || !enemyCell) return;
 
     let newPath: string[];
 
     if (player.isTurnToPlay && !playerOnAttackMode) {
-      newPath = calculatePath(playerCell!, key, player.pm, enemyCell);
+      newPath = calculatePath(player.position!, key, player.pm, enemyCell);
       setPath(newPath);
       return;
     }
 
     if (enemy.isTurnToPlay) {
-      newPath = calculatePath(enemyCell!, key, enemy.pm, playerCell);
+      newPath = calculatePath(enemyCell!, key, enemy.pm, player.position);
       setPath(newPath);
       return;
     }
@@ -648,6 +697,33 @@ export function usePlayingBoard(
     if (enemyRow < playerRow && enemyCol > playerCol) position = "right";
     if (enemyRow < playerRow && enemyCol === playerCol) position = "up";
     if (enemyRow < playerRow && enemyCol < playerCol) position = "up";
+
+    return position;
+  }
+
+  function handlePlayerMovementDirection(
+    playerCell: string,
+    targetCell: string
+  ): string | undefined {
+    let position: "left" | "right" | "up" | "down" | undefined;
+    const [playerRow, playerCol] = playerCell.split("-").map(Number);
+    const [targetCellRow, targetCellCol] = targetCell.split("-").map(Number);
+
+    if (targetCellRow === playerRow && targetCellCol < playerCol)
+      position = "left";
+    if (targetCellRow > playerRow && targetCellCol < playerCol)
+      position = "down";
+    if (targetCellRow > playerRow && targetCellCol === playerCol)
+      position = "down";
+    if (targetCellRow > playerRow && targetCellCol > playerCol)
+      position = "down";
+    if (targetCellRow === playerRow && targetCellCol > playerCol)
+      position = "right";
+    if (targetCellRow < playerRow && targetCellCol > playerCol)
+      position = "right";
+    if (targetCellRow < playerRow && targetCellCol === playerCol)
+      position = "up";
+    if (targetCellRow < playerRow && targetCellCol < playerCol) position = "up";
 
     return position;
   }
