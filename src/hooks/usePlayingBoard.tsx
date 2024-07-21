@@ -17,13 +17,9 @@ export function usePlayingBoard(
 
   const player = useStore((state) => state.player);
   const setPlayerInfo = useStore((state) => state.setPlayerInfo);
-  //const setPlayer = useStore((state) => state.setPlayer);
 
   const enemy = useStore((state) => state.enemy);
   const setEnemyInfo = useStore((state) => state.setEnemyInfo);
-
-  const enemyCell = useStore((state) => state.enemyCell);
-  const setEnemyCell = useStore((state) => state.setEnemyCell);
 
   const selectedSpell = useStore((state) => state.selectedSpell);
   const setSelectedSpell = useStore((state) => state.setSelectedSpell);
@@ -94,7 +90,7 @@ export function usePlayingBoard(
           className={`size-[3.5dvw] border-2 border-gray-500 hover:cursor-pointer ${
             key === player.position
               ? "border-2 relative"
-              : key === enemyCell
+              : key === enemy.position
               ? "border-2 relative"
               : path.includes(key) && key !== player.position
               ? "bg-green-500"
@@ -159,10 +155,10 @@ export function usePlayingBoard(
             </>
           )}
 
-          {key === enemyCell && (
+          {key === enemy.position && (
             <>
               <img
-                src="./images/bouftou.png"
+                src={enemy.illustration}
                 className="absolute top-[-53%] left-[-27%] h-[165%] max-w-[101%] transform rotate-[-44deg] skew-x-[8deg] z-50"
                 onMouseEnter={() => {
                   setShowEnemyInfo(true);
@@ -208,7 +204,7 @@ export function usePlayingBoard(
 
     if (enemy.pa < bouftouBite.cost) return;
 
-    const distance = calculateDistance(enemyCell, player.position);
+    const distance = calculateDistance(enemy.position, player.position);
 
     if (distance > bouftouBite.range) {
       addErrorMessage(`La cible est hors de portée`);
@@ -274,10 +270,10 @@ export function usePlayingBoard(
 
     const pression = generatePression();
 
-    const distance = calculateDistance(player.position, enemyCell);
+    const distance = calculateDistance(player.position, enemy.position);
 
     const position = calculateEnemyPositionComparedToPlayer(
-      enemyCell,
+      enemy.position,
       player.position
     );
 
@@ -497,14 +493,14 @@ export function usePlayingBoard(
   }
 
   function selectCell(key: string, currentPlayer: Player | Enemy) {
-    if (!player.position || !enemyCell) return;
+    if (!player.position || !enemy.position) return;
 
     let newPath: string[];
 
     if (player.isTurnToPlay) {
-      if (key === enemyCell) {
+      if (key === enemy.position) {
         if (!playerOnAttackMode) return;
-        const distance = calculateDistance(player.position, enemyCell);
+        const distance = calculateDistance(player.position, enemy.position);
         const pression = generatePression();
         if (distance <= pression.range) {
           if (enemy.pv > 0) {
@@ -535,11 +531,11 @@ export function usePlayingBoard(
         player.position!,
         key,
         currentPlayer.pm,
-        enemyCell
+        enemy.position
       );
     } else {
       if (key === player.position) {
-        const distance = calculateDistance(enemyCell, player.position);
+        const distance = calculateDistance(enemy.position, player.position);
         const bouftouBite = generateBouftouBite();
         if (distance <= bouftouBite.range) {
           if (player.pv > 0) {
@@ -552,7 +548,7 @@ export function usePlayingBoard(
         return;
       }
       newPath = calculatePath(
-        enemyCell!,
+        enemy.position!,
         key,
         currentPlayer.pm,
         player.position
@@ -612,7 +608,7 @@ export function usePlayingBoard(
         setPlayerInfo("position", key);
         setPlayerInfo("pm", player.pm - (newPath.length - 1));
       } else {
-        setEnemyCell(key);
+        setEnemyInfo("position", key);
         setEnemyInfo("pm", enemy.pm - (newPath.length - 1));
       }
 
@@ -623,18 +619,18 @@ export function usePlayingBoard(
   }
 
   function enter(key: string) {
-    if (!player.position || !enemyCell) return;
+    if (!player.position || !enemy.position) return;
 
     let newPath: string[];
 
     if (player.isTurnToPlay && !playerOnAttackMode) {
-      newPath = calculatePath(player.position!, key, player.pm, enemyCell);
+      newPath = calculatePath(player.position!, key, player.pm, enemy.position);
       setPath(newPath);
       return;
     }
 
     if (enemy.isTurnToPlay) {
-      newPath = calculatePath(enemyCell!, key, enemy.pm, player.position);
+      newPath = calculatePath(enemy.position!, key, enemy.pm, player.position);
       setPath(newPath);
       return;
     }

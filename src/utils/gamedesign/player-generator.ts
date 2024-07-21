@@ -5,7 +5,7 @@ export function generatePlayer(): Player {
     name: "Iopette",
     illustration: "./player-static/player-static-front-right.png",
     //illustration: "./player-animations/attack-close-animation-1.gif",
-    position: "3-3",
+    position: "6-1",
     orientation: "right",
     pv: 100,
     pm: 3,
