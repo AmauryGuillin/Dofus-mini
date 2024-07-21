@@ -334,7 +334,7 @@ export function usePlayingBoard(
         setEnemyInfo("pv", (enemy.pv -= pression.damage! + playerBoostAmont));
 
         setTimeout(() => {
-          setEnemyInfo("damageTaken", pression.damage!);
+          setEnemyInfo("damageTaken", pression.damage! + playerBoostAmont);
         }, 400);
 
         setTimeout(() => {
@@ -346,7 +346,9 @@ export function usePlayingBoard(
         setAttackRangeDisplay([]);
         addInfoMessage(`${player.name} lance ${pression.attackName}.`);
         addInfoMessage(
-          `${player.name} inflige ${pression.damage} points de dommage à ${enemy.name}.`
+          `${player.name} inflige ${
+            pression.damage! + playerBoostAmont
+          } points de dommage à ${enemy.name}.`
         );
         if (enemy.pv <= 0) {
           const bouftoudeathBefore =
