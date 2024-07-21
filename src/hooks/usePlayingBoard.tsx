@@ -50,11 +50,16 @@ export function usePlayingBoard(
   const [showPlayerInfo, setShowPlayerInfo] = useState<boolean>(false);
   const [showEnemyInfo, setShowEnemyInfo] = useState<boolean>(false);
 
+  const playerPA = player.pa;
+  const playerPM = player.pm;
+  const enemyPA = enemy.pa;
+  const enemyMP = enemy.pm;
+
   function passTurn(entity: string) {
     setSelectedSpell(null);
     if (entity === player.name) {
-      player.pm = 3;
-      player.pa = 6;
+      player.pm = playerPM;
+      player.pa = playerPA;
       setEnemyInfo("isTurnToPlay", true);
       setPlayerInfo("isTurnToPlay", false);
       setIsUserImageDisplayed(true);
@@ -70,8 +75,8 @@ export function usePlayingBoard(
         }
       }
       setTurnCount(turnCount + 1);
-      enemy.pm = 3;
-      enemy.pa = 6;
+      enemy.pm = enemyMP;
+      enemy.pa = enemyPA;
       const audioSource = "./200_fx_69.mp3.mp3";
       playAudio(audioSource, 0.5, false, true);
       setEnemyInfo("isTurnToPlay", false);
