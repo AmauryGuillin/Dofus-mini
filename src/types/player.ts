@@ -9,6 +9,9 @@ export interface Player {
   isTurnToPlay: boolean;
   damageTaken: number | null;
   isIllustrationReverted: boolean;
+  isIllustrationPositionCorrectedDown: boolean;
+  isIllustrationPositionCorrectedUp: boolean;
+  isIllustrationPositionCorrectedLeft: boolean;
   isCompulsionAnimated: boolean;
   isPressionAnimated: boolean;
 }

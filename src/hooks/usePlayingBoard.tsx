@@ -118,8 +118,24 @@ export function usePlayingBoard(
                   player.isCompulsionAnimated
                     ? "top-[-256%] left-[-162%] h-[383%] max-w-[133%]"
                     : player.isPressionAnimated
-                    ? "top-[-122%] left-[-130%] h-[254%] max-w-[200%]" //transform -scale-x-100 to attack down
-                    : "top-[-82%] left-[-42%] h-[180%] max-w-[55%]"
+                    ? `${
+                        player.isIllustrationPositionCorrectedUp
+                          ? "top-[-121%] left-[-144%]"
+                          : player.isIllustrationPositionCorrectedDown
+                          ? "top-[-137%] left-[-122%]"
+                          : player.isIllustrationPositionCorrectedLeft
+                          ? "top-[-143%] left-[-115%]"
+                          : "top-[-122%] left-[-130%]"
+                      }   h-[254%] max-w-[200%]`
+                    : `${
+                        player.isIllustrationPositionCorrectedUp
+                          ? "top-[-90%] left-[-42%]"
+                          : player.isIllustrationPositionCorrectedDown
+                          ? "top-[-87%] left-[-42%]"
+                          : player.isIllustrationPositionCorrectedLeft
+                          ? "top-[-82%] left-[-49%]"
+                          : "top-[-82%] left-[-42%]"
+                      }  h-[180%] max-w-[55%]`
                 } transform rotate-[-38deg] skew-x-[16deg] z-50 ${
                   player.isIllustrationReverted
                     ? "transform -scale-x-100"
@@ -304,6 +320,9 @@ export function usePlayingBoard(
           case "up":
             setPlayerInfo("isPressionAnimated", true);
             setPlayerInfo("isIllustrationReverted", true);
+            setPlayerInfo("isIllustrationPositionCorrectedUp", true);
+            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
             setPlayerInfo(
               "illustration",
               "./player-animations/attack-close-animation-left.gif"
@@ -320,6 +339,9 @@ export function usePlayingBoard(
           case "down":
             setPlayerInfo("isPressionAnimated", true);
             setPlayerInfo("isIllustrationReverted", true);
+            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+            setPlayerInfo("isIllustrationPositionCorrectedDown", true);
+            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
             setPlayerInfo(
               "illustration",
               "./player-animations/attack-close-animation-1.gif"
@@ -336,6 +358,9 @@ export function usePlayingBoard(
           case "left":
             setPlayerInfo("isPressionAnimated", true);
             setPlayerInfo("isIllustrationReverted", false);
+            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+            setPlayerInfo("isIllustrationPositionCorrectedLeft", true);
             setPlayerInfo(
               "illustration",
               "./player-animations/attack-close-animation-left.gif"
@@ -353,6 +378,9 @@ export function usePlayingBoard(
             console.log("ici");
             setPlayerInfo("isPressionAnimated", true);
             setPlayerInfo("isIllustrationReverted", false);
+            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
             setPlayerInfo(
               "illustration",
               "./player-animations/attack-close-animation-1.gif"
@@ -575,6 +603,9 @@ export function usePlayingBoard(
         switch (position) {
           case "up":
             setPlayerInfo("isIllustrationReverted", true);
+            setPlayerInfo("isIllustrationPositionCorrectedUp", true);
+            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
             setPlayerInfo(
               "illustration",
               "./player-static/player-static-left.png"
@@ -582,6 +613,9 @@ export function usePlayingBoard(
             break;
           case "down":
             setPlayerInfo("isIllustrationReverted", true);
+            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+            setPlayerInfo("isIllustrationPositionCorrectedDown", true);
+            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
             setPlayerInfo(
               "illustration",
               "./player-static/player-static-front-right.png"
@@ -589,6 +623,9 @@ export function usePlayingBoard(
             break;
           case "left":
             setPlayerInfo("isIllustrationReverted", false);
+            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+            setPlayerInfo("isIllustrationPositionCorrectedLeft", true);
             setPlayerInfo(
               "illustration",
               "./player-static/player-static-left.png"
@@ -596,6 +633,9 @@ export function usePlayingBoard(
             break;
           case "right":
             setPlayerInfo("isIllustrationReverted", false);
+            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
             setPlayerInfo(
               "illustration",
               "./player-static/player-static-front-right.png"
