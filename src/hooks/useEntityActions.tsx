@@ -202,7 +202,6 @@ export function useEntityActions(
             }, 1000);
             break;
           case "right":
-            console.log("ici");
             setPlayerInfo("isIllustrationReverted", false);
             setPlayerInfo("isIllustrationPositionCorrectedUp", false);
             setPlayerInfo("isIllustrationPositionCorrectedDown", false);
@@ -217,7 +216,6 @@ export function useEntityActions(
             }, 1000);
             break;
           default:
-            console.log("nothing to do");
             break;
         }
 
@@ -267,20 +265,16 @@ export function useEntityActions(
             "./enemy-sound-effects/death/331_fx_571.mp3.mp3";
           const bouftoudeathAfter =
             "./enemy-sound-effects/death/316_fx_585.mp3.mp3";
-          console.log("sound 1");
           playAudio(bouftoudeathBefore, 0.3, false, true);
           setTimeout(() => {
-            console.log("sound 2");
             playAudio(bouftoudeathAfter, 0.3, false, true);
           }, 500);
           setTimeout(() => {
-            console.log("sound 2");
             setIsGameWin(true);
           }, 1500);
         }
         return;
       default:
-        console.log("no spell selected");
         setSelectedSpell(null);
         return;
     }

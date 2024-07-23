@@ -1,14 +1,9 @@
 import { useStore } from "@/hooks/store";
-import {Circle, Heart} from "lucide-react";
-import { useEffect } from "react";
+import { Circle, Heart } from "lucide-react";
 import { Avatar, AvatarImage } from "./ui/avatar";
 
 export default function PlayerInfo() {
   const player = useStore((state) => state.player);
-
-  useEffect(() => {
-    console.log("useeffect");
-  }, [player]);
 
   return (
     <>
@@ -26,26 +21,26 @@ export default function PlayerInfo() {
             {player.pv}
           </span>
         </div>
-          <div className="cursor-default">
-                <Circle
-                  strokeWidth={1.25}
-                  stroke="blue"
-                  className="absolute top-3 left-0 -translate-x-1/2 -translate-y-1/2 size-16"
-                />
-                <span className="absolute top-3 left-0 -translate-x-1/2 -translate-y-1/2 font-semibold text-2xl text-blue-600">
-                  {player.pa}
-                </span>
-          </div>
-          <div className="cursor-default">
-                <Circle
-                  strokeWidth={1.25}
-                  stroke="green"
-                  className="absolute top-20 -left-7 -translate-x-1/2 -translate-y-1/2 size-16"
-                />
-                <span className="absolute top-20 -left-7 -translate-x-1/2 -translate-y-1/2 font-semibold text-2xl text-green-500">
-                  {player.pm}
-                </span>
-          </div>
+        <div className="cursor-default">
+          <Circle
+            strokeWidth={1.25}
+            stroke="blue"
+            className="absolute top-3 left-0 -translate-x-1/2 -translate-y-1/2 size-16"
+          />
+          <span className="absolute top-3 left-0 -translate-x-1/2 -translate-y-1/2 font-semibold text-2xl text-blue-600">
+            {player.pa}
+          </span>
+        </div>
+        <div className="cursor-default">
+          <Circle
+            strokeWidth={1.25}
+            stroke="green"
+            className="absolute top-20 -left-7 -translate-x-1/2 -translate-y-1/2 size-16"
+          />
+          <span className="absolute top-20 -left-7 -translate-x-1/2 -translate-y-1/2 font-semibold text-2xl text-green-500">
+            {player.pm}
+          </span>
+        </div>
       </div>
     </>
   );
