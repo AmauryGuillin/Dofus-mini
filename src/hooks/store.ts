@@ -21,6 +21,8 @@ type InitialState = {
   turnCount: number;
   boostDuration: number | undefined;
   playerOnAttackMode: boolean;
+  canMove: boolean;
+  path: string[];
 };
 
 type Actions = {
@@ -45,6 +47,8 @@ type Actions = {
   setTurnCount: (value: number) => void;
   setBoostDuration: (value: number | undefined) => void;
   setPlayerOnAttackMode: (value: boolean) => void;
+  setCanMove: (value: boolean) => void;
+  setPath: (value: string[]) => void;
 };
 
 type Store = InitialState & Actions;
@@ -62,6 +66,8 @@ const initialState: InitialState = {
   turnCount: 1,
   boostDuration: undefined,
   playerOnAttackMode: false,
+  canMove: false,
+  path: [],
 };
 
 export const useStore = create<Store>()(
@@ -86,5 +92,7 @@ export const useStore = create<Store>()(
     setBoostDuration: (value) => set(() => ({ boostDuration: value })),
     setPlayerOnAttackMode: (value) =>
       set(() => ({ playerOnAttackMode: value })),
+    setCanMove: (value) => set(() => ({ canMove: value })),
+    setPath: (value) => set(() => ({ path: value })),
   }))
 );
