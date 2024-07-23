@@ -6,7 +6,7 @@ import { playClickSounds } from "../utils/music/handleAudio";
 import { Card, CardContent } from "./ui/card";
 
 export default function SpellBar() {
-  const playerCell = useStore((state) => state.playerCell);
+  const player = useStore((state) => state.player);
   const setSelectedSpell = useStore((state) => state.setSelectedSpell);
   const setAttackRangeDisplay = useStore(
     (state) => state.setAttackRangeDisplay
@@ -39,7 +39,7 @@ export default function SpellBar() {
   function selectSpell(spell: Spell) {
     playClickSounds(0.3);
     setSelectedSpell(spell);
-    calculAttackRangeDisplay(playerCell, spell, board.width, board.length);
+    calculAttackRangeDisplay(player.position, spell, board.width, board.length);
     setPlayerOnAttackMode(true);
   }
 

@@ -17,16 +17,9 @@ export function usePlayingBoard(
 
   const player = useStore((state) => state.player);
   const setPlayerInfo = useStore((state) => state.setPlayerInfo);
-  //const setPlayer = useStore((state) => state.setPlayer);
 
   const enemy = useStore((state) => state.enemy);
   const setEnemyInfo = useStore((state) => state.setEnemyInfo);
-
-  const playerCell = useStore((state) => state.playerCell);
-  const setPlayerCell = useStore((state) => state.setPlayerCell);
-
-  const enemyCell = useStore((state) => state.enemyCell);
-  const setEnemyCell = useStore((state) => state.setEnemyCell);
 
   const selectedSpell = useStore((state) => state.selectedSpell);
   const setSelectedSpell = useStore((state) => state.setSelectedSpell);
@@ -34,6 +27,8 @@ export function usePlayingBoard(
   const setAttackRangeDisplay = useStore(
     (state) => state.setAttackRangeDisplay
   );
+  const pmRangeDisplay = useStore((state) => state.pmRangeDisplay);
+  const setPMRangeDisplay = useStore((state) => state.setPMRangeDisplay);
   const setIsGameOver = useStore((state) => state.setIsGameOver);
   const setIsGameWin = useStore((state) => state.setIsGameWin);
   const turnCount = useStore((state) => state.turnCount);
@@ -52,6 +47,8 @@ export function usePlayingBoard(
   const [playerBoostAmont, setPlayerBoostAmont] = useState<number>(0);
   const [showPlayerInfo, setShowPlayerInfo] = useState<boolean>(false);
   const [showEnemyInfo, setShowEnemyInfo] = useState<boolean>(false);
+  const [showPlayerPM, setShowPlayerPM] = useState<boolean>(false);
+  const [showEnemyPM, setShowEnemyPM] = useState<boolean>(false);
 
   function passTurn(entity: string) {
     setSelectedSpell(null);
@@ -95,11 +92,11 @@ export function usePlayingBoard(
         <div
           key={key}
           className={`size-[3.5dvw] 2xl:size-[2.5dvw] border-2 border-gray-500 hover:cursor-pointer ${
-            key === playerCell
+            key === player.position
               ? "border-2 relative"
-              : key === enemyCell
+              : key === enemy.position
               ? "border-2 relative"
-              : path.includes(key) && key !== playerCell
+              : path.includes(key) && key !== player.position
               ? "bg-green-500"
               : (keyL + keyR) % 2 == 0
               ? "bg-gray-800"
@@ -117,20 +114,49 @@ export function usePlayingBoard(
           onMouseEnter={() => enter(key)}
           onMouseLeave={leave}
         >
-          {key === playerCell && (
+          {key === player.position && (
             <>
               <img
-                src="./images/player-front-bottom-right.png"
-                className="absolute top-[-130%] left-[-111%] h-[232%] max-w-[140%] transform rotate-[-38deg] skew-x-[16deg] z-50" //-130 -111 -38 26
+                src={player.illustration}
+                className={`absolute ${
+                  player.isCompulsionAnimated
+                    ? "top-[-256%] left-[-162%] h-[383%] max-w-[133%]"
+                    : player.isPressionAnimated
+                    ? `${
+                        player.isIllustrationPositionCorrectedUp
+                          ? "top-[-121%] left-[-144%]"
+                          : player.isIllustrationPositionCorrectedDown
+                          ? "top-[-137%] left-[-122%]"
+                          : player.isIllustrationPositionCorrectedLeft
+                          ? "top-[-143%] left-[-115%]"
+                          : "top-[-122%] left-[-130%]"
+                      }   h-[254%] max-w-[200%]`
+                    : `${
+                        player.isIllustrationPositionCorrectedUp
+                          ? "top-[-90%] left-[-42%]"
+                          : player.isIllustrationPositionCorrectedDown
+                          ? "top-[-87%] left-[-42%]"
+                          : player.isIllustrationPositionCorrectedLeft
+                          ? "top-[-82%] left-[-49%]"
+                          : "top-[-82%] left-[-42%]"
+                      }  h-[180%] max-w-[55%]`
+                } transform rotate-[-38deg] skew-x-[16deg] z-50 ${
+                  player.isIllustrationReverted
+                    ? "transform -scale-x-100"
+                    : undefined
+                }`}
                 onMouseEnter={() => {
                   setShowPlayerInfo(true);
+                  calculPMRangeDisplay(player, board.width, board.length);
+                  setShowPlayerPM(true);
                 }}
                 onMouseLeave={() => {
                   setShowPlayerInfo(false);
+                  setShowPlayerPM(false);
                 }}
               />
               {player.damageTaken && (
-                <div className="absolute -top-[57px] -left-[99px] -translate-x-1/2 -translate-y-1/2 text-red-500 font-bold text-3xl z-[999] -rotate-[47deg] skew-x-[8deg] animate-damage-taken-animation">
+                <div className="absolute -top-[67%] -left-[142%] -translate-x-1/2 -translate-y-1/2 text-red-500 font-bold text-3xl z-[999] -rotate-[47deg] skew-x-[8deg] animate-damage-taken-animation">
                   -{player.damageTaken}
                 </div>
               )}
@@ -152,20 +178,23 @@ export function usePlayingBoard(
             </>
           )}
 
-          {key === enemyCell && (
+          {key === enemy.position && (
             <>
               <img
-                src="./images/bouftou.png"
+                src={enemy.illustration}
                 className="absolute top-[-53%] left-[-27%] h-[165%] max-w-[101%] transform rotate-[-44deg] skew-x-[8deg] z-50"
                 onMouseEnter={() => {
                   setShowEnemyInfo(true);
+                  calculPMRangeDisplay(enemy, board.width, board.length);
+                  setShowEnemyPM(true);
                 }}
                 onMouseLeave={() => {
                   setShowEnemyInfo(false);
+                  setShowEnemyPM(false);
                 }}
               />
               {enemy.damageTaken && (
-                <div className="absolute -top-[21px] -left-[38px] -translate-x-1/2 -translate-y-1/2 text-red-500 font-bold text-3xl z-[999] -rotate-[47deg] skew-x-[8deg] animate-damage-taken-animation">
+                <div className="absolute -top-[29%] -left-[61%] -translate-x-1/2 -translate-y-1/2 text-red-500 font-bold text-3xl z-[999] -rotate-[47deg] skew-x-[8deg] animate-damage-taken-animation">
                   -{enemy.damageTaken}
                 </div>
               )}
@@ -189,6 +218,16 @@ export function usePlayingBoard(
           {attackRangeDisplay.includes(key) && (
             <div className="bg-blue-500 size-[3.5dvw] border-2 opacity-35"></div>
           )}
+          {showPlayerPM &&
+            !playerOnAttackMode &&
+            pmRangeDisplay.includes(key) && (
+              <div className="bg-green-500 size-[3.5dvw] border-2 opacity-35"></div>
+            )}
+          {showEnemyPM &&
+            !playerOnAttackMode &&
+            pmRangeDisplay.includes(key) && (
+              <div className="bg-green-500 size-[3.5dvw] border-2 opacity-35"></div>
+            )}
         </div>
       );
     })
@@ -201,7 +240,7 @@ export function usePlayingBoard(
 
     if (enemy.pa < bouftouBite.cost) return;
 
-    const distance = calculateDistance(enemyCell, playerCell);
+    const distance = calculateDistance(enemy.position, player.position);
 
     if (distance > bouftouBite.range) {
       addErrorMessage(`La cible est hors de portée`);
@@ -263,9 +302,16 @@ export function usePlayingBoard(
       playerAttackSoundAfter2,
     ];
 
+    const initialImage = "./player-static/player-static-front-right.png";
+
     const pression = generatePression();
 
-    const distance = calculateDistance(playerCell, enemyCell);
+    const distance = calculateDistance(player.position, enemy.position);
+
+    const position = calculateEnemyPositionComparedToPlayer(
+      enemy.position,
+      player.position
+    );
 
     switch (selectedSpell.attackName) {
       case "Pression":
@@ -290,13 +336,97 @@ export function usePlayingBoard(
           return;
         }
 
-        playAudio(playerAttackSoundBefore, 0.1, false, true);
-        playAudio(
-          playerAttacksAfter[getRandomInt(playerAttacksAfter.length)],
-          0.1,
-          false,
-          true
-        );
+        switch (position) {
+          case "up":
+            setPlayerInfo("isPressionAnimated", true);
+            setPlayerInfo("isIllustrationReverted", true);
+            setPlayerInfo("isIllustrationPositionCorrectedUp", true);
+            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+            setPlayerInfo(
+              "illustration",
+              "./player-animations/attack-close-animation-left.gif"
+            );
+            setTimeout(() => {
+              setPlayerInfo("illustration", initialImage);
+              setPlayerInfo("isPressionAnimated", false);
+              setPlayerInfo(
+                "illustration",
+                "./player-static/player-static-left.png"
+              );
+            }, 1000);
+            break;
+          case "down":
+            setPlayerInfo("isPressionAnimated", true);
+            setPlayerInfo("isIllustrationReverted", true);
+            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+            setPlayerInfo("isIllustrationPositionCorrectedDown", true);
+            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+            setPlayerInfo(
+              "illustration",
+              "./player-animations/attack-close-animation-1.gif"
+            );
+            setTimeout(() => {
+              setPlayerInfo("illustration", initialImage);
+              setPlayerInfo("isPressionAnimated", false);
+              setPlayerInfo(
+                "illustration",
+                "./player-static/player-static-front-right.png"
+              );
+            }, 1000);
+            break;
+          case "left":
+            setPlayerInfo("isPressionAnimated", true);
+            setPlayerInfo("isIllustrationReverted", false);
+            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+            setPlayerInfo("isIllustrationPositionCorrectedLeft", true);
+            setPlayerInfo(
+              "illustration",
+              "./player-animations/attack-close-animation-left.gif"
+            );
+            setTimeout(() => {
+              setPlayerInfo("illustration", initialImage);
+              setPlayerInfo("isPressionAnimated", false);
+              setPlayerInfo(
+                "illustration",
+                "./player-static/player-static-left.png"
+              );
+            }, 1000);
+            break;
+          case "right":
+            console.log("ici");
+            setPlayerInfo("isPressionAnimated", true);
+            setPlayerInfo("isIllustrationReverted", false);
+            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+            setPlayerInfo(
+              "illustration",
+              "./player-animations/attack-close-animation-1.gif"
+            );
+            setTimeout(() => {
+              setPlayerInfo("illustration", initialImage);
+              setPlayerInfo("isPressionAnimated", false);
+            }, 1000);
+            break;
+          default:
+            console.log("nothing to do");
+            break;
+        }
+
+        setTimeout(() => {
+          playAudio(playerAttackSoundBefore, 0.1, false, true);
+        }, 400);
+
+        setTimeout(() => {
+          playAudio(
+            playerAttacksAfter[getRandomInt(playerAttacksAfter.length)],
+            0.1,
+            false,
+            true
+          );
+        }, 400);
 
         setTimeout(() => {
           playAudio(
@@ -305,21 +435,43 @@ export function usePlayingBoard(
             false,
             true
           );
-        }, 50);
+        }, 450);
 
         setEnemyInfo("pv", (enemy.pv -= pression.damage! + playerBoostAmont));
-        setEnemyInfo("damageTaken", pression.damage!);
+
+        setTimeout(() => {
+          setEnemyInfo("damageTaken", pression.damage! + playerBoostAmont);
+        }, 400);
+
         setTimeout(() => {
           setEnemyInfo("damageTaken", null);
-        }, 1100);
+        }, 1400);
+
         setSelectedSpell(null);
         setPlayerInfo("pa", (player.pa -= pression.cost));
         setAttackRangeDisplay([]);
         addInfoMessage(`${player.name} lance ${pression.attackName}.`);
         addInfoMessage(
-          `${player.name} inflige ${pression.damage} points de dommage à ${enemy.name}.`
+          `${player.name} inflige ${
+            pression.damage! + playerBoostAmont
+          } points de dommage à ${enemy.name}.`
         );
-        if (enemy.pv <= 0) setIsGameWin(true);
+        if (enemy.pv <= 0) {
+          const bouftoudeathBefore =
+            "./enemy-sound-effects/death/331_fx_571.mp3.mp3";
+          const bouftoudeathAfter =
+            "./enemy-sound-effects/death/316_fx_585.mp3.mp3";
+          console.log("sound 1");
+          playAudio(bouftoudeathBefore, 0.3, false, true);
+          setTimeout(() => {
+            console.log("sound 2");
+            playAudio(bouftoudeathAfter, 0.3, false, true);
+          }, 500);
+          setTimeout(() => {
+            console.log("sound 2");
+            setIsGameWin(true);
+          }, 1500);
+        }
         return;
       default:
         console.log("no spell selected");
@@ -333,8 +485,9 @@ export function usePlayingBoard(
     if (selectedSpell === null) return;
     const boostSoundBefore = "./player-sound-effects/boost/iop_boost.mp3";
     const boostSoundAfter = "./player-sound-effects/boost/233_fx_66.mp3.mp3";
-    const distance = calculateDistance(playerCell, playerCell);
+    const distance = calculateDistance(player.position, player.position);
     const compulsion = generateCompulsion();
+    const initialImage = player.illustration;
 
     switch (selectedSpell.attackName) {
       case "Compulsion":
@@ -349,10 +502,25 @@ export function usePlayingBoard(
           addErrorMessage(`Plus assez de points d'action`);
           return;
         }
-        playAudio(boostSoundBefore, 0.1, false, true);
+
+        setPlayerInfo("isCompulsionAnimated", true);
+
+        setPlayerInfo(
+          "illustration",
+          "./player-animations/boost-animation.gif"
+        );
+        setTimeout(() => {
+          setPlayerInfo("illustration", initialImage);
+          setPlayerInfo("isCompulsionAnimated", false);
+        }, 1000);
+
+        setTimeout(() => {
+          playAudio(boostSoundBefore, 0.1, false, true);
+        }, 100);
+
         setTimeout(() => {
           playAudio(boostSoundAfter, 0.1, false, true);
-        }, 50);
+        }, 150);
 
         setPlayerBoostAmont(compulsion.boost!);
         addInfoMessage(`${player.name} lance ${compulsion.attackName}.`);
@@ -373,14 +541,14 @@ export function usePlayingBoard(
   }
 
   function selectCell(key: string, currentPlayer: Player | Enemy) {
-    if (!playerCell || !enemyCell) return;
+    if (!player.position || !enemy.position) return;
 
     let newPath: string[];
 
     if (player.isTurnToPlay) {
-      if (key === enemyCell) {
+      if (key === enemy.position) {
         if (!playerOnAttackMode) return;
-        const distance = calculateDistance(playerCell, enemyCell);
+        const distance = calculateDistance(player.position, enemy.position);
         const pression = generatePression();
         if (distance <= pression.range) {
           if (enemy.pv > 0) {
@@ -398,7 +566,7 @@ export function usePlayingBoard(
         return;
       }
 
-      if (key === playerCell) {
+      if (key === player.position) {
         if (boostDuration !== undefined) {
           addErrorMessage("Action impossible");
           return;
@@ -407,10 +575,15 @@ export function usePlayingBoard(
         setSelectedSpell(null);
         return;
       }
-      newPath = calculatePath(playerCell!, key, currentPlayer.pm, enemyCell);
+      newPath = calculatePath(
+        player.position!,
+        key,
+        currentPlayer.pm,
+        enemy.position
+      );
     } else {
-      if (key === playerCell) {
-        const distance = calculateDistance(enemyCell, playerCell);
+      if (key === player.position) {
+        const distance = calculateDistance(enemy.position, player.position);
         const bouftouBite = generateBouftouBite();
         if (distance <= bouftouBite.range) {
           if (player.pv > 0) {
@@ -422,7 +595,12 @@ export function usePlayingBoard(
         }
         return;
       }
-      newPath = calculatePath(enemyCell!, key, currentPlayer.pm, playerCell);
+      newPath = calculatePath(
+        enemy.position!,
+        key,
+        currentPlayer.pm,
+        player.position
+      );
     }
 
     if (!canMove) {
@@ -441,10 +619,56 @@ export function usePlayingBoard(
 
     if (newPath.length - 1 <= currentPlayer.pm) {
       if (player.isTurnToPlay) {
-        setPlayerCell(key);
+        const position = handlePlayerMovementDirection(player.position, key);
+        switch (position) {
+          case "up":
+            setPlayerInfo("isIllustrationReverted", true);
+            setPlayerInfo("isIllustrationPositionCorrectedUp", true);
+            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+            setPlayerInfo(
+              "illustration",
+              "./player-static/player-static-left.png"
+            );
+            break;
+          case "down":
+            setPlayerInfo("isIllustrationReverted", true);
+            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+            setPlayerInfo("isIllustrationPositionCorrectedDown", true);
+            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+            setPlayerInfo(
+              "illustration",
+              "./player-static/player-static-front-right.png"
+            );
+            break;
+          case "left":
+            setPlayerInfo("isIllustrationReverted", false);
+            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+            setPlayerInfo("isIllustrationPositionCorrectedLeft", true);
+            setPlayerInfo(
+              "illustration",
+              "./player-static/player-static-left.png"
+            );
+            break;
+          case "right":
+            setPlayerInfo("isIllustrationReverted", false);
+            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+            setPlayerInfo(
+              "illustration",
+              "./player-static/player-static-front-right.png"
+            );
+            break;
+          default:
+            console.log("nothing to do");
+            break;
+        }
+        setPlayerInfo("position", key);
         setPlayerInfo("pm", player.pm - (newPath.length - 1));
       } else {
-        setEnemyCell(key);
+        setEnemyInfo("position", key);
         setEnemyInfo("pm", enemy.pm - (newPath.length - 1));
       }
 
@@ -455,18 +679,18 @@ export function usePlayingBoard(
   }
 
   function enter(key: string) {
-    if (!playerCell || !enemyCell) return;
+    if (!player.position || !enemy.position) return;
 
     let newPath: string[];
 
     if (player.isTurnToPlay && !playerOnAttackMode) {
-      newPath = calculatePath(playerCell!, key, player.pm, enemyCell);
+      newPath = calculatePath(player.position!, key, player.pm, enemy.position);
       setPath(newPath);
       return;
     }
 
     if (enemy.isTurnToPlay) {
-      newPath = calculatePath(enemyCell!, key, enemy.pm, playerCell);
+      newPath = calculatePath(enemy.position!, key, enemy.pm, player.position);
       setPath(newPath);
       return;
     }
@@ -567,6 +791,89 @@ export function usePlayingBoard(
         message: infoMessage,
       },
     ]);
+  }
+
+  function calculateEnemyPositionComparedToPlayer(
+    enemyCell: string,
+    playerCell: string
+  ): string | undefined {
+    let position: "left" | "right" | "up" | "down" | undefined;
+
+    const [enemyRow, enemyCol] = enemyCell.split("-").map(Number);
+    const [playerRow, playerCol] = playerCell.split("-").map(Number);
+
+    if (enemyRow === playerRow && enemyCol < playerCol) position = "left";
+    if (enemyRow > playerRow && enemyCol < playerCol) position = "down";
+    if (enemyRow > playerRow && enemyCol === playerCol) position = "down";
+    if (enemyRow > playerRow && enemyCol > playerCol) position = "down";
+    if (enemyRow === playerRow && enemyCol > playerCol) position = "right";
+    if (enemyRow < playerRow && enemyCol > playerCol) position = "right";
+    if (enemyRow < playerRow && enemyCol === playerCol) position = "up";
+    if (enemyRow < playerRow && enemyCol < playerCol) position = "up";
+
+    return position;
+  }
+
+  function handlePlayerMovementDirection(
+    playerCell: string,
+    targetCell: string
+  ): string | undefined {
+    let position: "left" | "right" | "up" | "down" | undefined;
+    const [playerRow, playerCol] = playerCell.split("-").map(Number);
+    const [targetCellRow, targetCellCol] = targetCell.split("-").map(Number);
+
+    if (targetCellRow === playerRow && targetCellCol < playerCol)
+      position = "left";
+    if (targetCellRow > playerRow && targetCellCol < playerCol)
+      position = "down";
+    if (targetCellRow > playerRow && targetCellCol === playerCol)
+      position = "down";
+    if (targetCellRow > playerRow && targetCellCol > playerCol)
+      position = "down";
+    if (targetCellRow === playerRow && targetCellCol > playerCol)
+      position = "right";
+    if (targetCellRow < playerRow && targetCellCol > playerCol)
+      position = "right";
+    if (targetCellRow < playerRow && targetCellCol === playerCol)
+      position = "up";
+    if (targetCellRow < playerRow && targetCellCol < playerCol) position = "up";
+
+    return position;
+  }
+
+  function calculPMRangeDisplay(
+    entity: Player | Enemy,
+    boardWidth: number,
+    boardLength: number
+  ) {
+    const [playerRow, playerCol] = entity.position.split("-").map(Number);
+    const pmRangeCells = [];
+
+    for (let rowOffset = -entity.pm; rowOffset <= entity.pm; rowOffset++) {
+      for (let colOffset = -entity.pm; colOffset <= entity.pm; colOffset++) {
+        const newRow = playerRow + rowOffset;
+        const newCol = playerCol + colOffset;
+
+        // Calculate the Manhattan distance
+        const manhattanDistance = Math.abs(rowOffset) + Math.abs(colOffset);
+
+        // Check if the new position is within the bounds of the board and within the attack range
+        if (
+          newRow >= 0 &&
+          newRow < boardLength &&
+          newCol >= 0 &&
+          newCol < boardWidth &&
+          manhattanDistance <= entity.pm
+        ) {
+          pmRangeCells.push(`${newRow}-${newCol}`);
+        }
+      }
+    }
+
+    const RangewithoutPlayerCell = pmRangeCells.filter(
+      (e) => e != `${playerRow}-${playerCol}`
+    );
+    setPMRangeDisplay(RangewithoutPlayerCell);
   }
 
   return [isUserImageDisplayed, passTurn, grid];

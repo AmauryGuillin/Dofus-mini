@@ -8,11 +8,7 @@ The game is simply a combat simulation between an Iop-class character and a Gobb
 
 # Useful Quality Of Life tips
 
-The game is not designed to be responsive. However, it is still possible to adapt the size of the game to your screen via your web browser.
-
-![image](https://i.ibb.co/JQnBCZw/Capture-d-cran-2024-06-09-235042.jpg)
-
-Also, if no sound is audible on the game, you'll probably need to enable sounds on your browser.
+If no sound is audible on the game, you'll probably need to enable sounds on your browser.
 
 ![image](https://i.ibb.co/0F977FS/Capture-d-cran-2024-06-09-234907.jpg)
 
