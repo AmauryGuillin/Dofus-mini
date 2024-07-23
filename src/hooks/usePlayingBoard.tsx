@@ -216,17 +216,17 @@ export function usePlayingBoard(
             </>
           )}
           {attackRangeDisplay.includes(key) && (
-            <div className="bg-blue-500 size-[3.5dvw] border-2 opacity-35"></div>
+            <div className="bg-blue-500 size-[3.5dvw] 2xl:size-[2.5dvw] border-2 opacity-35"></div>
           )}
           {showPlayerPM &&
             !playerOnAttackMode &&
             pmRangeDisplay.includes(key) && (
-              <div className="bg-green-500 size-[3.5dvw] border-2 opacity-35"></div>
+              <div className="bg-green-500 size-[3.5dvw] 2xl:size-[2.5dvw] border-2 opacity-35"></div>
             )}
           {showEnemyPM &&
             !playerOnAttackMode &&
             pmRangeDisplay.includes(key) && (
-              <div className="bg-green-500 size-[3.5dvw] border-2 opacity-35"></div>
+              <div className="bg-green-500 size-[3.5dvw] 2xl:size-[2.5dvw] border-2 opacity-35"></div>
             )}
         </div>
       );
@@ -336,9 +336,10 @@ export function usePlayingBoard(
           return;
         }
 
+        setPlayerInfo("isPressionAnimated", true);
+
         switch (position) {
           case "up":
-            setPlayerInfo("isPressionAnimated", true);
             setPlayerInfo("isIllustrationReverted", true);
             setPlayerInfo("isIllustrationPositionCorrectedUp", true);
             setPlayerInfo("isIllustrationPositionCorrectedDown", false);
@@ -357,7 +358,6 @@ export function usePlayingBoard(
             }, 1000);
             break;
           case "down":
-            setPlayerInfo("isPressionAnimated", true);
             setPlayerInfo("isIllustrationReverted", true);
             setPlayerInfo("isIllustrationPositionCorrectedUp", false);
             setPlayerInfo("isIllustrationPositionCorrectedDown", true);
@@ -376,7 +376,6 @@ export function usePlayingBoard(
             }, 1000);
             break;
           case "left":
-            setPlayerInfo("isPressionAnimated", true);
             setPlayerInfo("isIllustrationReverted", false);
             setPlayerInfo("isIllustrationPositionCorrectedUp", false);
             setPlayerInfo("isIllustrationPositionCorrectedDown", false);
@@ -396,7 +395,6 @@ export function usePlayingBoard(
             break;
           case "right":
             console.log("ici");
-            setPlayerInfo("isPressionAnimated", true);
             setPlayerInfo("isIllustrationReverted", false);
             setPlayerInfo("isIllustrationPositionCorrectedUp", false);
             setPlayerInfo("isIllustrationPositionCorrectedDown", false);

@@ -1,3 +1,4 @@
+import PlayerInfo from "@/components/player-info.tsx";
 import { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { useStore } from "../hooks/store";
@@ -6,9 +7,9 @@ import { playAudio } from "../utils/music/handleAudio";
 import { getRandomInt } from "../utils/tools/getRandomNumber";
 import { reloadPage } from "../utils/tools/windowControls";
 import Chat from "./action-bar-chat";
+import Changelog from "./changelog";
 import PlayingBoard from "./playing-board";
 import SpellBar from "./spell-bar";
-import PlayerInfo from "@/components/player-info.tsx";
 
 export default function Main() {
   const music1 = "./33_fig_otomai.mp3.mp3";
@@ -70,6 +71,7 @@ export default function Main() {
   return (
     <>
       <div className="w-[80dvw] mx-auto h-screen flex flex-col justify-center items-center bg-gray-900 relative">
+        <Changelog />
         <div className="flex flex-1 items-center justify-center">
           <PlayingBoard setMessages={setMessages} />
         </div>
@@ -79,7 +81,7 @@ export default function Main() {
             <Chat messages={messages} />
           </div>
           <div className="flex flex-col h-44 md:h-52 items-center justify-center">
-             <PlayerInfo />
+            <PlayerInfo />
           </div>
           <div className="flex flex-col h-44 md:h-52">
             <SpellBar />
