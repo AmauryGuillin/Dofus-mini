@@ -91,7 +91,7 @@ export function usePlayingBoard(
       return (
         <div
           key={key}
-          className={`size-[3.5dvw] border-2 border-gray-500 hover:cursor-pointer ${
+          className={`size-[3.5dvw] 2xl:size-[2.5dvw] border-2 border-gray-500 hover:cursor-pointer ${
             key === player.position
               ? "border-2 relative"
               : key === enemy.position

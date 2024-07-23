@@ -8,6 +8,7 @@ import { reloadPage } from "../utils/tools/windowControls";
 import Chat from "./action-bar-chat";
 import PlayingBoard from "./playing-board";
 import SpellBar from "./spell-bar";
+import PlayerInfo from "@/components/player-info.tsx";
 
 export default function Main() {
   const music1 = "./33_fig_otomai.mp3.mp3";
@@ -32,7 +33,7 @@ export default function Main() {
 
   if (isGameWin)
     return (
-      <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-900 relative">
+      <div className="w-full max-h-screen flex flex-col justify-center items-center bg-gray-900 relative">
         <Confetti gravity={0.05} />
         <div className="text-white flex flex-col justify-center items-center">
           <div className="m-10 text-3xl  font-bold">Félicitations !</div>
@@ -77,8 +78,8 @@ export default function Main() {
           <div className="flex flex-col h-44 md:h-52">
             <Chat messages={messages} />
           </div>
-          <div className="flex flex-col items-center justify-center">
-            {/* <PlayerInfo /> */}
+          <div className="flex flex-col h-44 md:h-52 items-center justify-center">
+             <PlayerInfo />
           </div>
           <div className="flex flex-col h-44 md:h-52">
             <SpellBar />
