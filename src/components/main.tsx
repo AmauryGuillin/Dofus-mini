@@ -34,7 +34,7 @@ export default function Main() {
 
   if (isGameWin)
     return (
-      <div className="w-full max-h-screen flex flex-col justify-center items-center bg-gray-900 relative">
+      <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-900 relative">
         <Confetti gravity={0.05} />
         <div className="text-white flex flex-col justify-center items-center">
           <div className="m-10 text-3xl  font-bold">Félicitations !</div>
