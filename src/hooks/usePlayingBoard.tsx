@@ -27,6 +27,8 @@ export function usePlayingBoard(
   const setAttackRangeDisplay = useStore(
     (state) => state.setAttackRangeDisplay
   );
+  const pmRangeDisplay = useStore((state) => state.pmRangeDisplay);
+  const setPMRangeDisplay = useStore((state) => state.setPMRangeDisplay);
   const setIsGameOver = useStore((state) => state.setIsGameOver);
   const setIsGameWin = useStore((state) => state.setIsGameWin);
   const turnCount = useStore((state) => state.turnCount);
@@ -45,6 +47,8 @@ export function usePlayingBoard(
   const [playerBoostAmont, setPlayerBoostAmont] = useState<number>(0);
   const [showPlayerInfo, setShowPlayerInfo] = useState<boolean>(false);
   const [showEnemyInfo, setShowEnemyInfo] = useState<boolean>(false);
+  const [showPlayerPM, setShowPlayerPM] = useState<boolean>(false);
+  const [showEnemyPM, setShowEnemyPM] = useState<boolean>(false);
 
   function passTurn(entity: string) {
     setSelectedSpell(null);
@@ -143,9 +147,12 @@ export function usePlayingBoard(
                 }`}
                 onMouseEnter={() => {
                   setShowPlayerInfo(true);
+                  calculPMRangeDisplay(player, board.width, board.length);
+                  setShowPlayerPM(true);
                 }}
                 onMouseLeave={() => {
                   setShowPlayerInfo(false);
+                  setShowPlayerPM(false);
                 }}
               />
               {player.damageTaken && (
@@ -178,9 +185,12 @@ export function usePlayingBoard(
                 className="absolute top-[-53%] left-[-27%] h-[165%] max-w-[101%] transform rotate-[-44deg] skew-x-[8deg] z-50"
                 onMouseEnter={() => {
                   setShowEnemyInfo(true);
+                  calculPMRangeDisplay(enemy, board.width, board.length);
+                  setShowEnemyPM(true);
                 }}
                 onMouseLeave={() => {
                   setShowEnemyInfo(false);
+                  setShowEnemyPM(false);
                 }}
               />
               {enemy.damageTaken && (
@@ -208,6 +218,16 @@ export function usePlayingBoard(
           {attackRangeDisplay.includes(key) && (
             <div className="bg-blue-500 size-[3.5dvw] border-2 opacity-35"></div>
           )}
+          {showPlayerPM &&
+            !playerOnAttackMode &&
+            pmRangeDisplay.includes(key) && (
+              <div className="bg-green-500 size-[3.5dvw] border-2 opacity-35"></div>
+            )}
+          {showEnemyPM &&
+            !playerOnAttackMode &&
+            pmRangeDisplay.includes(key) && (
+              <div className="bg-green-500 size-[3.5dvw] border-2 opacity-35"></div>
+            )}
         </div>
       );
     })
@@ -819,6 +839,41 @@ export function usePlayingBoard(
     if (targetCellRow < playerRow && targetCellCol < playerCol) position = "up";
 
     return position;
+  }
+
+  function calculPMRangeDisplay(
+    entity: Player | Enemy,
+    boardWidth: number,
+    boardLength: number
+  ) {
+    const [playerRow, playerCol] = entity.position.split("-").map(Number);
+    const pmRangeCells = [];
+
+    for (let rowOffset = -entity.pm; rowOffset <= entity.pm; rowOffset++) {
+      for (let colOffset = -entity.pm; colOffset <= entity.pm; colOffset++) {
+        const newRow = playerRow + rowOffset;
+        const newCol = playerCol + colOffset;
+
+        // Calculate the Manhattan distance
+        const manhattanDistance = Math.abs(rowOffset) + Math.abs(colOffset);
+
+        // Check if the new position is within the bounds of the board and within the attack range
+        if (
+          newRow >= 0 &&
+          newRow < boardLength &&
+          newCol >= 0 &&
+          newCol < boardWidth &&
+          manhattanDistance <= entity.pm
+        ) {
+          pmRangeCells.push(`${newRow}-${newCol}`);
+        }
+      }
+    }
+
+    const RangewithoutPlayerCell = pmRangeCells.filter(
+      (e) => e != `${playerRow}-${playerCol}`
+    );
+    setPMRangeDisplay(RangewithoutPlayerCell);
   }
 
   return [isUserImageDisplayed, passTurn, grid];
