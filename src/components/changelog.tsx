@@ -1,5 +1,8 @@
 import { cn } from "@/lib/utils";
+import matter from "gray-matter";
 import { NotebookPen } from "lucide-react";
+import { useEffect, useState } from "react";
+import Markdown from "react-markdown";
 import {
   Accordion,
   AccordionContent,
@@ -10,11 +13,63 @@ import { buttonVariants } from "./ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
 
+type Changelog = {
+  version: string;
+  date: string;
+  content: string;
+};
+
 export default function Changelog() {
+  const [changelogs, setChangelogs] = useState<Changelog[]>();
+
+  useEffect(() => {
+    // Récupère tous les fichiers .md contenu dans le dossiers changelogs
+    const changelogsFiles = import.meta.glob("/src/changelogs/*.md", {
+      query: "?raw",
+      import: "default",
+    }) as Record<string, () => Promise<string>>;
+
+    // Récupère les clés et les trie par ordre décroissant
+    const sortedKeys = Object.keys(changelogsFiles).sort((a, b) =>
+      b.localeCompare(a)
+    );
+
+    // Crée un nouvel objet avec les clés triées
+    const sortedChangelogsFiles: { [key: string]: () => Promise<string> } =
+      sortedKeys.reduce((acc, key) => {
+        acc[key] = changelogsFiles[key];
+        return acc;
+      }, {} as { [key: string]: () => Promise<string> });
+
+    // Récupère les données de chaque fichier .md
+    const fetchChangelogs = async () => {
+      const contents = await Promise.all(
+        sortedKeys.map((key) => sortedChangelogsFiles[key]())
+      );
+      const changelogs = [];
+      for (const fileContent of contents) {
+        const { content, data } = matter(fileContent);
+        const newChangelog = {
+          version: data.version,
+          date: data.date,
+          content,
+        };
+        changelogs.push(newChangelog);
+      }
+      setChangelogs(changelogs);
+    };
+
+    fetchChangelogs();
+  }, []);
+
+  console.log(changelogs);
+
   return (
     <div className="absolute top-2 left-2">
       <Dialog>
@@ -26,31 +81,26 @@ export default function Changelog() {
         >
           <NotebookPen />
         </DialogTrigger>
-        <DialogContent className="bg-gray-700 text-white">
-          <DialogHeader className="text-xl font-bold">
-            Notes de mises à jour
+        <DialogContent className="bg-gray-700 text-white h-[calc(100%-10%)]  w-1/2 max-w-screen overflow-auto flex flex-col">
+          <DialogHeader>
+            <DialogTitle className="text-xl">Notes de mises à jour</DialogTitle>
+            <DialogDescription>
+              Visionner les dernières notes de mises à jour.
+            </DialogDescription>
           </DialogHeader>
           <Accordion type="multiple">
-            <AccordionItem value="item-1">
-              <AccordionTrigger>Version 0.1.0 - 23/07/2024</AccordionTrigger>
-              <AccordionContent>
-                <ul>
-                  <li className="text-lg font-bold">Fonctionnalités</li>
-                  <li>- Mise en place du changelog.</li>
-                  <li>
-                    - Ajout de la visibilité de la portée des joueur et enemis
-                    sur le terrain de jeu quand un joueur passe sa souris sur
-                    son joueur ou les enemis.
-                  </li>
-                  <li>&nbsp;</li>
-                  <li className="text-lg font-bold">Corrections</li>
-                  <li>
-                    - L'animations de l'attaque pression est maintenant ajustée
-                    à la place du personnage initiale.
-                  </li>
-                </ul>
-              </AccordionContent>
-            </AccordionItem>
+            {changelogs?.map((changelog) => (
+              <AccordionItem value={changelog.version} key={changelog.version}>
+                <AccordionTrigger>
+                  Version: {changelog.version} - {changelog.date}
+                </AccordionTrigger>
+                <AccordionContent>
+                  <Markdown className="prose text-white prose-h3:text-white">
+                    {changelog.content}
+                  </Markdown>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
           </Accordion>
         </DialogContent>
       </Dialog>
