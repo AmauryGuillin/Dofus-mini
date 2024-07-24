@@ -39,6 +39,7 @@ export function useSelectCell(
   const canMove = useStore((state) => state.canMove);
   const setCanMove = useStore((state) => state.setCanMove);
 
+  const path = useStore((state) => state.path);
   const setPath = useStore((state) => state.setPath);
 
   function selectCell(key: string, currentPlayer: Player | Enemy) {
@@ -120,53 +121,8 @@ export function useSelectCell(
 
     if (newPath.length - 1 <= currentPlayer.pm) {
       if (player.isTurnToPlay) {
-        const position = handlePlayerMovementDirection(player.position, key);
-        switch (position) {
-          case "up":
-            setPlayerInfo("isIllustrationReverted", true);
-            setPlayerInfo("isIllustrationPositionCorrectedUp", true);
-            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
-            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
-            setPlayerInfo(
-              "illustration",
-              "./player-static/player-static-left.png"
-            );
-            break;
-          case "down":
-            setPlayerInfo("isIllustrationReverted", true);
-            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
-            setPlayerInfo("isIllustrationPositionCorrectedDown", true);
-            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
-            setPlayerInfo(
-              "illustration",
-              "./player-static/player-static-front-right.png"
-            );
-            break;
-          case "left":
-            setPlayerInfo("isIllustrationReverted", false);
-            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
-            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
-            setPlayerInfo("isIllustrationPositionCorrectedLeft", true);
-            setPlayerInfo(
-              "illustration",
-              "./player-static/player-static-left.png"
-            );
-            break;
-          case "right":
-            setPlayerInfo("isIllustrationReverted", false);
-            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
-            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
-            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
-            setPlayerInfo(
-              "illustration",
-              "./player-static/player-static-front-right.png"
-            );
-            break;
-          default:
-            console.log("nothing to do");
-            break;
-        }
-        setPlayerInfo("position", key);
+        moveEntity(path);
+
         setPlayerInfo("pm", player.pm - (newPath.length - 1));
       } else {
         setEnemyInfo("position", key);
@@ -176,6 +132,63 @@ export function useSelectCell(
       setPath([]);
     } else {
       addErrorMessage(`Action impossible`);
+    }
+  }
+
+  function determineEntityOrientation(
+    cell: string,
+    path: string[],
+    count: number
+  ) {
+    const position = handlePlayerMovementDirection(cell, path[count + 1]);
+    switch (position) {
+      case "up":
+        setPlayerInfo("isIllustrationReverted", true);
+        setPlayerInfo("isIllustrationPositionCorrectedUp", true);
+        setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+        setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+        setPlayerInfo("illustration", "./player-static/player-static-left.png");
+        break;
+      case "down":
+        setPlayerInfo("isIllustrationReverted", true);
+        setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+        setPlayerInfo("isIllustrationPositionCorrectedDown", true);
+        setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+        setPlayerInfo(
+          "illustration",
+          "./player-static/player-static-front-right.png"
+        );
+        break;
+      case "left":
+        setPlayerInfo("isIllustrationReverted", false);
+        setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+        setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+        setPlayerInfo("isIllustrationPositionCorrectedLeft", true);
+        setPlayerInfo("illustration", "./player-static/player-static-left.png");
+        break;
+      case "right":
+        setPlayerInfo("isIllustrationReverted", false);
+        setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+        setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+        setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+        setPlayerInfo(
+          "illustration",
+          "./player-static/player-static-front-right.png"
+        );
+        break;
+      default:
+        console.log("nothing to do");
+        break;
+    }
+  }
+
+  async function moveEntity(path: string[]) {
+    let count = 0;
+    for (const cell of path) {
+      setPlayerInfo("position", cell);
+      determineEntityOrientation(cell, path, count);
+      count++;
+      await new Promise((resolve) => setTimeout(resolve, 187.5)); //187.5
     }
   }
 

@@ -68,8 +68,6 @@ export default function Changelog() {
     fetchChangelogs();
   }, []);
 
-  console.log(changelogs);
-
   return (
     <div className="absolute top-2 left-2">
       <Dialog>

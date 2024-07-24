@@ -126,6 +126,8 @@ export function useEntityActionsUtils(
     playerCell: string,
     targetCell: string
   ): string | undefined {
+    if (playerCell === undefined) return;
+    if (targetCell === undefined) return;
     let position: "left" | "right" | "up" | "down" | undefined;
     const [playerRow, playerCol] = playerCell.split("-").map(Number);
     const [targetCellRow, targetCellCol] = targetCell.split("-").map(Number);
