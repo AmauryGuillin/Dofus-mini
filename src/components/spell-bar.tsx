@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useStore } from "../hooks/store";
 import { Spell } from "../types/attack";
 import { generatePression } from "../utils/gamedesign/player-attack-generator";
@@ -87,6 +88,25 @@ export default function SpellBar() {
       setAttackRangeDisplay(RangewithoutPlayerCell);
     }
   }
+
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "&" && player.pa >= spellsSources[0].spell.cost) {
+        selectSpell(spellsSources[0].spell);
+      } else if (
+        event.key === "é" &&
+        player.pa >= spellsSources[1].spell.cost
+      ) {
+        selectSpell(spellsSources[1].spell);
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [spellsSources]);
 
   return (
     <Card className="h-full bg-transparent">
