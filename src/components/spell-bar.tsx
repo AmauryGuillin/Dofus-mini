@@ -95,8 +95,9 @@ export default function SpellBar() {
           <div
             key={spell.id}
             className={`w-12 h-12 flex justify-center items-center hover:bg-gray-500 hover:cursor-pointer hover:scale-105 relative ${
-              spell.spell.attackName === "Compulsion" &&
-              boostDuration !== undefined
+              (spell.spell.attackName === "Compulsion" &&
+                boostDuration !== undefined) ||
+              player.pa < spell.spell.cost
                 ? "grayscale contrast-75"
                 : ""
             }`}
