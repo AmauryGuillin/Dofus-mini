@@ -14,4 +14,5 @@ export interface Player {
   isIllustrationPositionCorrectedLeft: boolean;
   isCompulsionAnimated: boolean;
   isPressionAnimated: boolean;
+  isMoving: boolean;
 }

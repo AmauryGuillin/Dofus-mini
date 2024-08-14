@@ -3,6 +3,7 @@ import { Enemy } from "@/types/enemy";
 import { Player } from "@/types/player";
 import { generateBouftouBite } from "@/utils/gamedesign/enemy-attack-generator";
 import { generatePression } from "@/utils/gamedesign/player-attack-generator";
+import { playErrorSound } from "@/utils/music/handleAudio";
 import { useStore } from "./store";
 import { useEntityActions } from "./useEntityActions";
 import { useEntityActionsUtils } from "./useEntityActionsUtils";
@@ -132,6 +133,7 @@ export function useSelectCell(
       setPath([]);
     } else {
       addErrorMessage(`Action impossible`);
+      playErrorSound(0.5);
     }
   }
 
@@ -183,6 +185,7 @@ export function useSelectCell(
   }
 
   async function moveEntity(path: string[]) {
+    setPlayerInfo("isMoving", true);
     let count = 0;
     for (const cell of path) {
       setPlayerInfo("position", cell);
@@ -190,6 +193,7 @@ export function useSelectCell(
       count++;
       await new Promise((resolve) => setTimeout(resolve, 187.5)); //187.5
     }
+    setPlayerInfo("isMoving", false);
   }
 
   return { selectCell };

@@ -2,7 +2,7 @@ import { ChatInfoMessage } from "@/types/chat-info-message";
 import { generateBouftouBite } from "@/utils/gamedesign/enemy-attack-generator";
 import { generatePression } from "@/utils/gamedesign/player-attack-generator";
 import { generateCompulsion } from "@/utils/gamedesign/player-boost-generator";
-import { playAudio } from "@/utils/music/handleAudio";
+import { playAudio, playErrorSound } from "@/utils/music/handleAudio";
 import { getRandomInt } from "@/utils/tools/getRandomNumber";
 import { useState } from "react";
 import { useStore } from "./store";
@@ -95,6 +95,7 @@ export function useEntityActions(
 
   function playerAttack() {
     if (selectedSpell === null) return;
+    if (player.isMoving) return;
 
     const enemyDamageSound1 = "./enemy-sound-effects/damage/209_fx_681.mp3.mp3";
     const enemyDamageSound2 = "./enemy-sound-effects/damage/212_fx_679.mp3.mp3";
@@ -123,8 +124,17 @@ export function useEntityActions(
 
     switch (selectedSpell.attackName) {
       case "Pression":
+        if (player.isPressionAnimated) {
+          addErrorMessage("Action impossible");
+          playErrorSound(0.5);
+          setSelectedSpell(null);
+          setAttackRangeDisplay([]);
+          return;
+        }
+
         if (player.pa <= 0) {
           addErrorMessage(`Plus assez de points d'action`);
+          playErrorSound(0.5);
           setSelectedSpell(null);
           setAttackRangeDisplay([]);
           return;
@@ -132,6 +142,7 @@ export function useEntityActions(
 
         if (player.pa < pression.cost) {
           addErrorMessage(`Plus assez de points d'action`);
+          playErrorSound(0.5);
           setSelectedSpell(null);
           setAttackRangeDisplay([]);
           return;
@@ -139,6 +150,7 @@ export function useEntityActions(
 
         if (distance > pression.range) {
           addErrorMessage("la cible est hors de portée");
+          playErrorSound(0.5);
           setSelectedSpell(null);
           setAttackRangeDisplay([]);
           return;
@@ -281,6 +293,7 @@ export function useEntityActions(
   }
 
   function playerBoost() {
+    if (player.isMoving) return;
     if (boostDuration !== undefined) return;
     if (selectedSpell === null) return;
     const boostSoundBefore = "./player-sound-effects/boost/iop_boost.mp3";
