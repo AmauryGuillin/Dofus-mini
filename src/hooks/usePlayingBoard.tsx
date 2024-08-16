@@ -105,19 +105,7 @@ export function usePlayingBoard(
                           ? "top-[-143%] left-[-115%]"
                           : "top-[-122%] left-[-130%]"
                       }   h-[254%] max-w-[200%]`
-                    : `${
-                        player.isIllustrationPositionCorrectedUp
-                          ? "top-[-90%] left-[-42%]"
-                          : player.isIllustrationPositionCorrectedDown
-                          ? "top-[-87%] left-[-42%]"
-                          : player.isIllustrationPositionCorrectedLeft
-                          ? "top-[-82%] left-[-49%]"
-                          : "top-[-82%] left-[-42%]"
-                      }  h-[180%] max-w-[55%]`
-                } transform rotate-[-38deg] skew-x-[16deg] z-50 
-                
-                ${
-                  player.isDead
+                    : player.isDead
                     ? `${
                         player.isIllustrationPositionCorrectedUp
                           ? "top-[-243%] left-[-222%]"
@@ -127,10 +115,16 @@ export function usePlayingBoard(
                           ? "top-[-247%] left-[-213%]"
                           : "top-[-252%] left-[-201%]"
                       }   h-[383%] max-w-[254%]`
-                    : ""
-                }
-                }
-
+                    : `${
+                        player.isIllustrationPositionCorrectedUp
+                          ? "top-[-90%] left-[-42%]"
+                          : player.isIllustrationPositionCorrectedDown
+                          ? "top-[-87%] left-[-42%]"
+                          : player.isIllustrationPositionCorrectedLeft
+                          ? "top-[-82%] left-[-49%]"
+                          : "top-[-82%] left-[-42%]"
+                      }  h-[180%] max-w-[55%]`
+                } transform rotate-[-38deg] skew-x-[16deg] z-50
                 ${
                   player.isIllustrationReverted
                     ? "transform -scale-x-100"
