@@ -85,7 +85,7 @@ export function usePlayingBoard(
                 id="target"
                 src={player.illustration}
                 className={`absolute ${
-                  player.isCompulsionAnimated //"top-[-256%] left-[-162%] h-[383%] max-w-[133%]"
+                  player.isCompulsionAnimated
                     ? `${
                         player.isIllustrationPositionCorrectedUp
                           ? "top-[-261%] left-[-148%]"
@@ -114,7 +114,24 @@ export function usePlayingBoard(
                           ? "top-[-82%] left-[-49%]"
                           : "top-[-82%] left-[-42%]"
                       }  h-[180%] max-w-[55%]`
-                } transform rotate-[-38deg] skew-x-[16deg] z-50 ${
+                } transform rotate-[-38deg] skew-x-[16deg] z-50 
+                
+                ${
+                  player.isDead
+                    ? `${
+                        player.isIllustrationPositionCorrectedUp
+                          ? "top-[-243%] left-[-222%]"
+                          : player.isIllustrationPositionCorrectedDown
+                          ? "top-[-226%] left-[-231%]"
+                          : player.isIllustrationPositionCorrectedLeft
+                          ? "top-[-247%] left-[-213%]"
+                          : "top-[-252%] left-[-201%]"
+                      }   h-[383%] max-w-[254%]`
+                    : ""
+                }
+                }
+
+                ${
                   player.isIllustrationReverted
                     ? "transform -scale-x-100"
                     : undefined

@@ -4,8 +4,7 @@ export function generatePlayer(): Player {
   return {
     name: "Iopette",
     illustration: "./player-static/player-static-front-right.png",
-    //illustration: "./player-animations/boost-animation.gif",
-    position: "4-3",
+    position: "6-1",
     orientation: "right",
     pv: 100,
     pm: 3,
@@ -19,5 +18,6 @@ export function generatePlayer(): Player {
     isCompulsionAnimated: false,
     isPressionAnimated: false,
     isMoving: false,
+    isDead: false,
   };
 }

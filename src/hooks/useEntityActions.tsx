@@ -69,12 +69,59 @@ export function useEntityActions(
     }, 1100);
 
     if (player.pv <= 0) {
+      setPlayerInfo("isDead", true);
+      switch (player.orientation) {
+        case "up":
+          setPlayerInfo("isIllustrationReverted", true);
+          setPlayerInfo("isIllustrationPositionCorrectedUp", true);
+          setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+          setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+          setPlayerInfo(
+            "illustration",
+            "./player-animations/death-animation-left.gif"
+          );
+          break;
+        case "down":
+          setPlayerInfo("isIllustrationReverted", true);
+          setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+          setPlayerInfo("isIllustrationPositionCorrectedDown", true);
+          setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+          setPlayerInfo(
+            "illustration",
+            "./player-animations/death-animation.gif"
+          );
+          break;
+        case "left":
+          setPlayerInfo("isIllustrationReverted", false);
+          setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+          setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+          setPlayerInfo("isIllustrationPositionCorrectedLeft", true);
+          setPlayerInfo(
+            "illustration",
+            "./player-animations/death-animation-left.gif"
+          );
+          break;
+        case "right":
+          setPlayerInfo("isIllustrationReverted", false);
+          setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+          setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+          setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+          setPlayerInfo(
+            "illustration",
+            "./player-animations/death-animation.gif"
+          );
+          break;
+        default:
+          break;
+      }
       playAudio(effects[getRandomInt(effects.length)], 0.2, false, true);
       playAudio(playerDeath1, 0.2, false, true);
       setTimeout(() => {
         playAudio(playerDeath2, 0.1, false, true);
-        setIsGameOver(true);
       }, 500);
+      setTimeout(() => {
+        setIsGameOver(true);
+      }, 1150);
       return;
     }
 
