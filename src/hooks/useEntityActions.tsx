@@ -318,10 +318,83 @@ export function useEntityActions(
 
         setPlayerInfo("isCompulsionAnimated", true);
 
-        setPlayerInfo(
-          "illustration",
-          "./player-animations/boost-animation.gif"
-        );
+        switch (player.orientation) {
+          case "up":
+            setPlayerInfo("isIllustrationReverted", true);
+            setPlayerInfo("isIllustrationPositionCorrectedUp", true);
+            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+            setPlayerInfo(
+              "illustration",
+              "./player-animations/boost-animation-left.gif"
+            );
+            setTimeout(() => {
+              setPlayerInfo("illustration", initialImage);
+              setPlayerInfo("isPressionAnimated", false);
+              setPlayerInfo(
+                "illustration",
+                "./player-static/player-static-left.png"
+              );
+            }, 1000);
+            break;
+          case "down":
+            setPlayerInfo("isIllustrationReverted", true);
+            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+            setPlayerInfo("isIllustrationPositionCorrectedDown", true);
+            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+            setPlayerInfo(
+              "illustration",
+              "./player-animations/boost-animation.gif"
+            );
+            setTimeout(() => {
+              setPlayerInfo("illustration", initialImage);
+              setPlayerInfo("isPressionAnimated", false);
+              setPlayerInfo(
+                "illustration",
+                "./player-static/player-static-front-right.png"
+              );
+            }, 1000);
+            break;
+          case "left":
+            setPlayerInfo("isIllustrationReverted", false);
+            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+            setPlayerInfo("isIllustrationPositionCorrectedLeft", true);
+            setPlayerInfo(
+              "illustration",
+              "./player-animations/boost-animation-left.gif"
+            );
+            setTimeout(() => {
+              setPlayerInfo("illustration", initialImage);
+              setPlayerInfo("isPressionAnimated", false);
+              setPlayerInfo(
+                "illustration",
+                "./player-static/player-static-left.png"
+              );
+            }, 1000);
+            break;
+          case "right":
+            setPlayerInfo("isIllustrationReverted", false);
+            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+            setPlayerInfo(
+              "illustration",
+              "./player-animations/boost-animation.gif"
+            );
+            setTimeout(() => {
+              setPlayerInfo("illustration", initialImage);
+              setPlayerInfo("isPressionAnimated", false);
+            }, 1000);
+            break;
+          default:
+            break;
+        }
+
+        // setPlayerInfo(
+        //   "illustration",
+        //   "./player-animations/boost-animation.gif"
+        // );
         setTimeout(() => {
           setPlayerInfo("illustration", initialImage);
           setPlayerInfo("isCompulsionAnimated", false);

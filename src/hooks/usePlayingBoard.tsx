@@ -85,8 +85,16 @@ export function usePlayingBoard(
                 id="target"
                 src={player.illustration}
                 className={`absolute ${
-                  player.isCompulsionAnimated
-                    ? "top-[-256%] left-[-162%] h-[383%] max-w-[133%]"
+                  player.isCompulsionAnimated //"top-[-256%] left-[-162%] h-[383%] max-w-[133%]"
+                    ? `${
+                        player.isIllustrationPositionCorrectedUp
+                          ? "top-[-261%] left-[-148%]"
+                          : player.isIllustrationPositionCorrectedDown
+                          ? "top-[-245%] left-[-171%]"
+                          : player.isIllustrationPositionCorrectedLeft
+                          ? "top-[-238%] left-[-185%]"
+                          : "top-[-256%] left-[-162%]"
+                      }   h-[383%] max-w-[133%]`
                     : player.isPressionAnimated
                     ? `${
                         player.isIllustrationPositionCorrectedUp

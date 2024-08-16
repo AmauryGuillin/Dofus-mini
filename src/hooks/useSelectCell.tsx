@@ -149,6 +149,7 @@ export function useSelectCell(
         setPlayerInfo("isIllustrationPositionCorrectedUp", true);
         setPlayerInfo("isIllustrationPositionCorrectedDown", false);
         setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+        setPlayerInfo("orientation", "up");
         setPlayerInfo("illustration", "./player-static/player-static-left.png");
         break;
       case "down":
@@ -156,6 +157,7 @@ export function useSelectCell(
         setPlayerInfo("isIllustrationPositionCorrectedUp", false);
         setPlayerInfo("isIllustrationPositionCorrectedDown", true);
         setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+        setPlayerInfo("orientation", "down");
         setPlayerInfo(
           "illustration",
           "./player-static/player-static-front-right.png"
@@ -166,6 +168,7 @@ export function useSelectCell(
         setPlayerInfo("isIllustrationPositionCorrectedUp", false);
         setPlayerInfo("isIllustrationPositionCorrectedDown", false);
         setPlayerInfo("isIllustrationPositionCorrectedLeft", true);
+        setPlayerInfo("orientation", "left");
         setPlayerInfo("illustration", "./player-static/player-static-left.png");
         break;
       case "right":
@@ -173,6 +176,7 @@ export function useSelectCell(
         setPlayerInfo("isIllustrationPositionCorrectedUp", false);
         setPlayerInfo("isIllustrationPositionCorrectedDown", false);
         setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+        setPlayerInfo("orientation", "right");
         setPlayerInfo(
           "illustration",
           "./player-static/player-static-front-right.png"
