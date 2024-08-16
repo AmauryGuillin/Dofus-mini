@@ -55,7 +55,7 @@ export default function Main() {
       <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-900 relative">
         <Confetti gravity={0.05} numberOfPieces={1} />
         <div className="text-white flex flex-col justify-center items-center">
-          <div className="m-10 text-3xl  font-bold">Game Over !</div>
+          <div className="m-10 text-3xl  font-bold">Partie perdue !</div>
           <div>
             <button
               className="border-2 w-fit h-14 p-3 hover:scale-110 transition hover:bg-gray-600"
