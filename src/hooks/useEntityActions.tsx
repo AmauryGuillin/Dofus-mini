@@ -437,11 +437,6 @@ export function useEntityActions(
           default:
             break;
         }
-
-        // setPlayerInfo(
-        //   "illustration",
-        //   "./player-animations/boost-animation.gif"
-        // );
         setTimeout(() => {
           setPlayerInfo("illustration", initialImage);
           setPlayerInfo("isCompulsionAnimated", false);

@@ -39,15 +39,6 @@ export function usePlayingBoard(
 
   const { selectCell } = useSelectCell(setMessage);
 
-  // const [scope, animate] = useAnimate();
-
-  // async function handleAnimate() {
-  //   animate("#target", {
-  //     top: Number(player.position.split("-")[0]) * 6 + "rem",
-  //     left: Number(player.position.split("-")[1]) * 6 + "rem",
-  //   });
-  // }
-
   const grid = Array.from({ length: board.length }, (_, rowIndex) =>
     Array.from({ length: board.width }, (_, colIndex) => {
       const key = `${rowIndex}-${colIndex}`;

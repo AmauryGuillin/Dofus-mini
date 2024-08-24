@@ -11,12 +11,7 @@ export default function PlayingBoard({ setMessages }: Props) {
   const player = useStore((state) => state.player);
   const enemy = useStore((state) => state.enemy);
 
-  const [
-    isUserImageDisplayed,
-    passTurn,
-    grid,
-    //canPlayerPassTurn, //A implémenter quand IA sera OK
-  ] = usePlayingBoard(setMessages);
+  const [isUserImageDisplayed, passTurn, grid] = usePlayingBoard(setMessages);
 
   return (
     <>
@@ -34,10 +29,6 @@ export default function PlayingBoard({ setMessages }: Props) {
           <button
             type="button"
             className="border-2 w-36 h-12 hover:scale-110 transition-all delay-[10ms] hover:bg-gray-800 text-white"
-            // onClick={() => {
-            //   if (canPlayerPassTurn) passTurn(turn.name);
-            // }}
-            //onClick={() => passTurn(turn.name)}
             onClick={() =>
               player.isTurnToPlay ? passTurn(player.name) : passTurn(enemy.name)
             }

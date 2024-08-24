@@ -49,7 +49,7 @@ export function usePassTurn() {
         setIsUserImageDisplayed(false);
       }, 2000);
     }
-  } //usePassTurn
+  }
 
   return { isUserImageDisplayed, passTurn };
 }
