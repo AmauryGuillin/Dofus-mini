@@ -2,6 +2,7 @@ import { Player } from "@/types/player";
 
 export function generatePlayer(): Player {
   return {
+    type: "Player",
     name: "Iopette",
     illustration: "./player-static/player-static-front-right.png",
     position: "6-1",

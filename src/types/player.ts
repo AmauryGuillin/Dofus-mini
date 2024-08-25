@@ -1,4 +1,5 @@
 export interface Player {
+  type: "Player";
   name: "Iopette";
   illustration: string;
   position: string;

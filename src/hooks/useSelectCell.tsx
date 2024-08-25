@@ -122,13 +122,11 @@ export function useSelectCell(
 
     if (newPath.length - 1 <= currentPlayer.pm) {
       if (player.isTurnToPlay) {
-        moveEntity(path);
-
         setPlayerInfo("pm", player.pm - (newPath.length - 1));
       } else {
-        setEnemyInfo("position", key);
         setEnemyInfo("pm", enemy.pm - (newPath.length - 1));
       }
+      moveEntity(path, currentPlayer);
 
       setPath([]);
     } else {
@@ -137,7 +135,8 @@ export function useSelectCell(
     }
   }
 
-  function determineEntityOrientation(
+  //TODO: Refactor :)
+  function determinePlayerOrientation(
     cell: string,
     path: string[],
     count: number
@@ -188,16 +187,80 @@ export function useSelectCell(
     }
   }
 
-  async function moveEntity(path: string[]) {
-    setPlayerInfo("isMoving", true);
-    let count = 0;
-    for (const cell of path) {
-      setPlayerInfo("position", cell);
-      determineEntityOrientation(cell, path, count);
-      count++;
-      await new Promise((resolve) => setTimeout(resolve, 187.5)); //187.5
+  //TODO: Refactor :)
+  function determineEnemyOrientation(
+    cell: string,
+    path: string[],
+    count: number
+  ) {
+    const position = handlePlayerMovementDirection(cell, path[count + 1]);
+    switch (position) {
+      case "up":
+        setEnemyInfo("isIllustrationReverted", true);
+        setEnemyInfo("isIllustrationPositionCorrectedUp", true);
+        setEnemyInfo("isIllustrationPositionCorrectedDown", false);
+        setEnemyInfo("isIllustrationPositionCorrectedLeft", false);
+        setEnemyInfo("orientation", "up");
+        //setEnemyInfo("illustration", "./player-static/player-static-left.png");
+        break;
+      case "down":
+        setEnemyInfo("isIllustrationReverted", true);
+        setEnemyInfo("isIllustrationPositionCorrectedUp", false);
+        setEnemyInfo("isIllustrationPositionCorrectedDown", true);
+        setEnemyInfo("isIllustrationPositionCorrectedLeft", false);
+        setEnemyInfo("orientation", "down");
+        // setEnemyInfo(
+        //   "illustration",
+        //   "./player-static/player-static-front-right.png"
+        // );
+        break;
+      case "left":
+        setEnemyInfo("isIllustrationReverted", false);
+        setEnemyInfo("isIllustrationPositionCorrectedUp", false);
+        setEnemyInfo("isIllustrationPositionCorrectedDown", false);
+        setEnemyInfo("isIllustrationPositionCorrectedLeft", true);
+        setEnemyInfo("orientation", "left");
+        //setEnemyInfo("illustration", "./player-static/player-static-left.png");
+        break;
+      case "right":
+        setEnemyInfo("isIllustrationReverted", false);
+        setEnemyInfo("isIllustrationPositionCorrectedUp", false);
+        setEnemyInfo("isIllustrationPositionCorrectedDown", false);
+        setEnemyInfo("isIllustrationPositionCorrectedLeft", false);
+        setEnemyInfo("orientation", "right");
+        // setEnemyInfo(
+        //   "illustration",
+        //   "./player-static/player-static-front-right.png"
+        // );
+        break;
+      default:
+        console.log("nothing to do");
+        break;
     }
-    setPlayerInfo("isMoving", false);
+  }
+
+  async function moveEntity(path: string[], entity: Player | Enemy) {
+    if (entity.type === "Player") {
+      setPlayerInfo("isMoving", true);
+      let count = 0;
+      for (const cell of path) {
+        setPlayerInfo("position", cell);
+        determinePlayerOrientation(cell, path, count);
+        count++;
+        await new Promise((resolve) => setTimeout(resolve, 187.5));
+      }
+      setPlayerInfo("isMoving", false);
+    } else if (entity.type === "Enemy") {
+      setEnemyInfo("isMoving", true);
+      let count = 0;
+      for (const cell of path) {
+        setEnemyInfo("position", cell);
+        determineEnemyOrientation(cell, path, count);
+        count++;
+        await new Promise((resolve) => setTimeout(resolve, 187.5));
+      }
+      setEnemyInfo("isMoving", false);
+    }
   }
 
   return { selectCell };

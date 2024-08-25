@@ -1,4 +1,5 @@
 export interface Enemy {
+  type: "Enemy";
   name: "Bouftou";
   illustration: string;
   position: string;
@@ -9,4 +10,8 @@ export interface Enemy {
   isTurnToPlay: boolean;
   damageTaken: number | null;
   isIllustrationReverted: boolean;
+  isIllustrationPositionCorrectedDown: boolean;
+  isIllustrationPositionCorrectedUp: boolean;
+  isIllustrationPositionCorrectedLeft: boolean;
+  isMoving: boolean;
 }
