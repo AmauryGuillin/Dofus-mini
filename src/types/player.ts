@@ -15,5 +15,6 @@ export interface Player {
   isCompulsionAnimated: boolean;
   isPressionAnimated: boolean;
   isMoving: boolean;
+  isAttacked: boolean;
   isDead: boolean;
 }

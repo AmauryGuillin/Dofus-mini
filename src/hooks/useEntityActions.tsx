@@ -68,44 +68,78 @@ export function useEntityActions(
       setPlayerInfo("damageTaken", null);
     }, 1100);
 
+    const initialImage = player.illustration;
+    setPlayerInfo("isAttacked", true);
+
+    switch (player.orientation) {
+      case "up":
+        animationUp();
+        setPlayerInfo(
+          "illustration",
+          "./player-animations/hit-animation-left.gif"
+        );
+        setTimeout(() => {
+          setPlayerInfo("illustration", initialImage);
+          setPlayerInfo("isAttacked", false);
+        }, 500);
+        break;
+      case "down":
+        animationDown();
+        setPlayerInfo("illustration", "./player-animations/hit-animation.gif");
+        setTimeout(() => {
+          setPlayerInfo("illustration", initialImage);
+          setPlayerInfo("isAttacked", false);
+        }, 500);
+        break;
+      case "right":
+        animationRight();
+        setPlayerInfo("illustration", "./player-animations/hit-animation.gif");
+        setTimeout(() => {
+          setPlayerInfo("illustration", initialImage);
+          setPlayerInfo("isAttacked", false);
+        }, 250);
+        break;
+      case "left":
+        animationLeft();
+        setPlayerInfo(
+          "illustration",
+          "./player-animations/hit-animation-left.gif"
+        );
+        setTimeout(() => {
+          setPlayerInfo("illustration", initialImage);
+          setPlayerInfo("isAttacked", false);
+        }, 500);
+        break;
+      default:
+        break;
+    }
+
     if (player.pv <= 0) {
       setPlayerInfo("isDead", true);
       switch (player.orientation) {
         case "up":
-          setPlayerInfo("isIllustrationReverted", true);
-          setPlayerInfo("isIllustrationPositionCorrectedUp", true);
-          setPlayerInfo("isIllustrationPositionCorrectedDown", false);
-          setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+          animationUp();
           setPlayerInfo(
             "illustration",
             "./player-animations/death-animation-left.gif"
           );
           break;
         case "down":
-          setPlayerInfo("isIllustrationReverted", true);
-          setPlayerInfo("isIllustrationPositionCorrectedUp", false);
-          setPlayerInfo("isIllustrationPositionCorrectedDown", true);
-          setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+          animationDown();
           setPlayerInfo(
             "illustration",
             "./player-animations/death-animation.gif"
           );
           break;
         case "left":
-          setPlayerInfo("isIllustrationReverted", false);
-          setPlayerInfo("isIllustrationPositionCorrectedUp", false);
-          setPlayerInfo("isIllustrationPositionCorrectedDown", false);
-          setPlayerInfo("isIllustrationPositionCorrectedLeft", true);
+          animationLeft();
           setPlayerInfo(
             "illustration",
             "./player-animations/death-animation-left.gif"
           );
           break;
         case "right":
-          setPlayerInfo("isIllustrationReverted", false);
-          setPlayerInfo("isIllustrationPositionCorrectedUp", false);
-          setPlayerInfo("isIllustrationPositionCorrectedDown", false);
-          setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+          animationRight();
           setPlayerInfo(
             "illustration",
             "./player-animations/death-animation.gif"
@@ -125,7 +159,9 @@ export function useEntityActions(
       return;
     }
 
-    playAudio(effects[getRandomInt(effects.length)], 0.2, false, true);
+    setTimeout(() => {
+      playAudio(effects[getRandomInt(effects.length)], 0.2, false, true);
+    }, 100);
     setTimeout(() => {
       playAudio(playerDamage, 0.2, false, true);
     }, 200);
@@ -466,6 +502,34 @@ export function useEntityActions(
         console.log("no spell selected");
         return;
     }
+  }
+
+  function animationLeft() {
+    setPlayerInfo("isIllustrationReverted", false);
+    setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+    setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+    setPlayerInfo("isIllustrationPositionCorrectedLeft", true);
+  }
+
+  function animationRight() {
+    setPlayerInfo("isIllustrationReverted", false);
+    setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+    setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+    setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+  }
+
+  function animationUp() {
+    setPlayerInfo("isIllustrationReverted", true);
+    setPlayerInfo("isIllustrationPositionCorrectedUp", true);
+    setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+    setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+  }
+
+  function animationDown() {
+    setPlayerInfo("isIllustrationReverted", true);
+    setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+    setPlayerInfo("isIllustrationPositionCorrectedDown", true);
+    setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
   }
 
   return { enemyAttack, playerAttack, playerBoost };

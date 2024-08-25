@@ -96,6 +96,16 @@ export function usePlayingBoard(
                           ? "top-[-143%] left-[-115%]"
                           : "top-[-122%] left-[-130%]"
                       }   h-[254%] max-w-[200%]`
+                    : player.isAttacked
+                    ? `${
+                        player.isIllustrationPositionCorrectedUp
+                          ? "top-[-149%] left-[-144%]"
+                          : player.isIllustrationPositionCorrectedDown
+                          ? "top-[-167%] left-[-122%]"
+                          : player.isIllustrationPositionCorrectedLeft
+                          ? "top-[-166%] left-[-118%]"
+                          : "top-[-152%] left-[-139%]"
+                      } h-[268%] max-w-[155%]`
                     : player.isDead
                     ? `${
                         player.isIllustrationPositionCorrectedUp

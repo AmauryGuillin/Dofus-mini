@@ -4,12 +4,12 @@ export function generatePlayer(): Player {
   return {
     name: "Iopette",
     illustration: "./player-static/player-static-front-right.png",
-    position: "6-1",
+    position: "3-4",
     orientation: "right",
-    pv: 100,
+    pv: 999,
     pm: 3,
     pa: 6,
-    isTurnToPlay: true,
+    isTurnToPlay: false,
     damageTaken: null,
     isIllustrationReverted: false,
     isIllustrationPositionCorrectedDown: false,
@@ -18,6 +18,7 @@ export function generatePlayer(): Player {
     isCompulsionAnimated: false,
     isPressionAnimated: false,
     isMoving: false,
+    isAttacked: false,
     isDead: false,
   };
 }

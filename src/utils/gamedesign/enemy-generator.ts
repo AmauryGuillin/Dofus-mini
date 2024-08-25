@@ -4,12 +4,12 @@ export function generateEnemy(): Enemy {
   return {
     name: "Bouftou",
     illustration: "./images/bouftou.png",
-    position: "1-6",
+    position: "3-3",
     orientation: "right",
     pv: 300,
     pm: 3,
-    pa: 6,
-    isTurnToPlay: false,
+    pa: 999,
+    isTurnToPlay: true,
     damageTaken: null,
     isIllustrationReverted: false,
   };

@@ -76,7 +76,11 @@ export const useStore = create<Store>()(
     setBoard: (board) => set(() => ({ board: board })),
     setPlayer: (player) => set(() => ({ player: player })),
     setPlayerInfo: (info, value) =>
-      set((state) => ({ player: { ...state.player, [info]: value } })),
+      set(
+        (state) => ({ player: { ...state.player, [info]: value } }),
+        false,
+        "playerInfo"
+      ),
     setPlayerPM: (pm) => set((state) => ({ player: { ...state.player, pm } })), //deprecated
     setEnemy: (enemy) => set(() => ({ enemy: enemy })),
     setEnemyInfo: (info, value) =>
