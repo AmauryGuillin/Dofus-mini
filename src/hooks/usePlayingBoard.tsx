@@ -96,7 +96,7 @@ export function usePlayingBoard(
                           ? "top-[-143%] left-[-115%]"
                           : "top-[-122%] left-[-130%]"
                       }   h-[254%] max-w-[200%]`
-                    : player.isAttacked
+                    : player.isAttacked && !player.isDead
                     ? `${
                         player.isIllustrationPositionCorrectedUp
                           ? "top-[-149%] left-[-144%]"
@@ -147,7 +147,7 @@ export function usePlayingBoard(
                 </div>
               )}
               {showPlayerInfo && (
-                <div className="absolute top-[-180%] left-[-305%] w-48 h-20 border-2 transform rotate-[-45deg] skew-x-[9deg] flex flex-col justify-center items-center rounded bg-gray-600 gap-4 z-[999] text-white">
+                <div className="absolute top-[-268%] left-[-470%] w-48 h-20 border-2 transform rotate-[-45deg] skew-x-[9deg] flex flex-col justify-center items-center rounded bg-gray-600 gap-4 z-[999] text-white">
                   <div>{player.name}</div>
                   <div className="flex justify-center items-center z-10">
                     <Progress value={player.pv} />
@@ -188,7 +188,7 @@ export function usePlayingBoard(
                 <div className="absolute top-[-216%] left-[-381%] w-48 h-20 border-2 transform rotate-[-45deg] skew-x-[9deg] flex flex-col justify-center items-center rounded bg-gray-600 gap-4 z-[999] text-white">
                   <div>{enemy.name}</div>
                   <div className="flex justify-center items-center">
-                    <Progress value={enemy.pv} />
+                    <Progress value={enemy.pv} max={300} />
                   </div>
                 </div>
               )}

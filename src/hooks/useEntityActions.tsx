@@ -71,49 +71,6 @@ export function useEntityActions(
     const initialImage = player.illustration;
     setPlayerInfo("isAttacked", true);
 
-    switch (player.orientation) {
-      case "up":
-        animationUp();
-        setPlayerInfo(
-          "illustration",
-          "./player-animations/hit-animation-left.gif"
-        );
-        setTimeout(() => {
-          setPlayerInfo("illustration", initialImage);
-          setPlayerInfo("isAttacked", false);
-        }, 500);
-        break;
-      case "down":
-        animationDown();
-        setPlayerInfo("illustration", "./player-animations/hit-animation.gif");
-        setTimeout(() => {
-          setPlayerInfo("illustration", initialImage);
-          setPlayerInfo("isAttacked", false);
-        }, 500);
-        break;
-      case "right":
-        animationRight();
-        setPlayerInfo("illustration", "./player-animations/hit-animation.gif");
-        setTimeout(() => {
-          setPlayerInfo("illustration", initialImage);
-          setPlayerInfo("isAttacked", false);
-        }, 250);
-        break;
-      case "left":
-        animationLeft();
-        setPlayerInfo(
-          "illustration",
-          "./player-animations/hit-animation-left.gif"
-        );
-        setTimeout(() => {
-          setPlayerInfo("illustration", initialImage);
-          setPlayerInfo("isAttacked", false);
-        }, 500);
-        break;
-      default:
-        break;
-    }
-
     if (player.pv <= 0) {
       setPlayerInfo("isDead", true);
       switch (player.orientation) {
@@ -157,6 +114,49 @@ export function useEntityActions(
         setIsGameOver(true);
       }, 1150);
       return;
+    }
+
+    switch (player.orientation) {
+      case "up":
+        animationUp();
+        setPlayerInfo(
+          "illustration",
+          "./player-animations/hit-animation-left.gif"
+        );
+        setTimeout(() => {
+          setPlayerInfo("illustration", initialImage);
+          setPlayerInfo("isAttacked", false);
+        }, 250);
+        break;
+      case "down":
+        animationDown();
+        setPlayerInfo("illustration", "./player-animations/hit-animation.gif");
+        setTimeout(() => {
+          setPlayerInfo("illustration", initialImage);
+          setPlayerInfo("isAttacked", false);
+        }, 250);
+        break;
+      case "right":
+        animationRight();
+        setPlayerInfo("illustration", "./player-animations/hit-animation.gif");
+        setTimeout(() => {
+          setPlayerInfo("illustration", initialImage);
+          setPlayerInfo("isAttacked", false);
+        }, 250);
+        break;
+      case "left":
+        animationLeft();
+        setPlayerInfo(
+          "illustration",
+          "./player-animations/hit-animation-left.gif"
+        );
+        setTimeout(() => {
+          setPlayerInfo("illustration", initialImage);
+          setPlayerInfo("isAttacked", false);
+        }, 250);
+        break;
+      default:
+        break;
     }
 
     setTimeout(() => {
@@ -243,6 +243,7 @@ export function useEntityActions(
 
         switch (position) {
           case "up":
+            setPlayerInfo("orientation", "up");
             setPlayerInfo("isIllustrationReverted", true);
             setPlayerInfo("isIllustrationPositionCorrectedUp", true);
             setPlayerInfo("isIllustrationPositionCorrectedDown", false);
@@ -261,6 +262,7 @@ export function useEntityActions(
             }, 1000);
             break;
           case "down":
+            setPlayerInfo("orientation", "down");
             setPlayerInfo("isIllustrationReverted", true);
             setPlayerInfo("isIllustrationPositionCorrectedUp", false);
             setPlayerInfo("isIllustrationPositionCorrectedDown", true);
@@ -279,6 +281,7 @@ export function useEntityActions(
             }, 1000);
             break;
           case "left":
+            setPlayerInfo("orientation", "left");
             setPlayerInfo("isIllustrationReverted", false);
             setPlayerInfo("isIllustrationPositionCorrectedUp", false);
             setPlayerInfo("isIllustrationPositionCorrectedDown", false);
@@ -297,6 +300,7 @@ export function useEntityActions(
             }, 1000);
             break;
           case "right":
+            setPlayerInfo("orientation", "right");
             setPlayerInfo("isIllustrationReverted", false);
             setPlayerInfo("isIllustrationPositionCorrectedUp", false);
             setPlayerInfo("isIllustrationPositionCorrectedDown", false);
