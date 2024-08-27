@@ -73,12 +73,13 @@ export default function LoadingProgress({ isLoading }: Props) {
 
   return (
     <>
-      <div className="absolute bottom-[-92%] left-[50%] translate-x-[-50%] h-full w-[20%]">
+      <div className="absolute bottom-[calc(100dvh-88dvh)] left-[50%] translate-x-[-50%] w-[20%]">
         <ProgressLoading value={loadingValue}></ProgressLoading>
       </div>
-      <div className="absolute bottom-[-95%] left-[50%] translate-x-[-50%] h-full w-[20%]">
+      <div className="absolute bottom-[calc(100dvh-92dvh)] left-[50%] translate-x-[-50%] w-[20%]">
         <ProgressLoading value={loadingValue2}></ProgressLoading>
       </div>
+      <div className="absolute bottom-[calc(100dvh-88dvh)] left-[50%] bg-black "></div>
     </>
   );
 }

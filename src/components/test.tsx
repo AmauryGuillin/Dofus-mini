@@ -7,7 +7,7 @@ export default function Test() {
   const random = getRandomIntMinMax(1, 17);
 
   return (
-    <div className="w-[80dvw] mx-auto h-screen flex justify-center items-center relative">
+    <div className="w-[80dvw] mx-auto h-screen flex justify-center items-center relative border-x-white border-x-4">
       <img
         src={`/loading-screens/${random}.png`}
         alt="loading screen"
