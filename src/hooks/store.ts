@@ -9,6 +9,7 @@ import { devtools } from "zustand/middleware";
 import { Spell } from "../types/attack";
 
 type InitialState = {
+  gameStarted: boolean;
   board: Board;
   player: Player;
   enemy: Enemy;
@@ -26,6 +27,7 @@ type InitialState = {
 };
 
 type Actions = {
+  setGameStarted: (value: boolean) => void;
   setBoard: (board: Board) => void;
   setPlayer: (player: Player) => void;
   setPlayerInfo: (
@@ -54,6 +56,7 @@ type Actions = {
 type Store = InitialState & Actions;
 
 const initialState: InitialState = {
+  gameStarted: false,
   board: generateBoard(),
   player: generatePlayer(),
   enemy: generateEnemy(),
@@ -73,6 +76,7 @@ const initialState: InitialState = {
 export const useStore = create<Store>()(
   devtools((set) => ({
     ...initialState,
+    setGameStarted: (value) => set(() => ({ gameStarted: value })),
     setBoard: (board) => set(() => ({ board: board })),
     setPlayer: (player) => set(() => ({ player: player })),
     setPlayerInfo: (info, value) =>
