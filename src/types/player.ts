@@ -5,7 +5,9 @@ export interface Player {
   position: string;
   orientation: "up" | "down" | "right" | "left";
   pv: number;
+  pmMax: number;
   pm: number;
+  paMax: number;
   pa: number;
   isTurnToPlay: boolean;
   damageTaken: number | null;

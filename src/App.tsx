@@ -1,6 +1,5 @@
 import "./App.css";
 import Main from "./components/main";
-import TitleMenu from "./components/title-menu";
 import { useStore } from "./hooks/store";
 
 function App() {
@@ -8,7 +7,8 @@ function App() {
   return (
     <>
       <div className="bg-gray-950">
-        {gameStarted ? <Main /> : <TitleMenu />}
+        {/* {gameStarted ? <Main /> : <TitleMenu />} */}
+        <Main />
       </div>
     </>
   );

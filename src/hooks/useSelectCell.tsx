@@ -201,7 +201,7 @@ export function useSelectCell(
         setEnemyInfo("isIllustrationPositionCorrectedDown", false);
         setEnemyInfo("isIllustrationPositionCorrectedLeft", false);
         setEnemyInfo("orientation", "up");
-        //setEnemyInfo("illustration", "./player-static/player-static-left.png");
+        setEnemyInfo("illustration", "./enemy-static/bouftou-left.png");
         break;
       case "down":
         setEnemyInfo("isIllustrationReverted", true);
@@ -209,10 +209,7 @@ export function useSelectCell(
         setEnemyInfo("isIllustrationPositionCorrectedDown", true);
         setEnemyInfo("isIllustrationPositionCorrectedLeft", false);
         setEnemyInfo("orientation", "down");
-        // setEnemyInfo(
-        //   "illustration",
-        //   "./player-static/player-static-front-right.png"
-        // );
+        setEnemyInfo("illustration", "./enemy-static/bouftou.png");
         break;
       case "left":
         setEnemyInfo("isIllustrationReverted", false);
@@ -220,7 +217,7 @@ export function useSelectCell(
         setEnemyInfo("isIllustrationPositionCorrectedDown", false);
         setEnemyInfo("isIllustrationPositionCorrectedLeft", true);
         setEnemyInfo("orientation", "left");
-        //setEnemyInfo("illustration", "./player-static/player-static-left.png");
+        setEnemyInfo("illustration", "./enemy-static/bouftou-left.png");
         break;
       case "right":
         setEnemyInfo("isIllustrationReverted", false);
@@ -228,10 +225,7 @@ export function useSelectCell(
         setEnemyInfo("isIllustrationPositionCorrectedDown", false);
         setEnemyInfo("isIllustrationPositionCorrectedLeft", false);
         setEnemyInfo("orientation", "right");
-        // setEnemyInfo(
-        //   "illustration",
-        //   "./player-static/player-static-front-right.png"
-        // );
+        setEnemyInfo("illustration", "./enemy-static/bouftou.png");
         break;
       default:
         console.log("nothing to do");

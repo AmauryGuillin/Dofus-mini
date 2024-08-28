@@ -1,4 +1,6 @@
 import { ChatInfoMessage } from "@/types/chat-info-message";
+import { Enemy } from "@/types/enemy";
+import { Player } from "@/types/player";
 import { generateBouftouBite } from "@/utils/gamedesign/enemy-attack-generator";
 import { generatePression } from "@/utils/gamedesign/player-attack-generator";
 import { generateCompulsion } from "@/utils/gamedesign/player-boost-generator";
@@ -68,35 +70,41 @@ export function useEntityActions(
       setPlayerInfo("damageTaken", null);
     }, 1100);
 
-    const initialImage = player.illustration;
+    const playerInitialImage = player.illustration;
+
+    const playerPosition = calculateEnemyPositionComparedToPlayer(
+      player.position,
+      enemy.position
+    );
+
     setPlayerInfo("isAttacked", true);
 
     if (player.pv <= 0) {
       setPlayerInfo("isDead", true);
       switch (player.orientation) {
         case "up":
-          animationUp();
+          animationUp(player);
           setPlayerInfo(
             "illustration",
             "./player-animations/death-animation-left.gif"
           );
           break;
         case "down":
-          animationDown();
+          animationDown(player);
           setPlayerInfo(
             "illustration",
             "./player-animations/death-animation.gif"
           );
           break;
         case "left":
-          animationLeft();
+          animationLeft(player);
           setPlayerInfo(
             "illustration",
             "./player-animations/death-animation-left.gif"
           );
           break;
         case "right":
-          animationRight();
+          animationRight(player);
           setPlayerInfo(
             "illustration",
             "./player-animations/death-animation.gif"
@@ -118,42 +126,92 @@ export function useEntityActions(
 
     switch (player.orientation) {
       case "up":
-        animationUp();
+        animationUp(player);
         setPlayerInfo(
           "illustration",
           "./player-animations/hit-animation-left.gif"
         );
         setTimeout(() => {
-          setPlayerInfo("illustration", initialImage);
+          setPlayerInfo("illustration", playerInitialImage);
           setPlayerInfo("isAttacked", false);
         }, 250);
         break;
       case "down":
-        animationDown();
+        animationDown(player);
         setPlayerInfo("illustration", "./player-animations/hit-animation.gif");
         setTimeout(() => {
-          setPlayerInfo("illustration", initialImage);
+          setPlayerInfo("illustration", playerInitialImage);
           setPlayerInfo("isAttacked", false);
         }, 250);
         break;
       case "right":
-        animationRight();
+        animationRight(player);
         setPlayerInfo("illustration", "./player-animations/hit-animation.gif");
         setTimeout(() => {
-          setPlayerInfo("illustration", initialImage);
+          setPlayerInfo("illustration", playerInitialImage);
           setPlayerInfo("isAttacked", false);
         }, 250);
         break;
       case "left":
-        animationLeft();
+        animationLeft(player);
         setPlayerInfo(
           "illustration",
           "./player-animations/hit-animation-left.gif"
         );
         setTimeout(() => {
-          setPlayerInfo("illustration", initialImage);
+          setPlayerInfo("illustration", playerInitialImage);
           setPlayerInfo("isAttacked", false);
         }, 250);
+        break;
+      default:
+        break;
+    }
+
+    setEnemyInfo("isAttackAnimated", true);
+
+    switch (playerPosition) {
+      case "up":
+        animationUp(enemy);
+        setEnemyInfo(
+          "illustration",
+          "./enemy-animations/bouftou-attack-left.gif"
+        );
+
+        setTimeout(() => {
+          setEnemyInfo("illustration", "./enemy-static/bouftou-left.png");
+          setEnemyInfo("isAttackAnimated", false);
+        }, 2000);
+        break;
+      case "down":
+        animationDown(enemy);
+        console.log("ici");
+        setEnemyInfo("illustration", "./enemy-animations/bouftou-attack.gif");
+
+        setTimeout(() => {
+          setEnemyInfo("illustration", "./enemy-static/bouftou.png");
+          setEnemyInfo("isAttackAnimated", false);
+        }, 2000);
+        break;
+      case "right":
+        animationRight(enemy);
+        setEnemyInfo("illustration", "./enemy-animations/bouftou-attack.gif");
+
+        setTimeout(() => {
+          setEnemyInfo("illustration", "./enemy-static/bouftou.png");
+          setEnemyInfo("isAttackAnimated", false);
+        }, 2000);
+        break;
+      case "left":
+        animationLeft(enemy);
+        setEnemyInfo(
+          "illustration",
+          "./enemy-animations/bouftou-attack-left.gif"
+        );
+
+        setTimeout(() => {
+          setEnemyInfo("illustration", "./enemy-static/bouftou-left.png");
+          setEnemyInfo("isAttackAnimated", false);
+        }, 2000);
         break;
       default:
         break;
@@ -508,32 +566,68 @@ export function useEntityActions(
     }
   }
 
-  function animationLeft() {
-    setPlayerInfo("isIllustrationReverted", false);
-    setPlayerInfo("isIllustrationPositionCorrectedUp", false);
-    setPlayerInfo("isIllustrationPositionCorrectedDown", false);
-    setPlayerInfo("isIllustrationPositionCorrectedLeft", true);
+  function animationLeft(entity: Player | Enemy) {
+    if (entity.type === "Player") {
+      setPlayerInfo("isIllustrationReverted", false);
+      setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+      setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+      setPlayerInfo("isIllustrationPositionCorrectedLeft", true);
+      return;
+    } else if (entity.type === "Enemy") {
+      setEnemyInfo("isIllustrationReverted", false);
+      setEnemyInfo("isIllustrationPositionCorrectedUp", false);
+      setEnemyInfo("isIllustrationPositionCorrectedDown", false);
+      setEnemyInfo("isIllustrationPositionCorrectedLeft", true);
+      return;
+    }
   }
 
-  function animationRight() {
-    setPlayerInfo("isIllustrationReverted", false);
-    setPlayerInfo("isIllustrationPositionCorrectedUp", false);
-    setPlayerInfo("isIllustrationPositionCorrectedDown", false);
-    setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+  function animationRight(entity: Player | Enemy) {
+    if (entity.type === "Player") {
+      setPlayerInfo("isIllustrationReverted", false);
+      setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+      setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+      setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+      return;
+    } else if (entity.type === "Enemy") {
+      setEnemyInfo("isIllustrationReverted", false);
+      setEnemyInfo("isIllustrationPositionCorrectedUp", false);
+      setEnemyInfo("isIllustrationPositionCorrectedDown", false);
+      setEnemyInfo("isIllustrationPositionCorrectedLeft", false);
+      return;
+    }
   }
 
-  function animationUp() {
-    setPlayerInfo("isIllustrationReverted", true);
-    setPlayerInfo("isIllustrationPositionCorrectedUp", true);
-    setPlayerInfo("isIllustrationPositionCorrectedDown", false);
-    setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+  function animationUp(entity: Player | Enemy) {
+    if (entity.type === "Player") {
+      setPlayerInfo("isIllustrationReverted", true);
+      setPlayerInfo("isIllustrationPositionCorrectedUp", true);
+      setPlayerInfo("isIllustrationPositionCorrectedDown", false);
+      setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+      return;
+    } else if (entity.type === "Enemy") {
+      setEnemyInfo("isIllustrationReverted", true);
+      setEnemyInfo("isIllustrationPositionCorrectedUp", true);
+      setEnemyInfo("isIllustrationPositionCorrectedDown", false);
+      setEnemyInfo("isIllustrationPositionCorrectedLeft", false);
+      return;
+    }
   }
 
-  function animationDown() {
-    setPlayerInfo("isIllustrationReverted", true);
-    setPlayerInfo("isIllustrationPositionCorrectedUp", false);
-    setPlayerInfo("isIllustrationPositionCorrectedDown", true);
-    setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+  function animationDown(entity: Player | Enemy) {
+    if (entity.type === "Player") {
+      setPlayerInfo("isIllustrationReverted", true);
+      setPlayerInfo("isIllustrationPositionCorrectedUp", false);
+      setPlayerInfo("isIllustrationPositionCorrectedDown", true);
+      setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+      return;
+    } else if (entity.type === "Enemy") {
+      setEnemyInfo("isIllustrationReverted", true);
+      setEnemyInfo("isIllustrationPositionCorrectedUp", false);
+      setEnemyInfo("isIllustrationPositionCorrectedDown", true);
+      setEnemyInfo("isIllustrationPositionCorrectedLeft", false);
+      return;
+    }
   }
 
   return { enemyAttack, playerAttack, playerBoost };

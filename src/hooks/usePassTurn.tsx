@@ -21,8 +21,8 @@ export function usePassTurn() {
   function passTurn(entity: string) {
     setSelectedSpell(null);
     if (entity === player.name) {
-      player.pm = 3;
-      player.pa = 6;
+      player.pm = player.pmMax;
+      player.pa = player.paMax;
       setEnemyInfo("isTurnToPlay", true);
       setPlayerInfo("isTurnToPlay", false);
       setIsUserImageDisplayed(true);
@@ -38,8 +38,8 @@ export function usePassTurn() {
         }
       }
       setTurnCount(turnCount + 1);
-      enemy.pm = 3;
-      enemy.pa = 6;
+      enemy.pm = enemy.pmMax;
+      enemy.pa = enemy.paMax;
       const audioSource = "./200_fx_69.mp3.mp3";
       playAudio(audioSource, 0.5, false, true);
       setEnemyInfo("isTurnToPlay", false);

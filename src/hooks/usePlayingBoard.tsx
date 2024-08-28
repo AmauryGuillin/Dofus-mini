@@ -168,7 +168,27 @@ export function usePlayingBoard(
             <>
               <img
                 src={enemy.illustration}
-                className="absolute top-[-53%] left-[-27%] h-[165%] max-w-[101%] transform rotate-[-44deg] skew-x-[8deg] z-50"
+                className={`absolute ${
+                  enemy.isAttackAnimated
+                    ? `${
+                        enemy.isIllustrationPositionCorrectedUp
+                          ? "top-[-69%] left-[-42%] h-[190%] max-w-[118%]"
+                          : `${
+                              enemy.isIllustrationPositionCorrectedDown
+                                ? "top-[-47%] left-[-18%] h-[190%] max-w-[118%]"
+                                : `${
+                                    enemy.isIllustrationPositionCorrectedLeft
+                                      ? "top-[-69%] left-[-42%] h-[190%] max-w-[118%]"
+                                      : "top-[-53%] left-[-9%] h-[190%] max-w-[118%]"
+                                  }`
+                            }`
+                      }`
+                    : "top-[-42%] left-[-18%] h-[134%] max-w-[77%]"
+                }  transform rotate-[-44deg] skew-x-[8deg] z-50 ${
+                  enemy.isIllustrationReverted
+                    ? "transform -scale-x-100"
+                    : undefined
+                }`}
                 onMouseEnter={() => {
                   setShowEnemyInfo(true);
                   calculPMRangeDisplay(enemy, board.width, board.length);
