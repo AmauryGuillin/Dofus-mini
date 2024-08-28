@@ -18,6 +18,25 @@ export default function TitleMenuProgress({ isLoading }: Props) {
     "/home-musics/48_loc_cania.mp3.mp3",
   ];
 
+  const loadingContent = [
+    "images",
+    "monstre",
+    "monde",
+    "sorts",
+    "histoire",
+    "textures",
+    "sons",
+    "musique",
+    "objets",
+    "quêtes",
+    "dialogues",
+    "cartes",
+    "effets",
+    "interfaces",
+    "cinématiques",
+    "scripts",
+  ];
+
   const music = document.createElement("audio");
   useEffect(() => {
     music.src = musics[getRandomInt(musics.length)];
@@ -75,13 +94,19 @@ export default function TitleMenuProgress({ isLoading }: Props) {
     <>
       {isLoading && (
         <>
-          <div className="absolute bottom-[calc(100dvh-88dvh)] left-[50%] translate-x-[-50%] w-[20%]">
-            <ProgressLoading value={loadingValue}></ProgressLoading>
+          <div className="absolute bottom-[calc(100dvh-91dvh)] left-[50%] translate-x-[-50%] w-[20%] z-50">
+            <ProgressLoading
+              value={loadingValue}
+              content="Loading"
+            ></ProgressLoading>
           </div>
-          <div className="absolute bottom-[calc(100dvh-92dvh)] left-[50%] translate-x-[-50%] w-[20%]">
-            <ProgressLoading value={loadingValue2}></ProgressLoading>
+          <div className="absolute bottom-[calc(100dvh-95dvh)] left-[50%] translate-x-[-50%] w-[20%] z-50">
+            <ProgressLoading
+              value={loadingValue2}
+              content={loadingContent[getRandomInt(loadingContent.length)]}
+            ></ProgressLoading>
           </div>
-          <div className="absolute bottom-[calc(100dvh-88dvh)] left-[50%] bg-black "></div>
+          <div className="absolute top-[87%] left-[50%] translate-x-[-50%] h-[13dvh] w-1/4 bg-[#2D2D2D] rounded-tl-2xl rounded-tr-2xl border-t-[3px] border-x-[3px] border-[#A4A6A5]"></div>
         </>
       )}
     </>

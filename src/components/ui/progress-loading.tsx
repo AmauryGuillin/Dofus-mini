@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 const ProgressLoading = React.forwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>
->(({ className, value, max = 100, ...props }, ref) => (
+>(({ className, value, max = 100, content, ...props }, ref) => (
   <ProgressPrimitive.Root
     ref={ref}
     className={cn(
@@ -22,7 +22,7 @@ const ProgressLoading = React.forwardRef<
       }}
     />
     <div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white font-semibold">
-      {value}
+      {content} {value}%
     </div>
   </ProgressPrimitive.Root>
 ));
