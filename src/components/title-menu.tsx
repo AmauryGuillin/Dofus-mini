@@ -13,6 +13,11 @@ export default function TitleMenu() {
         alt="loading screen"
         className="h-full w-full object-fill"
       />
+      <img
+        src="./images/title-screen-logo.png"
+        alt="title screen logo"
+        className="z-50 absolute top-[2%] left-[15%] translate-x-[-50%] size-1/4"
+      />
       <LoadingImage />
     </div>
   );
