@@ -1,9 +1,9 @@
 import { getRandomIntMinMax } from "@/utils/tools/getRandomNumber";
 import { useState } from "react";
-import LoadingProgress from "./Loading-Progress";
-import { Button } from "./ui/button";
+import TitleMenuProgress from "./title-menu-progress";
+import { TitleMenuButton } from "./ui/title-menu-button";
 
-export default function Test() {
+export default function TitleMenu() {
   const random = getRandomIntMinMax(1, 17);
 
   return (
@@ -25,13 +25,13 @@ function LoadingImage() {
   }
   return (
     <>
-      <Button
+      <TitleMenuButton
         className="absolute top-[50%] left-[50%] translate-x-[-50%]"
         onClick={startGame}
       >
-        Lancer la partie
-      </Button>
-      <LoadingProgress isLoading={isLoading} />
+        LANCER LA PARTIE
+      </TitleMenuButton>
+      <TitleMenuProgress isLoading={isLoading} />
     </>
   );
 }

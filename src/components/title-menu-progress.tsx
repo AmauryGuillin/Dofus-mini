@@ -7,7 +7,7 @@ type Props = {
   isLoading: boolean;
 };
 
-export default function LoadingProgress({ isLoading }: Props) {
+export default function TitleMenuProgress({ isLoading }: Props) {
   const [loadingValue, setLoadingValue] = useState(0);
   const [loadingValue2, setLoadingValue2] = useState(0);
 
@@ -73,13 +73,17 @@ export default function LoadingProgress({ isLoading }: Props) {
 
   return (
     <>
-      <div className="absolute bottom-[calc(100dvh-88dvh)] left-[50%] translate-x-[-50%] w-[20%]">
-        <ProgressLoading value={loadingValue}></ProgressLoading>
-      </div>
-      <div className="absolute bottom-[calc(100dvh-92dvh)] left-[50%] translate-x-[-50%] w-[20%]">
-        <ProgressLoading value={loadingValue2}></ProgressLoading>
-      </div>
-      <div className="absolute bottom-[calc(100dvh-88dvh)] left-[50%] bg-black "></div>
+      {isLoading && (
+        <>
+          <div className="absolute bottom-[calc(100dvh-88dvh)] left-[50%] translate-x-[-50%] w-[20%]">
+            <ProgressLoading value={loadingValue}></ProgressLoading>
+          </div>
+          <div className="absolute bottom-[calc(100dvh-92dvh)] left-[50%] translate-x-[-50%] w-[20%]">
+            <ProgressLoading value={loadingValue2}></ProgressLoading>
+          </div>
+          <div className="absolute bottom-[calc(100dvh-88dvh)] left-[50%] bg-black "></div>
+        </>
+      )}
     </>
   );
 }
