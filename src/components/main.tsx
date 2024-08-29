@@ -15,7 +15,8 @@ export default function Main() {
   const music1 = "./33_fig_otomai.mp3.mp3";
   const music2 = "./36_fig_cania.mp3.mp3";
   const music3 = "./37_fig_amakna.mp3.mp3";
-  const musics = [music1, music2, music3];
+  const music4 = "./24_loc_pandawafight.mp3.mp3";
+  const musics = [music1, music2, music3, music4];
 
   const isGameOver = useStore((state) => state.isGameOver);
   const isGameWin = useStore((state) => state.isGameWin);
