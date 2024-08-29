@@ -38,6 +38,7 @@ export default function SpellBar() {
   ];
 
   function selectSpell(spell: Spell) {
+    if (!player.isTurnToPlay) return;
     if (player.isMoving) return;
     playClickSounds(0.3);
     setSelectedSpell(spell);
