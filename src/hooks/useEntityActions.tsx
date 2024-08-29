@@ -318,11 +318,10 @@ export function useEntityActions(
               setTimeout(() => {
                 setEnemyInfo("illustration", enemyInitialImage);
                 setEnemyInfo("isAttacked", false);
-              }, 250);
+              }, 750);
               break;
             case "down":
               setTimeout(() => {
-                setEnemyInfo("isAttacked", true);
                 animationDown(enemy);
                 setEnemyInfo(
                   "illustration",
@@ -336,26 +335,33 @@ export function useEntityActions(
               }, 750);
               break;
             case "right":
-              animationRight(enemy);
-              setEnemyInfo(
-                "illustration",
-                "./enemy-animations/bouftou-damage.gif"
-              );
+              setTimeout(() => {
+                setEnemyInfo("isAttacked", true);
+                animationRight(enemy);
+                setEnemyInfo(
+                  "illustration",
+                  "./enemy-animations/bouftou-damage.gif"
+                );
+              }, 500);
+
               setTimeout(() => {
                 setEnemyInfo("illustration", enemyInitialImage);
                 setEnemyInfo("isAttacked", false);
-              }, 250);
+              }, 750);
               break;
             case "left":
-              animationLeft(enemy);
-              setEnemyInfo(
-                "illustration",
-                "./enemy-animations/bouftou-damage-left.gif"
-              );
+              setTimeout(() => {
+                setEnemyInfo("isAttacked", true);
+                animationLeft(enemy);
+                setEnemyInfo(
+                  "illustration",
+                  "./enemy-animations/bouftou-damage-left.gif"
+                );
+              }, 500);
               setTimeout(() => {
                 setEnemyInfo("illustration", enemyInitialImage);
                 setEnemyInfo("isAttacked", false);
-              }, 250);
+              }, 750);
               break;
             default:
               break;
