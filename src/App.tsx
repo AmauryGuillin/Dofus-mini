@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <div className="bg-gray-950">
-        {gameStarted ? <Main /> : <TitleMenu />}
+        {!gameStarted ? <Main /> : <TitleMenu />}
       </div>
     </>
   );

@@ -422,6 +422,40 @@ export function useEntityActions(
             "./enemy-sound-effects/death/331_fx_571.mp3.mp3";
           const bouftoudeathAfter =
             "./enemy-sound-effects/death/316_fx_585.mp3.mp3";
+
+          setEnemyInfo("isDead", true);
+          switch (enemy.orientation) {
+            case "up":
+              animationUp(enemy);
+              setEnemyInfo(
+                "illustration",
+                "./enemy-animations/bouftou-death-left.gif"
+              );
+              break;
+            case "down":
+              animationDown(enemy);
+              setEnemyInfo(
+                "illustration",
+                "./enemy-animations/bouftou-death.gif"
+              );
+              break;
+            case "left":
+              animationLeft(enemy);
+              setEnemyInfo(
+                "illustration",
+                "./enemy-animations/bouftou-death-left.gif"
+              );
+              break;
+            case "right":
+              animationRight(enemy);
+              setEnemyInfo(
+                "illustration",
+                "./enemy-animations/bouftou-death.gif"
+              );
+              break;
+            default:
+              break;
+          }
           playAudio(bouftoudeathBefore, 0.3, false, true);
           setTimeout(() => {
             playAudio(bouftoudeathAfter, 0.3, false, true);
@@ -429,6 +463,7 @@ export function useEntityActions(
           setTimeout(() => {
             setIsGameWin(true);
           }, 1500);
+          return;
         }
         return;
       default:
