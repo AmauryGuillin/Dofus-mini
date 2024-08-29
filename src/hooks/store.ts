@@ -99,7 +99,11 @@ export const useStore = create<Store>()(
     setTurnCount: (value) => set(() => ({ turnCount: value })),
     setBoostDuration: (value) => set(() => ({ boostDuration: value })),
     setPlayerOnAttackMode: (value) =>
-      set(() => ({ playerOnAttackMode: value })),
+      set(
+        () => ({ playerOnAttackMode: value }),
+        false,
+        "setPlayerOnAttackMode"
+      ),
     setCanMove: (value) => set(() => ({ canMove: value })),
     setPath: (value) => set(() => ({ path: value })),
   }))

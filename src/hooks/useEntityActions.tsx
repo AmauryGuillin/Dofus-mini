@@ -373,6 +373,7 @@ export function useEntityActions(
             setTimeout(() => {
               setPlayerInfo("illustration", initialImage);
               setPlayerInfo("isPressionAnimated", false);
+              setPlayerOnAttackMode(false);
               setPlayerInfo(
                 "illustration",
                 "./player-static/player-static-left.png"
@@ -389,6 +390,7 @@ export function useEntityActions(
             setTimeout(() => {
               setPlayerInfo("illustration", initialImage);
               setPlayerInfo("isPressionAnimated", false);
+              setPlayerOnAttackMode(false);
               setPlayerInfo(
                 "illustration",
                 "./player-static/player-static-front-right.png"
@@ -405,6 +407,7 @@ export function useEntityActions(
             setTimeout(() => {
               setPlayerInfo("illustration", initialImage);
               setPlayerInfo("isPressionAnimated", false);
+              setPlayerOnAttackMode(false);
               setPlayerInfo(
                 "illustration",
                 "./player-static/player-static-left.png"
@@ -421,6 +424,7 @@ export function useEntityActions(
             setTimeout(() => {
               setPlayerInfo("illustration", initialImage);
               setPlayerInfo("isPressionAnimated", false);
+              setPlayerOnAttackMode(false);
             }, 1000);
             break;
           default:
@@ -560,6 +564,7 @@ export function useEntityActions(
             setTimeout(() => {
               setPlayerInfo("illustration", initialImage);
               setPlayerInfo("isPressionAnimated", false);
+              setPlayerOnAttackMode(false);
               setPlayerInfo(
                 "illustration",
                 "./player-static/player-static-left.png"
@@ -578,6 +583,7 @@ export function useEntityActions(
             setTimeout(() => {
               setPlayerInfo("illustration", initialImage);
               setPlayerInfo("isPressionAnimated", false);
+              setPlayerOnAttackMode(false);
               setPlayerInfo(
                 "illustration",
                 "./player-static/player-static-front-right.png"
@@ -596,6 +602,7 @@ export function useEntityActions(
             setTimeout(() => {
               setPlayerInfo("illustration", initialImage);
               setPlayerInfo("isPressionAnimated", false);
+              setPlayerOnAttackMode(false);
               setPlayerInfo(
                 "illustration",
                 "./player-static/player-static-left.png"
@@ -614,6 +621,7 @@ export function useEntityActions(
             setTimeout(() => {
               setPlayerInfo("illustration", initialImage);
               setPlayerInfo("isPressionAnimated", false);
+              setPlayerOnAttackMode(false);
             }, 1000);
             break;
           default:
@@ -622,6 +630,7 @@ export function useEntityActions(
         setTimeout(() => {
           setPlayerInfo("illustration", initialImage);
           setPlayerInfo("isCompulsionAnimated", false);
+          setPlayerOnAttackMode(false);
         }, 1000);
 
         setTimeout(() => {
@@ -639,7 +648,6 @@ export function useEntityActions(
         );
         setBoostDuration(5);
         setSelectedSpell(null);
-        setPlayerOnAttackMode(false);
         setAttackRangeDisplay([]);
         setPlayerInfo("pa", (player.pa -= compulsion.cost));
 

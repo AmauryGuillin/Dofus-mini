@@ -57,13 +57,11 @@ export function useSelectCell(
           if (enemy.pv > 0) {
             setCanMove(false);
             playerAttack();
-            setPlayerOnAttackMode(false);
             return;
           }
         } else {
           setSelectedSpell(null);
           setAttackRangeDisplay([]);
-          setPlayerOnAttackMode(false);
           addErrorMessage(`La cible est hors de portée`);
         }
         return;
@@ -121,11 +119,13 @@ export function useSelectCell(
     }
 
     if (newPath.length - 1 <= currentPlayer.pm) {
+      if (path.length === 0) return;
       if (player.isTurnToPlay) {
         setPlayerInfo("pm", player.pm - (newPath.length - 1));
       } else {
         setEnemyInfo("pm", enemy.pm - (newPath.length - 1));
       }
+
       moveEntity(path, currentPlayer);
 
       setPath([]);
@@ -234,6 +234,7 @@ export function useSelectCell(
   }
 
   async function moveEntity(path: string[], entity: Player | Enemy) {
+    if (path.length === 0) return;
     if (entity.type === "Player") {
       setPlayerInfo("isMoving", true);
       let count = 0;
