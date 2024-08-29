@@ -322,6 +322,7 @@ export function useEntityActions(
               break;
             case "down":
               setTimeout(() => {
+                setEnemyInfo("isAttacked", true);
                 animationDown(enemy);
                 setEnemyInfo(
                   "illustration",
