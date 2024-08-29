@@ -30,7 +30,7 @@ export default function Changelog() {
 
   useEffect(() => {
     // Récupère tous les fichiers .md contenu dans le dossiers changelogs
-    const changelogsFiles = import.meta.glob("/src/changelogs/*.md", {
+    const changelogsFiles = import.meta.glob("/dist/changelogs/*.md", {
       query: "?raw",
       import: "default",
     }) as Record<string, () => Promise<string>>;
