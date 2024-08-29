@@ -4,7 +4,7 @@ import { getRandomIntMinMax } from "../tools/getRandomNumber";
 export function generatePression(): Spell {
   return {
     attackName: "Pression",
-    damage: getRandomIntMinMax(999, 999),
+    damage: getRandomIntMinMax(15, 25),
     range: 2,
     cost: 3,
     canAutoTarget: false,

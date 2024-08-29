@@ -263,8 +263,12 @@ export function useEntityActions(
       player.position
     );
 
+    const enemyInitialImage = enemy.illustration;
+
     switch (selectedSpell.attackName) {
       case "Pression":
+        setEnemyInfo("pv", (enemy.pv -= pression.damage! + playerBoostAmont));
+
         if (player.isPressionAnimated) {
           addErrorMessage("Action impossible");
           playErrorSound(0.5);
@@ -299,13 +303,69 @@ export function useEntityActions(
 
         setPlayerInfo("isPressionAnimated", true);
 
+        if (enemy.pv > 0) {
+          switch (enemy.orientation) {
+            case "up":
+              setTimeout(() => {
+                setEnemyInfo("isAttacked", true);
+                animationUp(enemy);
+                setEnemyInfo(
+                  "illustration",
+                  "./enemy-animations/bouftou-damage-left.gif"
+                );
+              }, 500);
+
+              setTimeout(() => {
+                setEnemyInfo("illustration", enemyInitialImage);
+                setEnemyInfo("isAttacked", false);
+              }, 250);
+              break;
+            case "down":
+              setTimeout(() => {
+                setEnemyInfo("isAttacked", true);
+                animationDown(enemy);
+                setEnemyInfo(
+                  "illustration",
+                  "./enemy-animations/bouftou-damage.gif"
+                );
+              }, 500);
+
+              setTimeout(() => {
+                setEnemyInfo("illustration", enemyInitialImage);
+                setEnemyInfo("isAttacked", false);
+              }, 750);
+              break;
+            case "right":
+              animationRight(enemy);
+              setEnemyInfo(
+                "illustration",
+                "./enemy-animations/bouftou-damage.gif"
+              );
+              setTimeout(() => {
+                setEnemyInfo("illustration", enemyInitialImage);
+                setEnemyInfo("isAttacked", false);
+              }, 250);
+              break;
+            case "left":
+              animationLeft(enemy);
+              setEnemyInfo(
+                "illustration",
+                "./enemy-animations/bouftou-damage-left.gif"
+              );
+              setTimeout(() => {
+                setEnemyInfo("illustration", enemyInitialImage);
+                setEnemyInfo("isAttacked", false);
+              }, 250);
+              break;
+            default:
+              break;
+          }
+        }
+
         switch (position) {
           case "up":
             setPlayerInfo("orientation", "up");
-            setPlayerInfo("isIllustrationReverted", true);
-            setPlayerInfo("isIllustrationPositionCorrectedUp", true);
-            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
-            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+            animationUp(player);
             setPlayerInfo(
               "illustration",
               "./player-animations/attack-close-animation-left.gif"
@@ -321,10 +381,7 @@ export function useEntityActions(
             break;
           case "down":
             setPlayerInfo("orientation", "down");
-            setPlayerInfo("isIllustrationReverted", true);
-            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
-            setPlayerInfo("isIllustrationPositionCorrectedDown", true);
-            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+            animationDown(player);
             setPlayerInfo(
               "illustration",
               "./player-animations/attack-close-animation-1.gif"
@@ -340,10 +397,7 @@ export function useEntityActions(
             break;
           case "left":
             setPlayerInfo("orientation", "left");
-            setPlayerInfo("isIllustrationReverted", false);
-            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
-            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
-            setPlayerInfo("isIllustrationPositionCorrectedLeft", true);
+            animationLeft(player);
             setPlayerInfo(
               "illustration",
               "./player-animations/attack-close-animation-left.gif"
@@ -359,10 +413,7 @@ export function useEntityActions(
             break;
           case "right":
             setPlayerInfo("orientation", "right");
-            setPlayerInfo("isIllustrationReverted", false);
-            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
-            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
-            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+            animationRight(player);
             setPlayerInfo(
               "illustration",
               "./player-animations/attack-close-animation-1.gif"
@@ -397,8 +448,6 @@ export function useEntityActions(
             true
           );
         }, 450);
-
-        setEnemyInfo("pv", (enemy.pv -= pression.damage! + playerBoostAmont));
 
         setTimeout(() => {
           setEnemyInfo("damageTaken", pression.damage! + playerBoostAmont);

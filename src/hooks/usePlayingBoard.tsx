@@ -184,21 +184,37 @@ export function usePlayingBoard(
                             }`
                       }`
                     : `${
-                        enemy.isDead
+                        enemy.isAttacked
                           ? `${
                               enemy.isIllustrationPositionCorrectedUp
-                                ? "top-[-118%] left-[-87%] h-[286%] max-w-[197%]"
+                                ? "top-[-90%] left-[-102%] h-[218%] max-w-[157%]"
                                 : `${
                                     enemy.isIllustrationPositionCorrectedDown
-                                      ? "top-[-115%] left-[-93%] h-[286%] max-w-[197%]"
+                                      ? "top-[-113%] left-[-82%] h-[218%] max-w-[157%]"
                                       : `${
                                           enemy.isIllustrationPositionCorrectedLeft
-                                            ? "top-[-131%] left-[-71%] h-[286%] max-w-[197%]"
-                                            : "top-[-138%] left-[-82%] h-[286%] max-w-[197%]"
+                                            ? "top-[-113%] left-[-67%] h-[218%] max-w-[157%]"
+                                            : "top-[-98%] left-[-94%] h-[218%] max-w-[157%]"
                                         }`
                                   }`
                             }`
-                          : "top-[-42%] left-[-18%] h-[134%] max-w-[77%]"
+                          : `${
+                              enemy.isDead
+                                ? `${
+                                    enemy.isIllustrationPositionCorrectedUp
+                                      ? "top-[-118%] left-[-87%] h-[286%] max-w-[197%]"
+                                      : `${
+                                          enemy.isIllustrationPositionCorrectedDown
+                                            ? "top-[-115%] left-[-93%] h-[286%] max-w-[197%]"
+                                            : `${
+                                                enemy.isIllustrationPositionCorrectedLeft
+                                                  ? "top-[-131%] left-[-71%] h-[286%] max-w-[197%]"
+                                                  : "top-[-138%] left-[-82%] h-[286%] max-w-[197%]"
+                                              }`
+                                        }`
+                                  }`
+                                : "top-[-42%] left-[-18%] h-[134%] max-w-[77%]"
+                            }`
                       }`
                 }  transform rotate-[-44deg] skew-x-[8deg] z-50 ${
                   enemy.isIllustrationReverted
