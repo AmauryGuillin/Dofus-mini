@@ -182,7 +182,6 @@ export function useSelectCell(
         );
         break;
       default:
-        console.log("nothing to do");
         break;
     }
   }
@@ -228,7 +227,6 @@ export function useSelectCell(
         setEnemyInfo("illustration", "./enemy-static/bouftou.png");
         break;
       default:
-        console.log("nothing to do");
         break;
     }
   }
