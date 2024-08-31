@@ -563,10 +563,7 @@ export function useEntityActions(
 
         switch (player.orientation) {
           case "up":
-            setPlayerInfo("isIllustrationReverted", true);
-            setPlayerInfo("isIllustrationPositionCorrectedUp", true);
-            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
-            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+            animationUp(player);
             setPlayerInfo(
               "illustration",
               "./player-animations/boost-animation-left.gif"
@@ -582,10 +579,7 @@ export function useEntityActions(
             }, 1000);
             break;
           case "down":
-            setPlayerInfo("isIllustrationReverted", true);
-            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
-            setPlayerInfo("isIllustrationPositionCorrectedDown", true);
-            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+            animationDown(player);
             setPlayerInfo(
               "illustration",
               "./player-animations/boost-animation.gif"
@@ -601,10 +595,7 @@ export function useEntityActions(
             }, 1000);
             break;
           case "left":
-            setPlayerInfo("isIllustrationReverted", false);
-            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
-            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
-            setPlayerInfo("isIllustrationPositionCorrectedLeft", true);
+            animationLeft(player);
             setPlayerInfo(
               "illustration",
               "./player-animations/boost-animation-left.gif"
@@ -620,10 +611,7 @@ export function useEntityActions(
             }, 1000);
             break;
           case "right":
-            setPlayerInfo("isIllustrationReverted", false);
-            setPlayerInfo("isIllustrationPositionCorrectedUp", false);
-            setPlayerInfo("isIllustrationPositionCorrectedDown", false);
-            setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+            animationRight(player);
             setPlayerInfo(
               "illustration",
               "./player-animations/boost-animation.gif"
