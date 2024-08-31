@@ -126,6 +126,7 @@ export function useEntityActions(
 
     switch (player.orientation) {
       case "up":
+        setEnemyInfo("orientation", "up");
         animationUp(player);
         setPlayerInfo(
           "illustration",
@@ -137,6 +138,7 @@ export function useEntityActions(
         }, 250);
         break;
       case "down":
+        setEnemyInfo("orientation", "down");
         animationDown(player);
         setPlayerInfo("illustration", "./player-animations/hit-animation.gif");
         setTimeout(() => {
@@ -145,6 +147,7 @@ export function useEntityActions(
         }, 250);
         break;
       case "right":
+        setEnemyInfo("orientation", "right");
         animationRight(player);
         setPlayerInfo("illustration", "./player-animations/hit-animation.gif");
         setTimeout(() => {
@@ -153,6 +156,7 @@ export function useEntityActions(
         }, 250);
         break;
       case "left":
+        setEnemyInfo("orientation", "left");
         animationLeft(player);
         setPlayerInfo(
           "illustration",
