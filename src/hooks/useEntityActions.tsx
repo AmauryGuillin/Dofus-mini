@@ -188,7 +188,6 @@ export function useEntityActions(
         break;
       case "down":
         animationDown(enemy);
-        console.log("ici");
         setEnemyInfo("illustration", "./enemy-animations/bouftou-attack.gif");
 
         setTimeout(() => {
@@ -664,7 +663,6 @@ export function useEntityActions(
 
         return;
       default:
-        console.log("no spell selected");
         return;
     }
   }
