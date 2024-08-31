@@ -11,8 +11,15 @@ import { useEntityActionsUtils } from "./useEntityActionsUtils";
 export function useSelectCell(
   setMessage: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>
 ) {
-  const { enemyAttack, playerAttack, playerBoost } =
-    useEntityActions(setMessage);
+  const {
+    enemyAttack,
+    playerAttack,
+    playerBoost,
+    animationUp,
+    animationDown,
+    animationLeft,
+    animationRight,
+  } = useEntityActions(setMessage);
   const {
     addErrorMessage,
     calculateDistance,
@@ -144,18 +151,12 @@ export function useSelectCell(
     const position = handlePlayerMovementDirection(cell, path[count + 1]);
     switch (position) {
       case "up":
-        setPlayerInfo("isIllustrationReverted", true);
-        setPlayerInfo("isIllustrationPositionCorrectedUp", true);
-        setPlayerInfo("isIllustrationPositionCorrectedDown", false);
-        setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+        animationUp(player);
         setPlayerInfo("orientation", "up");
         setPlayerInfo("illustration", "./player-static/player-static-left.png");
         break;
       case "down":
-        setPlayerInfo("isIllustrationReverted", true);
-        setPlayerInfo("isIllustrationPositionCorrectedUp", false);
-        setPlayerInfo("isIllustrationPositionCorrectedDown", true);
-        setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+        animationDown(player);
         setPlayerInfo("orientation", "down");
         setPlayerInfo(
           "illustration",
@@ -163,18 +164,12 @@ export function useSelectCell(
         );
         break;
       case "left":
-        setPlayerInfo("isIllustrationReverted", false);
-        setPlayerInfo("isIllustrationPositionCorrectedUp", false);
-        setPlayerInfo("isIllustrationPositionCorrectedDown", false);
-        setPlayerInfo("isIllustrationPositionCorrectedLeft", true);
+        animationLeft(player);
         setPlayerInfo("orientation", "left");
         setPlayerInfo("illustration", "./player-static/player-static-left.png");
         break;
       case "right":
-        setPlayerInfo("isIllustrationReverted", false);
-        setPlayerInfo("isIllustrationPositionCorrectedUp", false);
-        setPlayerInfo("isIllustrationPositionCorrectedDown", false);
-        setPlayerInfo("isIllustrationPositionCorrectedLeft", false);
+        animationRight(player);
         setPlayerInfo("orientation", "right");
         setPlayerInfo(
           "illustration",
@@ -195,34 +190,22 @@ export function useSelectCell(
     const position = handlePlayerMovementDirection(cell, path[count + 1]);
     switch (position) {
       case "up":
-        setEnemyInfo("isIllustrationReverted", true);
-        setEnemyInfo("isIllustrationPositionCorrectedUp", true);
-        setEnemyInfo("isIllustrationPositionCorrectedDown", false);
-        setEnemyInfo("isIllustrationPositionCorrectedLeft", false);
+        animationUp(enemy);
         setEnemyInfo("orientation", "up");
         setEnemyInfo("illustration", "./enemy-static/bouftou-left.png");
         break;
       case "down":
-        setEnemyInfo("isIllustrationReverted", true);
-        setEnemyInfo("isIllustrationPositionCorrectedUp", false);
-        setEnemyInfo("isIllustrationPositionCorrectedDown", true);
-        setEnemyInfo("isIllustrationPositionCorrectedLeft", false);
+        animationDown(enemy);
         setEnemyInfo("orientation", "down");
         setEnemyInfo("illustration", "./enemy-static/bouftou.png");
         break;
       case "left":
-        setEnemyInfo("isIllustrationReverted", false);
-        setEnemyInfo("isIllustrationPositionCorrectedUp", false);
-        setEnemyInfo("isIllustrationPositionCorrectedDown", false);
-        setEnemyInfo("isIllustrationPositionCorrectedLeft", true);
+        animationLeft(enemy);
         setEnemyInfo("orientation", "left");
         setEnemyInfo("illustration", "./enemy-static/bouftou-left.png");
         break;
       case "right":
-        setEnemyInfo("isIllustrationReverted", false);
-        setEnemyInfo("isIllustrationPositionCorrectedUp", false);
-        setEnemyInfo("isIllustrationPositionCorrectedDown", false);
-        setEnemyInfo("isIllustrationPositionCorrectedLeft", false);
+        animationRight(enemy);
         setEnemyInfo("orientation", "right");
         setEnemyInfo("illustration", "./enemy-static/bouftou.png");
         break;

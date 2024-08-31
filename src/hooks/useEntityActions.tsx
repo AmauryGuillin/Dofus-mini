@@ -719,5 +719,13 @@ export function useEntityActions(
     }
   }
 
-  return { enemyAttack, playerAttack, playerBoost };
+  return {
+    enemyAttack,
+    playerAttack,
+    playerBoost,
+    animationUp,
+    animationDown,
+    animationLeft,
+    animationRight,
+  };
 }
