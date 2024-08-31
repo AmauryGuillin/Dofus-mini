@@ -18,30 +18,6 @@ export default function TitleMenuProgress({ isLoading }: Props) {
     "/home-musics/48_loc_cania.mp3.mp3",
   ];
 
-  const enemyImagesSourceUrl = [
-    "./enemy-animations/bouftou-attack-left.gif",
-    "./enemy-animations/bouftou-attack.gif",
-    "./enemy-animations/bouftou-damage-left.gif",
-    "./enemy-animations/bouftou-damage.gif",
-    "./enemy-animations/bouftou-death-left.gif",
-    "./enemy-animations/bouftou-death.gif",
-    "./enemy-static/bouftou-left.png",
-    "./enemy-static/bouftou.png",
-  ];
-
-  const playerImagesSourceUrl = [
-    "./player-animations/attack-close-animation-1.gif",
-    "./player-animations/attack-close-animation-left.gif",
-    "./player-animations/boost-animation-left.gif",
-    "./player-animations/boost-animation.gif",
-    "./player-animations/death-animation-left.gif",
-    "./player-animations/death-animation.gif",
-    "./player-animations/hit-animation-left.gif",
-    "./player-animations/hit-animation.gif",
-    "./player-static/player-static-front-right.png",
-    "./player-static/player-static-left.png",
-  ];
-
   const loadingContent = [
     "images",
     "monstre",
@@ -68,7 +44,6 @@ export default function TitleMenuProgress({ isLoading }: Props) {
     music.loop = true;
     music.volume = 0.1;
     document.body.appendChild(music);
-    loadEntityAnimations();
   }, []);
 
   useEffect(() => {
@@ -114,28 +89,6 @@ export default function TitleMenuProgress({ isLoading }: Props) {
 
     return () => clearInterval(interval);
   }, [isLoading, loadingValue2]);
-
-  async function loadEntityAnimations() {
-    new Promise((resolve) => {
-      enemyImagesSourceUrl.forEach((url) => {
-        const img = new Image();
-        img.src = url;
-        img.onerror = () =>
-          console.error(`Error when loading asset with url: ${url}`);
-      });
-      resolve("Bouftou assets fully loaded");
-    });
-
-    new Promise((resolve) => {
-      playerImagesSourceUrl.forEach((url) => {
-        const img = new Image();
-        img.src = url;
-        img.onerror = () =>
-          console.error(`Error when loading asset with url: ${url}`);
-      });
-      resolve("Player assets fully loaded");
-    });
-  }
 
   return (
     <>
