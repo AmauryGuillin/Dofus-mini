@@ -2,6 +2,7 @@ export interface Player {
   type: "Player";
   name: "Iopette";
   illustration: string;
+  portraitIllustration: string;
   position: string;
   orientation: "up" | "down" | "right" | "left";
   pvMax: number;

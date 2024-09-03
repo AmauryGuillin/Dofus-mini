@@ -10,6 +10,7 @@ import Chat from "./action-bar-chat";
 import Changelog from "./changelog";
 import PlayingBoard from "./playing-board";
 import SpellBar from "./spell-bar";
+import Timeline from "./timeline";
 
 export default function Main() {
   const music1 = "./33_fig_otomai.mp3.mp3";
@@ -76,7 +77,9 @@ export default function Main() {
         <div className="flex flex-1 items-center justify-center">
           <PlayingBoard setMessages={setMessages} />
         </div>
-
+        <div className="absolute top-[68dvh] right-[1dvw] text-white flex gap-1">
+          <Timeline />
+        </div>
         <div className="grid grid-cols-3 gap-6 w-full mx-auto max-h-full">
           <div className="flex flex-col h-44 md:h-52">
             <Chat messages={messages} />
@@ -88,7 +91,6 @@ export default function Main() {
             <SpellBar />
           </div>
         </div>
-        {/* <ActionBar messages={messages} /> */}
         <div className="absolute top-2 right-0 border-2 w-14 h-14 text-white flex justify-center items-center font-bold text-xl border-r-0 rounded-tl-lg rounded-bl-lg">
           {turnCount}
         </div>

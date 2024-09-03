@@ -5,6 +5,7 @@ export function generateEnemy(): Enemy {
     type: "Enemy",
     name: "Bouftou",
     illustration: "./enemy-static/bouftou.png",
+    portraitIllustration: "./enemy-static/bouftou.png",
     position: "1-6",
     orientation: "down",
     pvMax: 250,

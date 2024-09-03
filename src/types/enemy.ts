@@ -2,6 +2,7 @@ export interface Enemy {
   type: "Enemy";
   name: "Bouftou";
   illustration: string;
+  portraitIllustration: string;
   position: string;
   orientation: string;
   pvMax: number;

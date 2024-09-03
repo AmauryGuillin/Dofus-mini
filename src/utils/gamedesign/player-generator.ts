@@ -5,6 +5,7 @@ export function generatePlayer(): Player {
     type: "Player",
     name: "Iopette",
     illustration: "./player-static/player-static-front-right.png",
+    portraitIllustration: "./player-static/player-static-front-right.png",
     position: "6-1",
     orientation: "right",
     pvMax: 125,
