@@ -77,7 +77,7 @@ export default function Main() {
         <div className="flex flex-1 items-center justify-center">
           <PlayingBoard setMessages={setMessages} />
         </div>
-        <div className="absolute top-[68dvh] right-[1dvw] text-white flex gap-1">
+        <div className="flex gap-1 w-full mb-5 mr-5 justify-end items-center">
           <Timeline />
         </div>
         <div className="grid grid-cols-3 gap-6 w-full mx-auto max-h-full">
