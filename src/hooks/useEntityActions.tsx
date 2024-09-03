@@ -126,7 +126,6 @@ export function useEntityActions(
 
     switch (player.orientation) {
       case "up":
-        setEnemyInfo("orientation", "up");
         animationUp(player);
         setPlayerInfo(
           "illustration",
@@ -138,7 +137,6 @@ export function useEntityActions(
         }, 250);
         break;
       case "down":
-        setEnemyInfo("orientation", "down");
         animationDown(player);
         setPlayerInfo("illustration", "./player-animations/hit-animation.gif");
         setTimeout(() => {
@@ -147,7 +145,7 @@ export function useEntityActions(
         }, 250);
         break;
       case "right":
-        setEnemyInfo("orientation", "right");
+        console.log("ici");
         animationRight(player);
         setPlayerInfo("illustration", "./player-animations/hit-animation.gif");
         setTimeout(() => {
@@ -156,7 +154,6 @@ export function useEntityActions(
         }, 250);
         break;
       case "left":
-        setEnemyInfo("orientation", "left");
         animationLeft(player);
         setPlayerInfo(
           "illustration",
@@ -175,6 +172,7 @@ export function useEntityActions(
 
     switch (playerPosition) {
       case "up":
+        setEnemyInfo("orientation", "up");
         animationUp(enemy);
         setEnemyInfo(
           "illustration",
@@ -187,6 +185,7 @@ export function useEntityActions(
         }, 2000);
         break;
       case "down":
+        setEnemyInfo("orientation", "down");
         animationDown(enemy);
         setEnemyInfo("illustration", "./enemy-animations/bouftou-attack.gif");
 
@@ -196,6 +195,7 @@ export function useEntityActions(
         }, 2000);
         break;
       case "right":
+        setEnemyInfo("orientation", "right");
         animationRight(enemy);
         setEnemyInfo("illustration", "./enemy-animations/bouftou-attack.gif");
 
@@ -205,6 +205,7 @@ export function useEntityActions(
         }, 2000);
         break;
       case "left":
+        setEnemyInfo("orientation", "left");
         animationLeft(enemy);
         setEnemyInfo(
           "illustration",
