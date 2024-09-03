@@ -7,6 +7,7 @@ export function generatePlayer(): Player {
     illustration: "./player-static/player-static-front-right.png",
     position: "6-1",
     orientation: "right",
+    pvMax: 125,
     pv: 125,
     pmMax: 3,
     pm: 3,

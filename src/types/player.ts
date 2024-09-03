@@ -4,6 +4,7 @@ export interface Player {
   illustration: string;
   position: string;
   orientation: "up" | "down" | "right" | "left";
+  pvMax: number;
   pv: number;
   pmMax: number;
   pm: number;

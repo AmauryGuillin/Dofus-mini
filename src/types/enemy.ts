@@ -4,6 +4,7 @@ export interface Enemy {
   illustration: string;
   position: string;
   orientation: string;
+  pvMax: number;
   pv: number;
   pmMax: number;
   pm: number;

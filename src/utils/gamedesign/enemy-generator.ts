@@ -7,6 +7,7 @@ export function generateEnemy(): Enemy {
     illustration: "./enemy-static/bouftou.png",
     position: "1-6",
     orientation: "down",
+    pvMax: 250,
     pv: 250,
     pmMax: 3,
     pm: 3,
