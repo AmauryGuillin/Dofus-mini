@@ -78,7 +78,7 @@ export default function Main() {
           <PlayingBoard setMessages={setMessages} />
         </div>
         <div className="flex gap-1 w-full mb-5 mr-5 justify-end items-center">
-          <Timeline />
+          <Timeline setMessage={setMessages} />
         </div>
         <div className="grid grid-cols-3 gap-6 w-full mx-auto max-h-full">
           <div className="flex flex-col h-44 md:h-52">

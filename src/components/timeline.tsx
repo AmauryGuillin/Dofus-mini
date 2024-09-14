@@ -4,9 +4,11 @@ import { ChatInfoMessage } from "@/types/chat-info-message";
 import { Enemy } from "@/types/enemy";
 import { Player } from "@/types/player";
 
-export default function Timeline(
-  setMessage: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>
-) {
+type Props = {
+  setMessage: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>;
+};
+
+export default function Timeline({ setMessage }: Props) {
   const board = useStore((state) => state.board);
   const player = useStore((state) => state.player);
   const enemy = useStore((state) => state.enemy);
