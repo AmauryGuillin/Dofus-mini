@@ -1,8 +1,12 @@
+import { ChatInfoMessage } from "@/types/chat-info-message";
 import { playAudio } from "@/utils/music/handleAudio";
 import { useState } from "react";
 import { useStore } from "./store";
+import { useSelectCell } from "./useSelectCell";
 
-export function usePassTurn() {
+export function usePassTurn(
+  setMessage: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>
+) {
   const turnCount = useStore((state) => state.turnCount);
   const setTurnCount = useStore((state) => state.setTurnCount);
   const setSelectedSpell = useStore((state) => state.setSelectedSpell);
@@ -12,34 +16,41 @@ export function usePassTurn() {
   const enemy = useStore((state) => state.enemy);
   const setEnemyInfo = useStore((state) => state.setEnemyInfo);
 
-  const boostDuration = useStore((state) => state.boostDuration);
   const setBoostDuration = useStore((state) => state.setBoostDuration);
 
   const [isUserImageDisplayed, setIsUserImageDisplayed] =
     useState<boolean>(false);
 
-  function passTurn(entity: string) {
-    setSelectedSpell(null);
+  const { enemyIA } = useSelectCell(setMessage);
+
+  async function passTurn(entity: string) {
     if (entity === player.name) {
-      player.pm = player.pmMax;
-      player.pa = player.paMax;
-      setEnemyInfo("isTurnToPlay", true);
-      setPlayerInfo("isTurnToPlay", false);
-      setIsUserImageDisplayed(true);
-      setTimeout(() => {
-        setIsUserImageDisplayed(false);
-      }, 2000);
+      await playerRestoration();
+      await new Promise((resolve) => {
+        resolve(enemyIA());
+      });
+      console.log("~~~~~~~~~~~~~~~~~~~~~~~ usePassTurn");
+      console.log("Le bouftou passe son tour");
+      console.log(6, "fin du comportement de l'IA");
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          enemyPassTurn();
+          resolve(true);
+        }, 500);
+      });
     }
     if (entity === enemy.name) {
-      if (boostDuration !== undefined) {
-        setBoostDuration(boostDuration - 1);
-        if (boostDuration === 1) {
+      console.log("TOUR DU PLAYER");
+      useStore.getState().path = [];
+      if (useStore.getState().boostDuration !== undefined) {
+        setBoostDuration(useStore.getState().boostDuration! - 1);
+        if (useStore.getState().boostDuration === 1) {
           setBoostDuration(undefined);
         }
       }
       setTurnCount(turnCount + 1);
-      enemy.pm = enemy.pmMax;
-      enemy.pa = enemy.paMax;
+      useStore.getState().enemy.pm = useStore.getState().enemy.pmMax;
+      useStore.getState().enemy.pa = useStore.getState().enemy.paMax;
       const audioSource = "./200_fx_69.mp3.mp3";
       playAudio(audioSource, 0.5, false, true);
       setEnemyInfo("isTurnToPlay", false);
@@ -49,6 +60,28 @@ export function usePassTurn() {
         setIsUserImageDisplayed(false);
       }, 2000);
     }
+  }
+
+  function enemyPassTurn() {
+    passTurn(useStore.getState().enemy.name);
+  }
+
+  function playerRestoration() {
+    const result = new Promise((resolve) => {
+      setSelectedSpell(null);
+      player.pm = player.pmMax;
+      player.pa = player.paMax;
+      setEnemyInfo("isTurnToPlay", true);
+      setPlayerInfo("isTurnToPlay", false);
+      setIsUserImageDisplayed(true);
+      setTimeout(() => {
+        setIsUserImageDisplayed(false);
+      }, 2000);
+      setTimeout(() => {
+        resolve(true);
+      }, 1000);
+    });
+    return result;
   }
 
   return { isUserImageDisplayed, passTurn };

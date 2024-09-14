@@ -2,7 +2,6 @@ import { Progress } from "@/components/ui/progress";
 import { useState } from "react";
 import { ChatInfoMessage } from "../types/chat-info-message";
 import { useStore } from "./store";
-import { useEntityActions } from "./useEntityActions";
 import { useEntityActionsUtils } from "./useEntityActionsUtils";
 import { usePassTurn } from "./usePassTurn";
 import { useSelectCell } from "./useSelectCell";
@@ -30,9 +29,9 @@ export function usePlayingBoard(
   const [showPlayerPM, setShowPlayerPM] = useState<boolean>(false);
   const [showEnemyPM, setShowEnemyPM] = useState<boolean>(false);
 
-  const { isUserImageDisplayed, passTurn } = usePassTurn();
+  const { isUserImageDisplayed, passTurn } = usePassTurn(setMessage);
 
-  useEntityActions(setMessage);
+  //useEntityActions(setMessage);
 
   const { calculPMRangeDisplay, calculatePath } =
     useEntityActionsUtils(setMessage);
@@ -52,7 +51,9 @@ export function usePlayingBoard(
               ? "border-2 relative"
               : key === enemy.position
               ? "border-2 relative"
-              : path.includes(key) && key !== player.position
+              : path.includes(key) &&
+                key !== player.position &&
+                player.isTurnToPlay
               ? "bg-green-500"
               : (keyL + keyR) % 2 == 0
               ? "bg-gray-800"
@@ -63,9 +64,10 @@ export function usePlayingBoard(
           onClick={() => {
             if (player.isTurnToPlay) {
               selectCell(key, player);
-            } else {
-              selectCell(key, enemy);
             }
+            // else {
+            //   selectCell(key, enemy);
+            // }
           }}
           onMouseEnter={() => enter(key)}
           onMouseLeave={leave}
@@ -223,7 +225,7 @@ export function usePlayingBoard(
                 }`}
                 onMouseEnter={() => {
                   setShowEnemyInfo(true);
-                  calculPMRangeDisplay(enemy, board.width, board.length);
+                  //calculPMRangeDisplay(enemy, board.width, board.length);
                   setShowEnemyPM(true);
                 }}
                 onMouseLeave={() => {

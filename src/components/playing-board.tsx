@@ -9,7 +9,7 @@ type Props = {
 
 export default function PlayingBoard({ setMessages }: Props) {
   const player = useStore((state) => state.player);
-  const enemy = useStore((state) => state.enemy);
+  //const enemy = useStore((state) => state.enemy);
 
   const [isUserImageDisplayed, passTurn, grid] = usePlayingBoard(setMessages);
 
@@ -30,7 +30,7 @@ export default function PlayingBoard({ setMessages }: Props) {
             type="button"
             className="border-2 w-36 h-12 hover:scale-110 transition-all delay-[10ms] hover:bg-gray-800 text-white"
             onClick={() =>
-              player.isTurnToPlay ? passTurn(player.name) : passTurn(enemy.name)
+              player.isTurnToPlay ? passTurn(player.name) : undefined
             }
           >
             Passer le tour

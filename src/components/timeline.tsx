@@ -14,6 +14,7 @@ export default function Timeline() {
         if (entity.type === "Enemy") {
           return (
             <div
+              key={entity.name}
               className={`w-[3dvw] h-[7dvh] ${
                 entity.isTurnToPlay
                   ? "border-4 border-red-400"
@@ -32,6 +33,7 @@ export default function Timeline() {
         if (entity.type === "Player") {
           return (
             <div
+              key={entity.name}
               className={`w-[3dvw] h-[7dvh] ${
                 entity.isTurnToPlay
                   ? "border-4 border-red-400"

@@ -11,7 +11,7 @@ import { useStore } from "./store";
 import { useEntityActionsUtils } from "./useEntityActionsUtils";
 
 export function useEntityActions(
-  setMessage: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>
+  setMessage?: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>
 ) {
   const setIsGameOver = useStore((state) => state.setIsGameOver);
   const setIsGameWin = useStore((state) => state.setIsGameWin);
@@ -41,20 +41,30 @@ export function useEntityActions(
     calculateDistance,
     addErrorMessage,
     addInfoMessage,
-  } = useEntityActionsUtils(setMessage);
+  } = useEntityActionsUtils(setMessage!);
 
   function enemyAttack() {
+    console.log("début de l'attaque du bouftou");
     if (enemy.pa <= 0) return;
 
     const bouftouBite = generateBouftouBite();
 
     if (enemy.pa < bouftouBite.cost) return;
 
-    const distance = calculateDistance(enemy.position, player.position);
+    const distance = calculateDistance(
+      useStore.getState().enemy.position,
+      useStore.getState().player.position
+    );
 
+    console.log("cible hors de portée ?");
+    console.log("distance", distance);
+    console.log("range", bouftouBite.range);
     if (distance > bouftouBite.range) {
       addErrorMessage(`La cible est hors de portée`);
+      return;
     }
+
+    console.log("Cible à portée");
 
     const audio1 = "./enemy-sound-effects/142_fx_741.mp3.mp3";
     const audio2 = "./enemy-sound-effects/143_fx_740.mp3.mp3";
@@ -63,25 +73,25 @@ export function useEntityActions(
     const playerDeath1 = "./player-sound-effects/death/317_fx_584.mp3.mp3";
     const playerDeath2 = "./player-sound-effects/death/316_fx_585.mp3.mp3";
 
-    setPlayerInfo("pv", (player.pv -= bouftouBite.damage!));
+    setPlayerInfo("pv", (useStore.getState().player.pv -= bouftouBite.damage!));
     setPlayerInfo("damageTaken", bouftouBite.damage!);
 
     setTimeout(() => {
       setPlayerInfo("damageTaken", null);
     }, 1100);
 
-    const playerInitialImage = player.illustration;
+    const playerInitialImage = useStore.getState().player.illustration;
 
     const playerPosition = calculateEnemyPositionComparedToPlayer(
-      player.position,
-      enemy.position
+      useStore.getState().player.position,
+      useStore.getState().enemy.position
     );
 
     setPlayerInfo("isAttacked", true);
 
-    if (player.pv <= 0) {
+    if (useStore.getState().player.pv <= 0) {
       setPlayerInfo("isDead", true);
-      switch (player.orientation) {
+      switch (useStore.getState().player.orientation) {
         case "up":
           animationUp(player);
           setPlayerInfo(
@@ -124,7 +134,7 @@ export function useEntityActions(
       return;
     }
 
-    switch (player.orientation) {
+    switch (useStore.getState().player.orientation) {
       case "up":
         animationUp(player);
         setPlayerInfo(
@@ -145,7 +155,6 @@ export function useEntityActions(
         }, 250);
         break;
       case "right":
-        console.log("ici");
         animationRight(player);
         setPlayerInfo("illustration", "./player-animations/hit-animation.gif");
         setTimeout(() => {
@@ -235,7 +244,7 @@ export function useEntityActions(
       }.`
     );
 
-    setEnemyInfo("pa", (enemy.pa -= bouftouBite.cost));
+    setEnemyInfo("pa", (useStore.getState().enemy.pa -= bouftouBite.cost));
   }
 
   function playerAttack() {

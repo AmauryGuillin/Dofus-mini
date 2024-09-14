@@ -104,7 +104,7 @@ export const useStore = create<Store>()(
         false,
         "setPlayerOnAttackMode"
       ),
-    setCanMove: (value) => set(() => ({ canMove: value })),
+    setCanMove: (value) => set(() => ({ canMove: value }), false, "setCanMove"),
     setPath: (value) => set(() => ({ path: value })),
   }))
 );
