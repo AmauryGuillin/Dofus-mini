@@ -65,12 +65,13 @@ export function usePlayingBoard(
             if (player.isTurnToPlay) {
               selectCell(key, player);
             }
-            // else {
-            //   selectCell(key, enemy);
-            // }
           }}
-          onMouseEnter={() => enter(key)}
-          onMouseLeave={leave}
+          onMouseEnter={() => {
+            if (player.isTurnToPlay) enter(key);
+          }}
+          onMouseLeave={() => {
+            if (player.isTurnToPlay) leave();
+          }}
         >
           {key === player.position && (
             <>
@@ -134,13 +135,14 @@ export function usePlayingBoard(
                     : undefined
                 }`}
                 onMouseEnter={() => {
-                  setShowPlayerInfo(true);
-                  calculPMRangeDisplay(player, board.width, board.length);
-                  setShowPlayerPM(true);
+                  if (player.isTurnToPlay) setShowPlayerInfo(true);
+                  if (player.isTurnToPlay)
+                    calculPMRangeDisplay(player, board.width, board.length);
+                  if (player.isTurnToPlay) setShowPlayerPM(true);
                 }}
                 onMouseLeave={() => {
-                  setShowPlayerInfo(false);
-                  setShowPlayerPM(false);
+                  if (player.isTurnToPlay) setShowPlayerInfo(false);
+                  if (player.isTurnToPlay) setShowPlayerPM(false);
                 }}
               />
               {player.damageTaken && (
@@ -224,13 +226,14 @@ export function usePlayingBoard(
                     : undefined
                 }`}
                 onMouseEnter={() => {
-                  setShowEnemyInfo(true);
-                  //calculPMRangeDisplay(enemy, board.width, board.length);
-                  setShowEnemyPM(true);
+                  if (player.isTurnToPlay) setShowEnemyInfo(true);
+                  if (player.isTurnToPlay)
+                    calculPMRangeDisplay(enemy, board.width, board.length);
+                  if (player.isTurnToPlay) setShowEnemyPM(true);
                 }}
                 onMouseLeave={() => {
-                  setShowEnemyInfo(false);
-                  setShowEnemyPM(false);
+                  if (player.isTurnToPlay) setShowEnemyInfo(false);
+                  if (player.isTurnToPlay) setShowEnemyPM(false);
                 }}
               />
               {enemy.damageTaken && (

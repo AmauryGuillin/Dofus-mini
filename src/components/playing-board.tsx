@@ -16,7 +16,6 @@ export default function PlayingBoard({ setMessages }: Props) {
   return (
     <>
       {isUserImageDisplayed && <PlayerTurnImage />}
-      {/* <EnemyInfo /> */}
       <div className="transform-gpu rotate-[30deg] -skew-x-[38deg]">
         {grid.map((row, rowIndex) => {
           return (
@@ -29,9 +28,9 @@ export default function PlayingBoard({ setMessages }: Props) {
           <button
             type="button"
             className="border-2 w-36 h-12 hover:scale-110 transition-all delay-[10ms] hover:bg-gray-800 text-white"
-            onClick={() =>
-              player.isTurnToPlay ? passTurn(player.name) : undefined
-            }
+            onClick={() => {
+              if (player.isTurnToPlay) passTurn(player.name);
+            }}
           >
             Passer le tour
           </button>

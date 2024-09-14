@@ -36,7 +36,7 @@ export function usePassTurn(
         setTimeout(() => {
           enemyPassTurn();
           resolve(true);
-        }, 500);
+        }, 700);
       });
     }
     if (entity === enemy.name) {
