@@ -24,5 +24,7 @@ export function generateEnemy(): Enemy {
     isAttacked: false,
     isMoving: false,
     isDead: false,
+    showInfo: false,
+    showPM: false,
   };
 }

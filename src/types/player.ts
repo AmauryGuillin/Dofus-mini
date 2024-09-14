@@ -22,4 +22,6 @@ export interface Player {
   isMoving: boolean;
   isAttacked: boolean;
   isDead: boolean;
+  showInfo: boolean;
+  showPM: boolean;
 }

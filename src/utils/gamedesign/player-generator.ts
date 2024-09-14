@@ -25,5 +25,7 @@ export function generatePlayer(): Player {
     isMoving: false,
     isAttacked: false,
     isDead: false,
+    showInfo: false,
+    showPM: false,
   };
 }

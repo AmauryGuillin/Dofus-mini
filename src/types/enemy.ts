@@ -21,4 +21,6 @@ export interface Enemy {
   isAttacked: boolean;
   isMoving: boolean;
   isDead: boolean;
+  showInfo: boolean;
+  showPM: boolean;
 }

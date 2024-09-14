@@ -1,5 +1,4 @@
 import { Progress } from "@/components/ui/progress";
-import { useState } from "react";
 import { ChatInfoMessage } from "../types/chat-info-message";
 import { useStore } from "./store";
 import { useEntityActionsUtils } from "./useEntityActionsUtils";
@@ -10,24 +9,20 @@ export function usePlayingBoard(
   setMessage: React.Dispatch<React.SetStateAction<ChatInfoMessage[]>>
 ): [boolean, (entity: string) => void, JSX.Element[][]] {
   const board = useStore((state) => state.board);
-
   const player = useStore((state) => state.player);
-
+  const setPlayerInfo = useStore((state) => state.setPlayerInfo);
+  const setEnemyInfo = useStore((state) => state.setEnemyInfo);
   const enemy = useStore((state) => state.enemy);
-
   const attackRangeDisplay = useStore((state) => state.attackRangeDisplay);
-
   const pmRangeDisplay = useStore((state) => state.pmRangeDisplay);
-
   const playerOnAttackMode = useStore((state) => state.playerOnAttackMode);
-
   const path = useStore((state) => state.path);
   const setPath = useStore((state) => state.setPath);
 
-  const [showPlayerInfo, setShowPlayerInfo] = useState<boolean>(false);
-  const [showEnemyInfo, setShowEnemyInfo] = useState<boolean>(false);
-  const [showPlayerPM, setShowPlayerPM] = useState<boolean>(false);
-  const [showEnemyPM, setShowEnemyPM] = useState<boolean>(false);
+  // const [showPlayerInfo, setShowPlayerInfo] = useState<boolean>(false);
+  // const [showEnemyInfo, setShowEnemyInfo] = useState<boolean>(false);
+  // const [showPlayerPM, setShowPlayerPM] = useState<boolean>(false);
+  // const [showEnemyPM, setShowEnemyPM] = useState<boolean>(false);
 
   const { isUserImageDisplayed, passTurn } = usePassTurn(setMessage);
 
@@ -133,14 +128,14 @@ export function usePlayingBoard(
                     : undefined
                 }`}
                 onMouseEnter={() => {
-                  if (player.isTurnToPlay) setShowPlayerInfo(true);
+                  if (player.isTurnToPlay) setPlayerInfo("showInfo", true);
                   if (player.isTurnToPlay)
                     calculPMRangeDisplay(player, board.width, board.length);
-                  if (player.isTurnToPlay) setShowPlayerPM(true);
+                  if (player.isTurnToPlay) setPlayerInfo("showPM", true);
                 }}
                 onMouseLeave={() => {
-                  if (player.isTurnToPlay) setShowPlayerInfo(false);
-                  if (player.isTurnToPlay) setShowPlayerPM(false);
+                  if (player.isTurnToPlay) setPlayerInfo("showInfo", false);
+                  if (player.isTurnToPlay) setPlayerInfo("showPM", false);
                 }}
               />
               {player.damageTaken && (
@@ -148,7 +143,7 @@ export function usePlayingBoard(
                   -{player.damageTaken}
                 </div>
               )}
-              {showPlayerInfo && (
+              {player.showInfo && (
                 <div className="absolute top-[-268%] left-[-470%] w-48 h-20 border-2 transform rotate-[-45deg] skew-x-[9deg] flex flex-col justify-center items-center rounded bg-gray-600 gap-4 z-[999] text-white">
                   <div>{player.name}</div>
                   <div className="flex justify-center items-center z-10">
@@ -224,14 +219,14 @@ export function usePlayingBoard(
                     : undefined
                 }`}
                 onMouseEnter={() => {
-                  if (player.isTurnToPlay) setShowEnemyInfo(true);
+                  if (player.isTurnToPlay) setEnemyInfo("showInfo", true);
                   if (player.isTurnToPlay)
                     calculPMRangeDisplay(enemy, board.width, board.length);
-                  if (player.isTurnToPlay) setShowEnemyPM(true);
+                  if (player.isTurnToPlay) setEnemyInfo("showPM", true);
                 }}
                 onMouseLeave={() => {
-                  if (player.isTurnToPlay) setShowEnemyInfo(false);
-                  if (player.isTurnToPlay) setShowEnemyPM(false);
+                  if (player.isTurnToPlay) setEnemyInfo("showInfo", false);
+                  if (player.isTurnToPlay) setEnemyInfo("showPM", false);
                 }}
               />
               {enemy.damageTaken && (
@@ -239,7 +234,7 @@ export function usePlayingBoard(
                   -{enemy.damageTaken}
                 </div>
               )}
-              {showEnemyInfo && (
+              {enemy.showInfo && (
                 <div className="absolute top-[-216%] left-[-381%] w-48 h-20 border-2 transform rotate-[-45deg] skew-x-[9deg] flex flex-col justify-center items-center rounded bg-gray-600 gap-4 z-[999] text-white">
                   <div>{enemy.name}</div>
                   <div className="flex justify-center items-center">
@@ -259,12 +254,12 @@ export function usePlayingBoard(
           {attackRangeDisplay.includes(key) && (
             <div className="bg-blue-500 size-[3.5dvw] 2xl:size-[2.5dvw] border-2 opacity-35"></div>
           )}
-          {showPlayerPM &&
+          {player.showPM &&
             !playerOnAttackMode &&
             pmRangeDisplay.includes(key) && (
               <div className="bg-green-500 size-[3.5dvw] 2xl:size-[2.5dvw] border-2 opacity-35"></div>
             )}
-          {showEnemyPM &&
+          {enemy.showPM &&
             !playerOnAttackMode &&
             pmRangeDisplay.includes(key) && (
               <div className="bg-green-500 size-[3.5dvw] 2xl:size-[2.5dvw] border-2 opacity-35"></div>
