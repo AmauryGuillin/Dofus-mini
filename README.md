@@ -18,7 +18,7 @@ More spells might be added later if I feel like it.
 Be careful not to get caught by the Bouftou, as it will deal serious damage to you if it catches you!
 The Bouftou only has one attack:
 
-- Morsure du Bouftou (deals 10 to 25 damage points to the player)
+- Morsure du Bouftou (deals 25 to 35 damage points to the player)
 <div style="display: inline-block; text-align: center; height: 100px;"><img src="./public/enemy-animations/bouftou-attack.gif" alt="spell image"/></div>
 
 There are plenty of music tracks available in Dofus-mini, so feel free to restart a game to discover them all!
