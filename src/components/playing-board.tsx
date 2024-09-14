@@ -9,7 +9,6 @@ type Props = {
 
 export default function PlayingBoard({ setMessages }: Props) {
   const player = useStore((state) => state.player);
-  //const enemy = useStore((state) => state.enemy);
 
   const [isUserImageDisplayed, passTurn, grid] = usePlayingBoard(setMessages);
 

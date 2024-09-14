@@ -31,8 +31,6 @@ export function usePlayingBoard(
 
   const { isUserImageDisplayed, passTurn } = usePassTurn(setMessage);
 
-  //useEntityActions(setMessage);
-
   const { calculPMRangeDisplay, calculatePath } =
     useEntityActionsUtils(setMessage);
 

@@ -44,7 +44,6 @@ export function useEntityActions(
   } = useEntityActionsUtils(setMessage!);
 
   function enemyAttack() {
-    console.log("début de l'attaque du bouftou");
     if (enemy.pa <= 0) return;
 
     const bouftouBite = generateBouftouBite();
@@ -56,15 +55,10 @@ export function useEntityActions(
       useStore.getState().player.position
     );
 
-    console.log("cible hors de portée ?");
-    console.log("distance", distance);
-    console.log("range", bouftouBite.range);
     if (distance > bouftouBite.range) {
       addErrorMessage(`La cible est hors de portée`);
       return;
     }
-
-    console.log("Cible à portée");
 
     const audio1 = "./enemy-sound-effects/142_fx_741.mp3.mp3";
     const audio2 = "./enemy-sound-effects/143_fx_740.mp3.mp3";

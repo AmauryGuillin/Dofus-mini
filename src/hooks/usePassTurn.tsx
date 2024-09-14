@@ -29,9 +29,6 @@ export function usePassTurn(
       await new Promise((resolve) => {
         resolve(enemyIA());
       });
-      console.log("~~~~~~~~~~~~~~~~~~~~~~~ usePassTurn");
-      console.log("Le bouftou passe son tour");
-      console.log(6, "fin du comportement de l'IA");
       await new Promise((resolve) => {
         setTimeout(() => {
           enemyPassTurn();
@@ -40,7 +37,6 @@ export function usePassTurn(
       });
     }
     if (entity === enemy.name) {
-      console.log("TOUR DU PLAYER");
       useStore.getState().path = [];
       if (useStore.getState().boostDuration !== undefined) {
         setBoostDuration(useStore.getState().boostDuration! - 1);

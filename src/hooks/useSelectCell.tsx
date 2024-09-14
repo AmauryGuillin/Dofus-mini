@@ -129,14 +129,7 @@ export function useSelectCell(
 
     if (newPath.length - 1 <= currentPlayer.pm) {
       if (path.length === 0) return;
-      // if (player.isTurnToPlay) {
-      //   setPlayerInfo("pm", player.pm - (newPath.length - 1));
-      // } else {
-      //   setEnemyInfo("pm", enemy.pm - (newPath.length - 1));
-      // }
-
       moveEntity(path, currentPlayer);
-
       setPath([]);
     } else {
       addErrorMessage(`Action impossible`);
@@ -192,25 +185,21 @@ export function useSelectCell(
     const position = handlePlayerMovementDirection(cell, path[count + 1]);
     switch (position) {
       case "up":
-        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ up");
         animationUp(enemy);
         setEnemyInfo("orientation", "up");
         setEnemyInfo("illustration", "./enemy-static/bouftou-left.png");
         break;
       case "down":
-        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ down");
         animationDown(enemy);
         setEnemyInfo("orientation", "down");
         setEnemyInfo("illustration", "./enemy-static/bouftou.png");
         break;
       case "left":
-        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ left");
         animationLeft(enemy);
         setEnemyInfo("orientation", "left");
         setEnemyInfo("illustration", "./enemy-static/bouftou-left.png");
         break;
       case "right":
-        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ right");
         animationRight(enemy);
         setEnemyInfo("orientation", "right");
         setEnemyInfo("illustration", "./enemy-static/bouftou.png");
@@ -221,9 +210,6 @@ export function useSelectCell(
   }
 
   async function moveEntity(path: string[], entity: Player | Enemy) {
-    console.log("MOVE ENTITY FUNCTION");
-    console.log("path", path);
-    console.log("entity", entity);
     if (path.length === 0) return;
     if (entity.type === "Player") {
       setPlayerInfo("isMoving", true);
@@ -254,38 +240,29 @@ export function useSelectCell(
 
   async function enemyIA() {
     //Détermine la case à cibler pour le bouftou
-    console.log(1, "determine la case à cibler pour le bouftou");
     const targetPosition = await new Promise<string>((resolve) => {
       resolve(determineEnemyTargetPosition());
     });
 
     //Calcul de la distance et attribution du path
-    console.log(2, "calcul de la distance et attribution du path");
     const distance = await new Promise<string[]>((resolve) => {
-      console.log("calcul du path");
       const distance = calculatePath(
         enemy.position,
         targetPosition,
         20,
         player.position
       );
-      console.log("distance", distance);
       const distanceCalculated = distance.slice(
         0,
         useStore.getState().enemy.pm + 1
       );
-      console.log(distanceCalculated);
       resolve(distanceCalculated);
     });
     useStore.getState().setPath(distance);
-    console.log("fin du calcul de la distance");
 
     //Déplacement automatique
-    console.log(3, "déplacement automatique");
-    console.log("déplacement en cours");
     useStore.getState().setCanMove(true);
     await new Promise((resolve) => {
-      console.log("canMove ==> ", useStore.getState().canMove);
       setTimeout(() => {
         resolve(
           moveEntity(useStore.getState().path, useStore.getState().enemy)
@@ -293,33 +270,20 @@ export function useSelectCell(
       }, 100);
     });
     useStore.getState().setCanMove(false);
-    console.log("canMove ==> ", useStore.getState().canMove);
-    console.log("déplacement terminé");
 
     //Détermine si l'enemie est à côté du joueur
-    console.log(4, "détermine si l'enemie est à côté du joueur");
-    console.log(
-      "début du calcul de la position de l'énemie par rapport au joueur"
-    );
-
     const isNextToPlayer = await new Promise<boolean>((resolve) => {
       setTimeout(() => {
         resolve(determineIfEnemyIsNextToPlayer());
       }, 500);
     });
-    console.log(
-      "fin du calcul de la position de l'énemie par rapport au joueur"
-    );
 
     if (isNextToPlayer) {
-      console.log(4.5, "doit attaquer ?");
-      console.log("doit attaquer");
       await new Promise((resolve) => {
         enemyAttack();
         resolve(true);
       });
     }
-    console.log(5, "fin du process");
   }
 
   async function determineEnemyTargetPosition(): Promise<string> {
@@ -339,9 +303,6 @@ export function useSelectCell(
     const playerPosition = useStore.getState().player.position;
     const maxLength = 20;
 
-    console.log("enemyPosition", enemyPosition);
-    console.log("playerPosition", playerPosition);
-
     const path = calculatePath(
       enemyPosition,
       playerPosition,
@@ -349,15 +310,11 @@ export function useSelectCell(
       enemyPosition
     );
 
-    console.log("path", path);
-
     if (path.length > 2) {
-      console.log("Le joueur n'est pas à côté");
       return false;
     }
 
     if (path.length === 2) {
-      console.log("Le joueur est à côté");
       return true;
     }
 
