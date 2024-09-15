@@ -188,21 +188,39 @@ export function useSelectCell(
         animationUp(enemy);
         setEnemyInfo("orientation", "up");
         setEnemyInfo("illustration", "./enemy-static/bouftou-left.png");
+        useStore
+          .getState()
+          .setEnemyInfo(
+            "staticIllustrationTmp",
+            "./enemy-static/bouftou-left.png"
+          );
         break;
       case "down":
         animationDown(enemy);
         setEnemyInfo("orientation", "down");
         setEnemyInfo("illustration", "./enemy-static/bouftou.png");
+        useStore
+          .getState()
+          .setEnemyInfo("staticIllustrationTmp", "./enemy-static/bouftou.png");
         break;
       case "left":
         animationLeft(enemy);
         setEnemyInfo("orientation", "left");
         setEnemyInfo("illustration", "./enemy-static/bouftou-left.png");
+        useStore
+          .getState()
+          .setEnemyInfo(
+            "staticIllustrationTmp",
+            "./enemy-static/bouftou-left.png"
+          );
         break;
       case "right":
         animationRight(enemy);
         setEnemyInfo("orientation", "right");
         setEnemyInfo("illustration", "./enemy-static/bouftou.png");
+        useStore
+          .getState()
+          .setEnemyInfo("staticIllustrationTmp", "./enemy-static/bouftou.png");
         break;
       default:
         break;

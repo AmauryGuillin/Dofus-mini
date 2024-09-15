@@ -270,7 +270,7 @@ export function useEntityActions(
       player.position
     );
 
-    const enemyInitialImage = enemy.illustration;
+    const enemyInitialImage = enemy.staticIllustrationTmp;
 
     switch (selectedSpell.attackName) {
       case "Pression":
