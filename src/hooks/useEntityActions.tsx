@@ -176,6 +176,11 @@ export function useEntityActions(
     switch (playerPosition) {
       case "up":
         setEnemyInfo("orientation", "up");
+        setEnemyInfo("illustration", "./enemy-static/bouftou-left.png");
+        setEnemyInfo(
+          "staticIllustrationTmp",
+          useStore.getState().enemy.illustration
+        );
         animationUp(enemy);
         setEnemyInfo(
           "illustration",
@@ -189,6 +194,11 @@ export function useEntityActions(
         break;
       case "down":
         setEnemyInfo("orientation", "down");
+        setEnemyInfo("illustration", "./enemy-static/bouftou.png");
+        setEnemyInfo(
+          "staticIllustrationTmp",
+          useStore.getState().enemy.illustration
+        );
         animationDown(enemy);
         setEnemyInfo("illustration", "./enemy-animations/bouftou-attack.gif");
 
@@ -199,6 +209,11 @@ export function useEntityActions(
         break;
       case "right":
         setEnemyInfo("orientation", "right");
+        setEnemyInfo("illustration", "./enemy-static/bouftou.png");
+        setEnemyInfo(
+          "staticIllustrationTmp",
+          useStore.getState().enemy.illustration
+        );
         animationRight(enemy);
         setEnemyInfo("illustration", "./enemy-animations/bouftou-attack.gif");
 
@@ -208,7 +223,13 @@ export function useEntityActions(
         }, 2000);
         break;
       case "left":
+        console.log("ici");
         setEnemyInfo("orientation", "left");
+        setEnemyInfo("illustration", "./enemy-static/bouftou-left.png");
+        setEnemyInfo(
+          "staticIllustrationTmp",
+          useStore.getState().enemy.illustration
+        );
         animationLeft(enemy);
         setEnemyInfo(
           "illustration",
