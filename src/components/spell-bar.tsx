@@ -144,11 +144,18 @@ export default function SpellBar() {
               </TooltipTrigger>
               <TooltipContent>
                 {spell.spell.attackName === "Pression" ? (
-                  <p className="font-bold">Inflige 15 à 25 points de dégats</p>
+                  <>
+                    <p className="font-bold text-red-500">Pression</p>
+                    <p>Inflige 15 à 25 points de dégats</p>
+                  </>
                 ) : (
-                  <p className="font-bold">
-                    Augmente de 6 à 11 points les dommages infligés par Pression
-                  </p>
+                  <>
+                    <p className="font-bold text-red-500">Compulsion</p>
+                    <p>
+                      Augmente de 6 à 11 points les dommages infligés par
+                      Pression
+                    </p>
+                  </>
                 )}
               </TooltipContent>
             </Tooltip>
