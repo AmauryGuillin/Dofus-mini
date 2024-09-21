@@ -1,0 +1,73 @@
+"filename", "language", "JavaScript", "JSON", "JSON with Comments", "TypeScript", "TypeScript JSX", "PostCSS", "HTML", "Markdown", "XML", "comment", "blank", "total"
+"f:\Code\React\Dofouse\Dofus-mini\.eslintrc.cjs", "JavaScript", 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 19
+"f:\Code\React\Dofouse\Dofus-mini\README.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 19, 0, 0, 16, 35
+"f:\Code\React\Dofouse\Dofus-mini\components.json", "JSON", 0, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 17
+"f:\Code\React\Dofouse\Dofus-mini\index.html", "HTML", 0, 0, 0, 0, 0, 0, 13, 0, 0, 0, 1, 14
+"f:\Code\React\Dofouse\Dofus-mini\package-lock.json", "JSON", 0, 5679, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5680
+"f:\Code\React\Dofouse\Dofus-mini\package.json", "JSON", 0, 49, 0, 0, 0, 0, 0, 0, 0, 0, 1, 50
+"f:\Code\React\Dofouse\Dofus-mini\postcss.config.js", "JavaScript", 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 7
+"f:\Code\React\Dofouse\Dofus-mini\public\images\player-spells\141.svg", "XML", 0, 0, 0, 0, 0, 0, 0, 0, 18, 0, 0, 18
+"f:\Code\React\Dofouse\Dofus-mini\public\images\player-spells\144.svg", "XML", 0, 0, 0, 0, 0, 0, 0, 0, 18, 0, 0, 18
+"f:\Code\React\Dofouse\Dofus-mini\public\vite.svg", "XML", 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1
+"f:\Code\React\Dofouse\Dofus-mini\src\App.css", "PostCSS", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"f:\Code\React\Dofouse\Dofus-mini\src\App.tsx", "TypeScript JSX", 0, 0, 0, 0, 15, 0, 0, 0, 0, 0, 3, 18
+"f:\Code\React\Dofouse\Dofus-mini\src\assets\react.svg", "XML", 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1
+"f:\Code\React\Dofouse\Dofus-mini\src\changelogs\0.1.0.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 5, 14
+"f:\Code\React\Dofouse\Dofus-mini\src\changelogs\0.1.1.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 5, 15
+"f:\Code\React\Dofouse\Dofus-mini\src\changelogs\0.1.2.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 6, 16
+"f:\Code\React\Dofouse\Dofus-mini\src\changelogs\0.1.3.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 5, 15
+"f:\Code\React\Dofouse\Dofus-mini\src\changelogs\0.1.4.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 3, 9
+"f:\Code\React\Dofouse\Dofus-mini\src\changelogs\0.1.5.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 5, 13
+"f:\Code\React\Dofouse\Dofus-mini\src\changelogs\0.1.6.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 5, 19
+"f:\Code\React\Dofouse\Dofus-mini\src\changelogs\0.1.7.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 3, 9
+"f:\Code\React\Dofouse\Dofus-mini\src\changelogs\0.1.8.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 5, 14
+"f:\Code\React\Dofouse\Dofus-mini\src\changelogs\1.0.1.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 17, 0, 0, 10, 27
+"f:\Code\React\Dofouse\Dofus-mini\src\components\action-bar-chat.tsx", "TypeScript JSX", 0, 0, 0, 0, 42, 0, 0, 0, 0, 0, 5, 47
+"f:\Code\React\Dofouse\Dofus-mini\src\components\action-bar.tsx", "TypeScript JSX", 0, 0, 0, 0, 22, 0, 0, 0, 0, 0, 3, 25
+"f:\Code\React\Dofouse\Dofus-mini\src\components\changelog.tsx", "TypeScript JSX", 0, 0, 0, 0, 95, 0, 0, 0, 0, 4, 9, 108
+"f:\Code\React\Dofouse\Dofus-mini\src\components\enemy-info.tsx", "TypeScript JSX", 0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 3, 17
+"f:\Code\React\Dofouse\Dofus-mini\src\components\main.tsx", "TypeScript JSX", 0, 0, 0, 0, 93, 0, 0, 0, 0, 0, 8, 101
+"f:\Code\React\Dofouse\Dofus-mini\src\components\player-info.tsx", "TypeScript JSX", 0, 0, 0, 0, 45, 0, 0, 0, 0, 1, 3, 49
+"f:\Code\React\Dofouse\Dofus-mini\src\components\player-turn-image.tsx", "TypeScript JSX", 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 3, 26
+"f:\Code\React\Dofouse\Dofus-mini\src\components\playing-board.tsx", "TypeScript JSX", 0, 0, 0, 0, 36, 0, 0, 0, 0, 0, 5, 41
+"f:\Code\React\Dofouse\Dofus-mini\src\components\spell-bar.tsx", "TypeScript JSX", 0, 0, 0, 0, 125, 0, 0, 0, 0, 2, 14, 141
+"f:\Code\React\Dofouse\Dofus-mini\src\components\timeline.tsx", "TypeScript JSX", 0, 0, 0, 0, 79, 0, 0, 0, 0, 0, 7, 86
+"f:\Code\React\Dofouse\Dofus-mini\src\components\title-menu-progress.tsx", "TypeScript JSX", 0, 0, 0, 0, 102, 0, 0, 0, 0, 0, 13, 115
+"f:\Code\React\Dofouse\Dofus-mini\src\components\title-menu.tsx", "TypeScript JSX", 0, 0, 0, 0, 84, 0, 0, 0, 0, 0, 9, 93
+"f:\Code\React\Dofouse\Dofus-mini\src\components\ui\accordion.tsx", "TypeScript JSX", 0, 0, 0, 0, 49, 0, 0, 0, 0, 0, 8, 57
+"f:\Code\React\Dofouse\Dofus-mini\src\components\ui\avatar.tsx", "TypeScript JSX", 0, 0, 0, 0, 43, 0, 0, 0, 0, 0, 6, 49
+"f:\Code\React\Dofouse\Dofus-mini\src\components\ui\button.tsx", "TypeScript JSX", 0, 0, 0, 0, 51, 0, 0, 0, 0, 0, 6, 57
+"f:\Code\React\Dofouse\Dofus-mini\src\components\ui\card.tsx", "TypeScript JSX", 0, 0, 0, 0, 71, 0, 0, 0, 0, 0, 9, 80
+"f:\Code\React\Dofouse\Dofus-mini\src\components\ui\dialog.tsx", "TypeScript JSX", 0, 0, 0, 0, 108, 0, 0, 0, 0, 0, 13, 121
+"f:\Code\React\Dofouse\Dofus-mini\src\components\ui\progress-loading.tsx", "TypeScript JSX", 0, 0, 0, 0, 28, 0, 0, 0, 0, 0, 4, 32
+"f:\Code\React\Dofouse\Dofus-mini\src\components\ui\progress.tsx", "TypeScript JSX", 0, 0, 0, 0, 28, 0, 0, 0, 0, 0, 4, 32
+"f:\Code\React\Dofouse\Dofus-mini\src\components\ui\title-menu-button.tsx", "TypeScript JSX", 0, 0, 0, 0, 52, 0, 0, 0, 0, 0, 6, 58
+"f:\Code\React\Dofouse\Dofus-mini\src\hooks\store.ts", "TypeScript", 0, 0, 0, 105, 0, 0, 0, 0, 0, 0, 6, 111
+"f:\Code\React\Dofouse\Dofus-mini\src\hooks\useEntityActions.tsx", "TypeScript JSX", 0, 0, 0, 0, 687, 0, 0, 0, 0, 0, 70, 757
+"f:\Code\React\Dofouse\Dofus-mini\src\hooks\useEntityActionsUtils.tsx", "TypeScript JSX", 0, 0, 0, 0, 172, 0, 0, 0, 0, 2, 25, 199
+"f:\Code\React\Dofouse\Dofus-mini\src\hooks\usePassTurn.tsx", "TypeScript JSX", 0, 0, 0, 0, 75, 0, 0, 0, 0, 0, 10, 85
+"f:\Code\React\Dofouse\Dofus-mini\src\hooks\usePlayingBoard.tsx", "TypeScript JSX", 0, 0, 0, 0, 279, 0, 0, 0, 0, 4, 16, 299
+"f:\Code\React\Dofouse\Dofus-mini\src\hooks\useSelectCell.tsx", "TypeScript JSX", 0, 0, 0, 0, 306, 0, 0, 0, 0, 6, 32, 344
+"f:\Code\React\Dofouse\Dofus-mini\src\index.css", "PostCSS", 0, 0, 0, 0, 0, 66, 0, 0, 0, 0, 3, 69
+"f:\Code\React\Dofouse\Dofus-mini\src\lib\utils.ts", "TypeScript", 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 2, 7
+"f:\Code\React\Dofouse\Dofus-mini\src\main.tsx", "TypeScript JSX", 0, 0, 0, 0, 6, 0, 0, 0, 0, 2, 2, 10
+"f:\Code\React\Dofouse\Dofus-mini\src\types\attack.ts", "TypeScript", 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 2, 12
+"f:\Code\React\Dofouse\Dofus-mini\src\types\board.ts", "TypeScript", 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 1, 6
+"f:\Code\React\Dofouse\Dofus-mini\src\types\chat-info-message.ts", "TypeScript", 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 1, 5
+"f:\Code\React\Dofouse\Dofus-mini\src\types\enemy.ts", "TypeScript", 0, 0, 0, 27, 0, 0, 0, 0, 0, 0, 1, 28
+"f:\Code\React\Dofouse\Dofus-mini\src\types\player.ts", "TypeScript", 0, 0, 0, 27, 0, 0, 0, 0, 0, 0, 1, 28
+"f:\Code\React\Dofouse\Dofus-mini\src\utils\gamedesign\board-generator.ts", "TypeScript", 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 2, 10
+"f:\Code\React\Dofouse\Dofus-mini\src\utils\gamedesign\enemy-attack-generator.ts", "TypeScript", 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 2, 13
+"f:\Code\React\Dofouse\Dofus-mini\src\utils\gamedesign\enemy-generator.ts", "TypeScript", 0, 0, 0, 30, 0, 0, 0, 0, 0, 0, 2, 32
+"f:\Code\React\Dofouse\Dofus-mini\src\utils\gamedesign\player-attack-generator.ts", "TypeScript", 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 2, 13
+"f:\Code\React\Dofouse\Dofus-mini\src\utils\gamedesign\player-boost-generator.ts", "TypeScript", 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 2, 13
+"f:\Code\React\Dofouse\Dofus-mini\src\utils\gamedesign\player-generator.ts", "TypeScript", 0, 0, 0, 30, 0, 0, 0, 0, 0, 0, 2, 32
+"f:\Code\React\Dofouse\Dofus-mini\src\utils\music\handleAudio.ts", "TypeScript", 0, 0, 0, 45, 0, 0, 0, 0, 0, 0, 5, 50
+"f:\Code\React\Dofouse\Dofus-mini\src\utils\tools\getRandomNumber.ts", "TypeScript", 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 2, 8
+"f:\Code\React\Dofouse\Dofus-mini\src\utils\tools\windowControls.ts", "TypeScript", 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 1, 4
+"f:\Code\React\Dofouse\Dofus-mini\src\vite-env.d.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2
+"f:\Code\React\Dofouse\Dofus-mini\tailwind.config.js", "JavaScript", 85, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 87
+"f:\Code\React\Dofouse\Dofus-mini\tsconfig.json", "JSON with Comments", 0, 0, 27, 0, 0, 0, 0, 0, 0, 2, 3, 32
+"f:\Code\React\Dofouse\Dofus-mini\tsconfig.node.json", "JSON", 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 1, 12
+"f:\Code\React\Dofouse\Dofus-mini\vite.config.ts", "TypeScript", 0, 0, 0, 24, 0, 0, 0, 0, 0, 3, 2, 29
+"Total", "-", 109, 5756, 27, 362, 2730, 66, 13, 118, 38, 28, 415, 9662

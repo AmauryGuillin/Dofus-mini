@@ -5,6 +5,12 @@ import { generatePression } from "../utils/gamedesign/player-attack-generator";
 import { generateCompulsion } from "../utils/gamedesign/player-boost-generator";
 import { playClickSounds } from "../utils/music/handleAudio";
 import { Card, CardContent } from "./ui/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
 
 export default function SpellBar() {
   const player = useStore((state) => state.player);
@@ -112,27 +118,41 @@ export default function SpellBar() {
 
   return (
     <Card className="h-full bg-transparent">
-      <CardContent className="flex h-full gap-2 overflow-auto p-2">
+      <CardContent className="flex gap-2 overflow-auto p-2">
         {spellsSources.map((spell) => (
-          <div
-            key={spell.id}
-            className={`w-12 h-12 flex justify-center items-center hover:bg-gray-500 hover:cursor-pointer hover:scale-105 relative ${
-              (spell.spell.attackName === "Compulsion" &&
-                boostDuration !== undefined) ||
-              player.pa < spell.spell.cost
-                ? "grayscale contrast-75"
-                : ""
-            }`}
-            onClick={() => selectSpell(spell.spell)}
-          >
-            <img src={spell.image} className="w-80" />
-            {boostDuration !== undefined &&
-              spell.spell.attackName === "Compulsion" && (
-                <div className="absolute top-2 left-4 text-black font-extrabold text-2xl">
-                  {boostDuration}
+          <TooltipProvider key={spell.id}>
+            <Tooltip>
+              <TooltipTrigger>
+                <div
+                  className={`w-12 h-12 flex justify-center items-center hover:bg-gray-500 hover:cursor-pointer hover:scale-105 relative ${
+                    (spell.spell.attackName === "Compulsion" &&
+                      boostDuration !== undefined) ||
+                    player.pa < spell.spell.cost
+                      ? "grayscale contrast-75"
+                      : ""
+                  }`}
+                  onClick={() => selectSpell(spell.spell)}
+                >
+                  <img src={spell.image} className="w-80" />
+                  {boostDuration !== undefined &&
+                    spell.spell.attackName === "Compulsion" && (
+                      <div className="absolute top-2 left-4 text-black font-extrabold text-2xl">
+                        {boostDuration}
+                      </div>
+                    )}
                 </div>
-              )}
-          </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                {spell.spell.attackName === "Pression" ? (
+                  <p className="font-bold">Inflige 15 à 25 points de dégats</p>
+                ) : (
+                  <p className="font-bold">
+                    Augmente de 6 à 11 points les dommages infligés par Pression
+                  </p>
+                )}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         ))}
       </CardContent>
     </Card>

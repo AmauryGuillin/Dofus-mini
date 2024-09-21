@@ -4,6 +4,7 @@ import { Avatar, AvatarImage } from "./ui/avatar";
 
 export default function PlayerInfo() {
   const player = useStore((state) => state.player);
+  //const t = Math.min((player.pv / player.pvMax) * 100, 100);
 
   return (
     <>
