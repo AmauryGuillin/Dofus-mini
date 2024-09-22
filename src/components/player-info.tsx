@@ -1,10 +1,33 @@
 import { useStore } from "@/hooks/store";
+import { playClickSounds } from "@/utils/music/handleAudio";
 import { Circle, Heart } from "lucide-react";
+import { useState } from "react";
 import { Avatar, AvatarImage } from "./ui/avatar";
+import { Separator } from "./ui/separator";
 
 export default function PlayerInfo() {
   const player = useStore((state) => state.player);
-  //const t = Math.min((player.pv / player.pvMax) * 100, 100);
+  const healthPercentage = Math.round(
+    Math.min((player.pv / player.pvMax) * 100, 100)
+  );
+
+  const [healthDisplay, setHealthDisplay] = useState<number>(0);
+
+  function changeHealthDisplay() {
+    playClickSounds(0.5);
+    if (healthDisplay === 0) {
+      setHealthDisplay(1);
+      return;
+    }
+    if (healthDisplay === 1) {
+      setHealthDisplay(2);
+      return;
+    }
+    if (healthDisplay === 2) {
+      setHealthDisplay(0);
+      return;
+    }
+  }
 
   return (
     <>
@@ -12,15 +35,30 @@ export default function PlayerInfo() {
         <Avatar className="h-auto w-44 border-4 shrink flex items-center justify-center">
           <AvatarImage src="./images/1.png" className="h-auto max-w-full" />
         </Avatar>
-        <div className="absolute top-2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-default">
+        <div
+          className="absolute top-2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
+          onClick={changeHealthDisplay}
+        >
           <Heart
             strokeWidth={0.7}
             stroke="white"
             className="size-24 fill-red-600"
           />
-          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[70%] font-extrabold text-2xl">
-            {player.pv}
-          </span>
+          {healthDisplay === 0 ? (
+            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[70%] font-extrabold text-2xl">
+              {player.pv}
+            </span>
+          ) : healthDisplay === 1 ? (
+            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] font-extrabold text-lg">
+              <div className="flex justify-center items-center flex-col">
+                {player.pv} <Separator /> {player.pvMax}
+              </div>
+            </span>
+          ) : (
+            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[70%] font-extrabold text-xl">
+              {healthPercentage}%
+            </span>
+          )}
         </div>
         <div className="cursor-default">
           <Circle
