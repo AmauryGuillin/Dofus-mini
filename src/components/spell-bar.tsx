@@ -146,7 +146,7 @@ export default function SpellBar() {
                 {spell.spell.attackName === "Pression" ? (
                   <>
                     <p className="font-bold text-red-500">Pression</p>
-                    <p>Inflige 15 à 25 points de dégats</p>
+                    <p>Inflige 15 à 25 points de dommages</p>
                   </>
                 ) : (
                   <>
