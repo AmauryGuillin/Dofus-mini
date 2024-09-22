@@ -15,18 +15,7 @@ export default function PlayerInfo() {
 
   function changeHealthDisplay() {
     playClickSounds(0.5);
-    if (healthDisplay === 0) {
-      setHealthDisplay(1);
-      return;
-    }
-    if (healthDisplay === 1) {
-      setHealthDisplay(2);
-      return;
-    }
-    if (healthDisplay === 2) {
-      setHealthDisplay(0);
-      return;
-    }
+    setHealthDisplay((prev) => (prev + 1) % 3);
   }
 
   return (
