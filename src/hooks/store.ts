@@ -13,7 +13,6 @@ type InitialState = {
   board: Board;
   player: Player;
   enemy: Enemy;
-  enemyCell: string;
   selectedSpell: Spell | null;
   attackRangeDisplay: string[];
   pmRangeDisplay: string[];
@@ -40,7 +39,6 @@ type Actions = {
     info: keyof Enemy,
     value: number | string | boolean | null
   ) => void;
-  setEnemyCell: (position: string) => void;
   setSelectedSpell: (spell: Spell | null) => void;
   setAttackRangeDisplay: (range: string[]) => void;
   setPMRangeDisplay: (range: string[]) => void;
@@ -60,7 +58,6 @@ const initialState: InitialState = {
   board: generateBoard(),
   player: generatePlayer(),
   enemy: generateEnemy(),
-  enemyCell: "1-5",
   selectedSpell: null,
   attackRangeDisplay: [],
   pmRangeDisplay: [],
@@ -89,7 +86,6 @@ export const useStore = create<Store>()(
     setEnemy: (enemy) => set(() => ({ enemy: enemy })),
     setEnemyInfo: (info, value) =>
       set((state) => ({ enemy: { ...state.enemy, [info]: value } })),
-    setEnemyCell: (position) => set(() => ({ enemyCell: position })),
     setSelectedSpell: (spell) => set(() => ({ selectedSpell: spell })),
     setAttackRangeDisplay: (range) =>
       set(() => ({ attackRangeDisplay: range })),
