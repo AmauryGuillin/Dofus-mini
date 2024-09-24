@@ -19,11 +19,6 @@ export function usePlayingBoard(
   const path = useStore((state) => state.path);
   const setPath = useStore((state) => state.setPath);
 
-  // const [showPlayerInfo, setShowPlayerInfo] = useState<boolean>(false);
-  // const [showEnemyInfo, setShowEnemyInfo] = useState<boolean>(false);
-  // const [showPlayerPM, setShowPlayerPM] = useState<boolean>(false);
-  // const [showEnemyPM, setShowEnemyPM] = useState<boolean>(false);
-
   const { isUserImageDisplayed, passTurn } = usePassTurn(setMessage);
 
   const { calculPMRangeDisplay, calculatePath } =
