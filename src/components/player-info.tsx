@@ -45,7 +45,7 @@ export default function PlayerInfo() {
         <linearGradient
           id="health-gradient"
           x1="100%"
-          y1={`${healthPercentage > 0 ? `${-healthParamSecond * 2}%}` : "99%"}`}
+          y1={`${healthPercentage > 0 ? `${-healthParamSecond * 2}%` : "99%"}`}
           x2="100%"
           y2={`${healthPercentage > 0 ? `${-healthParamFirst * 2}%` : "100%"}`}
         >
