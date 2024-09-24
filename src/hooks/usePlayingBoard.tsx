@@ -142,7 +142,10 @@ export function usePlayingBoard(
                 <div className="absolute top-[-268%] left-[-470%] w-48 h-20 border-2 transform rotate-[-45deg] skew-x-[9deg] flex flex-col justify-center items-center rounded bg-gray-600 gap-4 z-[999] text-white">
                   <div>{player.name}</div>
                   <div className="flex justify-center items-center z-10">
-                    <Progress value={player.pv} max={player.pvMax} />
+                    <Progress
+                      value={player.pv > 0 ? player.pv : 0}
+                      max={player.pvMax}
+                    />
                   </div>
                 </div>
               )}
@@ -233,7 +236,10 @@ export function usePlayingBoard(
                 <div className="absolute top-[-216%] left-[-381%] w-48 h-20 border-2 transform rotate-[-45deg] skew-x-[9deg] flex flex-col justify-center items-center rounded bg-gray-600 gap-4 z-[999] text-white">
                   <div>{enemy.name}</div>
                   <div className="flex justify-center items-center">
-                    <Progress value={enemy.pv} max={enemy.pvMax} />
+                    <Progress
+                      value={enemy.pv > 0 ? enemy.pv : 0}
+                      max={enemy.pvMax}
+                    />
                   </div>
                 </div>
               )}
