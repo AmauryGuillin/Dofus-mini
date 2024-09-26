@@ -1,5 +1,5 @@
 import { useStore } from "@/hooks/store";
-import { getRandomInt } from "@/utils/tools/getRandomNumber";
+import { getRandomInt } from "@/utils/tools/randomGenerators";
 import { useEffect, useState } from "react";
 import { ProgressLoading } from "./ui/progress-loading";
 

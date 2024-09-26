@@ -5,7 +5,7 @@ import { generateBouftouBite } from "@/utils/gamedesign/enemy-attack-generator";
 import { generatePression } from "@/utils/gamedesign/player-attack-generator";
 import { generateCompulsion } from "@/utils/gamedesign/player-boost-generator";
 import { playAudio, playErrorSound } from "@/utils/music/handleAudio";
-import { getRandomInt } from "@/utils/tools/getRandomNumber";
+import { getRandomInt } from "@/utils/tools/randomGenerators";
 import { useState } from "react";
 import { useStore } from "./store";
 import { useEntityActionsUtils } from "./useEntityActionsUtils";

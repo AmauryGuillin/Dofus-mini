@@ -1,4 +1,4 @@
-import { getRandomIntMinMax } from "@/utils/tools/getRandomNumber";
+import { getRandomIntMinMax } from "@/utils/tools/randomGenerators";
 import { useEffect, useState } from "react";
 import TitleMenuProgress from "./title-menu-progress";
 import { TitleMenuButton } from "./ui/title-menu-button";

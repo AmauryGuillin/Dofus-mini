@@ -1,4 +1,5 @@
 import { Player } from "@/types/player";
+import { generateRandomPosition } from "../tools/randomGenerators";
 
 export function generatePlayer(): Player {
   return {
@@ -6,7 +7,7 @@ export function generatePlayer(): Player {
     name: "Iopette",
     illustration: "./player-static/player-static-front-right.png",
     portraitIllustration: "./player-static/player-static-front-right.png",
-    position: "6-1",
+    position: generateRandomPosition(),
     orientation: "right",
     pvMax: 100,
     pv: 100,
