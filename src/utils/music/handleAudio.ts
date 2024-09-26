@@ -1,4 +1,4 @@
-import { getRandomInt } from "../tools/getRandomNumber";
+import { getRandomInt } from "../tools/randomGenerators";
 
 export function playAudio(
   source: string,

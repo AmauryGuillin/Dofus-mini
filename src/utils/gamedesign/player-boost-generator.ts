@@ -1,5 +1,5 @@
 import { Spell } from "../../types/attack";
-import { getRandomIntMinMax } from "../tools/getRandomNumber";
+import { getRandomIntMinMax } from "../tools/randomGenerators";
 
 export function generateCompulsion(): Spell {
   return {

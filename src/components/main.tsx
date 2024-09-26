@@ -4,7 +4,7 @@ import Confetti from "react-confetti";
 import { useStore } from "../hooks/store";
 import { ChatInfoMessage } from "../types/chat-info-message";
 import { playAudio } from "../utils/music/handleAudio";
-import { getRandomInt } from "../utils/tools/getRandomNumber";
+import { getRandomInt } from "../utils/tools/randomGenerators";
 import { reloadPage } from "../utils/tools/windowControls";
 import Chat from "./action-bar-chat";
 import Changelog from "./changelog";

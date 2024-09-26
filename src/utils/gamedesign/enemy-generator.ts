@@ -1,4 +1,5 @@
 import { Enemy } from "@/types/enemy";
+import { generateRandomPosition } from "../tools/randomGenerators";
 
 export function generateEnemy(): Enemy {
   return {
@@ -7,7 +8,7 @@ export function generateEnemy(): Enemy {
     illustration: "./enemy-static/bouftou.png",
     staticIllustrationTmp: "",
     portraitIllustration: "./enemy-static/bouftou.png",
-    position: "1-6",
+    position: generateRandomPosition(),
     orientation: "down",
     pvMax: 250,
     pv: 250,
