@@ -44,7 +44,7 @@ export function usePassTurn(
           setBoostDuration(undefined);
         }
       }
-      if (useStore.getState().player.bondCooldown !== undefined) {
+      if (useStore.getState().player.bondCooldown !== null) {
         setPlayerInfo(
           "bondCooldown",
           useStore.getState().player.bondCooldown! - 1
