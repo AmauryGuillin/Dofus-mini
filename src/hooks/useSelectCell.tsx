@@ -58,6 +58,16 @@ export function useSelectCell(
     let newPath: string[];
 
     if (player.isTurnToPlay) {
+      if (
+        (key !== player.position ||
+          key !== enemy.position ||
+          key !== undefined) &&
+        useStore.getState().selectedSpell?.attackName === "Bond"
+      ) {
+        playerAttack(key);
+        return;
+      }
+
       if (key === enemy.position) {
         if (!playerOnAttackMode) return;
         const distance = calculateDistance(player.position, enemy.position);
@@ -85,6 +95,7 @@ export function useSelectCell(
         setSelectedSpell(null);
         return;
       }
+
       newPath = calculatePath(
         player.position!,
         key,

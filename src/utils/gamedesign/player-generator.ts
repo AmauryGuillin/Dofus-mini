@@ -28,5 +28,6 @@ export function generatePlayer(): Player {
     isDead: false,
     showInfo: false,
     showPM: false,
+    bondCooldown: null,
   };
 }

@@ -24,4 +24,5 @@ export interface Player {
   isDead: boolean;
   showInfo: boolean;
   showPM: boolean;
+  bondCooldown: number | null;
 }

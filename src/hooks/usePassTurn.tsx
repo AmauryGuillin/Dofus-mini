@@ -40,8 +40,18 @@ export function usePassTurn(
       useStore.getState().path = [];
       if (useStore.getState().boostDuration !== undefined) {
         setBoostDuration(useStore.getState().boostDuration! - 1);
-        if (useStore.getState().boostDuration === 1) {
+        if (useStore.getState().boostDuration === 0) {
           setBoostDuration(undefined);
+        }
+      }
+      if (useStore.getState().player.bondCooldown !== undefined) {
+        setPlayerInfo(
+          "bondCooldown",
+          useStore.getState().player.bondCooldown! - 1
+        );
+        if (useStore.getState().player.bondCooldown === 0) {
+          console.log("ici");
+          setPlayerInfo("bondCooldown", null);
         }
       }
       setTurnCount(turnCount + 1);

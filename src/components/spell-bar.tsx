@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { useStore } from "../hooks/store";
 import { Spell } from "../types/attack";
-import { generatePression } from "../utils/gamedesign/player-attack-generator";
+import {
+  generateBond,
+  generatePression,
+} from "../utils/gamedesign/player-attack-generator";
 import { generateCompulsion } from "../utils/gamedesign/player-boost-generator";
 import { playClickSounds } from "../utils/music/handleAudio";
 import { Card, CardContent } from "./ui/card";
@@ -41,11 +44,19 @@ export default function SpellBar() {
       image: "./images/player-spells/144.svg",
       spell: generateCompulsion(),
     },
+    {
+      id: crypto.randomUUID(),
+      image: "./images/player-spells/142.svg",
+      spell: generateBond(),
+    },
   ];
 
   function selectSpell(spell: Spell) {
     if (!player.isTurnToPlay) return;
     if (player.isMoving) return;
+    if (spell.cost > player.pa) return;
+    if (spell.attackName === "Bond" && player.bondCooldown != null) return;
+    if (spell.attackName === "Compulsion" && boostDuration != null) return;
     playClickSounds(0.3);
     setSelectedSpell(spell);
     calculAttackRangeDisplay(player.position, spell, board.width, board.length);
@@ -106,6 +117,11 @@ export default function SpellBar() {
         player.pa >= spellsSources[1].spell.cost
       ) {
         selectSpell(spellsSources[1].spell);
+      } else if (
+        event.key === '"' &&
+        player.pa >= spellsSources[2].spell.cost
+      ) {
+        selectSpell(spellsSources[2].spell);
       }
     }
 
@@ -127,6 +143,8 @@ export default function SpellBar() {
                   className={`w-12 h-12 flex justify-center items-center hover:bg-gray-500 hover:cursor-pointer hover:scale-105 relative ${
                     (spell.spell.attackName === "Compulsion" &&
                       boostDuration !== undefined) ||
+                    (spell.spell.attackName === "Bond" &&
+                      player.bondCooldown !== null) ||
                     player.pa < spell.spell.cost
                       ? "grayscale contrast-75"
                       : ""
@@ -140,6 +158,12 @@ export default function SpellBar() {
                         {boostDuration}
                       </div>
                     )}
+                  {player.bondCooldown !== null &&
+                    spell.spell.attackName === "Bond" && (
+                      <div className="absolute top-2 left-4 text-black font-extrabold text-2xl">
+                        {player.bondCooldown}
+                      </div>
+                    )}
                 </div>
               </TooltipTrigger>
               <TooltipContent>
@@ -148,13 +172,18 @@ export default function SpellBar() {
                     <p className="font-bold text-red-500">Pression</p>
                     <p>Inflige 15 à 25 points de dommages</p>
                   </>
-                ) : (
+                ) : spell.spell.attackName === "Compulsion" ? (
                   <>
                     <p className="font-bold text-red-500">Compulsion</p>
                     <p>
                       Augmente de 6 à 11 points les dommages infligés par
                       Pression
                     </p>
+                  </>
+                ) : (
+                  <>
+                    <p className="font-bold text-red-500">Bond</p>
+                    <p>Déplace le joueur jusqu'à 2 cases autour de lui</p>
                   </>
                 )}
               </TooltipContent>

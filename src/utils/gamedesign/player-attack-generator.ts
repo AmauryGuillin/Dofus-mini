@@ -10,3 +10,12 @@ export function generatePression(): Spell {
     canAutoTarget: false,
   };
 }
+
+export function generateBond(): Spell {
+  return {
+    attackName: "Bond",
+    range: 2,
+    cost: 4,
+    canAutoTarget: false,
+  };
+}

@@ -2,7 +2,10 @@ import { ChatInfoMessage } from "@/types/chat-info-message";
 import { Enemy } from "@/types/enemy";
 import { Player } from "@/types/player";
 import { generateBouftouBite } from "@/utils/gamedesign/enemy-attack-generator";
-import { generatePression } from "@/utils/gamedesign/player-attack-generator";
+import {
+  generateBond,
+  generatePression,
+} from "@/utils/gamedesign/player-attack-generator";
 import { generateCompulsion } from "@/utils/gamedesign/player-boost-generator";
 import { playAudio, playErrorSound } from "@/utils/music/handleAudio";
 import { getRandomInt } from "@/utils/tools/randomGenerators";
@@ -261,7 +264,7 @@ export function useEntityActions(
     setEnemyInfo("pa", (useStore.getState().enemy.pa -= bouftouBite.cost));
   }
 
-  function playerAttack() {
+  function playerAttack(key?: string) {
     if (selectedSpell === null) return;
     if (player.isMoving) return;
 
@@ -282,8 +285,10 @@ export function useEntityActions(
     const initialImage = "./player-static/player-static-front-right.png";
 
     const pression = generatePression();
+    const bond = generateBond();
 
     const distance = calculateDistance(player.position, enemy.position);
+    let distanceBond;
 
     const position = calculateEnemyPositionComparedToPlayer(
       enemy.position,
@@ -552,6 +557,54 @@ export function useEntityActions(
           }, 1500);
           return;
         }
+        return;
+      case "Bond":
+        distanceBond = calculateDistance(player.position, key!);
+        if (player.bondCooldown !== null) {
+          addErrorMessage(`Action impossible`);
+          setSelectedSpell(null);
+          setAttackRangeDisplay([]);
+          setPlayerOnAttackMode(false);
+          return;
+        }
+
+        if (distanceBond > bond.range) {
+          addErrorMessage(`Action impossible`);
+          setSelectedSpell(null);
+          setAttackRangeDisplay([]);
+          setPlayerOnAttackMode(false);
+          return;
+        }
+        if (key === player.position) {
+          addErrorMessage(`Action impossible`);
+          setSelectedSpell(null);
+          setAttackRangeDisplay([]);
+          setPlayerOnAttackMode(false);
+          return;
+        }
+        if (key === enemy.position) {
+          addErrorMessage(`Action impossible`);
+          setSelectedSpell(null);
+          setAttackRangeDisplay([]);
+          setPlayerOnAttackMode(false);
+          return;
+        }
+        if (player.pa < bond.cost) {
+          addErrorMessage(`Pas assez de PA`);
+          setSelectedSpell(null);
+          setAttackRangeDisplay([]);
+          return;
+        }
+        new Promise((resolve) => {
+          useStore.getState().player.pa -= bond.cost;
+          setSelectedSpell(null);
+          setAttackRangeDisplay([]);
+          useStore.getState().player.bondCooldown = 4;
+          useStore.getState().player.position = key!;
+          setPlayerOnAttackMode(false);
+          resolve("ok");
+        });
+        addInfoMessage(`${player.name} lance ${bond.attackName}.`);
         return;
       default:
         setSelectedSpell(null);
