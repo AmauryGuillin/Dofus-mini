@@ -104,3 +104,13 @@ export const useStore = create<Store>()(
     setPath: (value) => set(() => ({ path: value })),
   }))
 );
+
+if (
+  useStore.getState().player.position === useStore.getState().enemy.position
+) {
+  let [row, col] = useStore.getState().enemy.position.split("-").map(Number);
+  row++;
+  col++;
+  const concat = `${row}-${col}`;
+  useStore.getState().setEnemyInfo("position", concat);
+}

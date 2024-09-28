@@ -223,7 +223,6 @@ export function useEntityActions(
         }, 2000);
         break;
       case "left":
-        console.log("ici");
         setEnemyInfo("orientation", "left");
         setEnemyInfo("illustration", "./enemy-static/bouftou-left.png");
         setEnemyInfo(
