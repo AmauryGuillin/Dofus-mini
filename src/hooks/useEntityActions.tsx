@@ -40,6 +40,7 @@ export function useEntityActions(
   );
 
   const {
+    handlePlayerMovementDirection,
     calculateEnemyPositionComparedToPlayer,
     calculateDistance,
     addErrorMessage,
@@ -281,6 +282,9 @@ export function useEntityActions(
       playerAttackSoundAfter,
       playerAttackSoundAfter2,
     ];
+
+    const bondSoundBefore = "./player-sound-effects/boost/iop_boost.mp3";
+    const bondSoundAfter = "./player-sound-effects/attack/bond-additional.mp3";
 
     const initialImage = "./player-static/player-static-front-right.png";
 
@@ -595,14 +599,145 @@ export function useEntityActions(
           setAttackRangeDisplay([]);
           return;
         }
+
         new Promise((resolve) => {
+          //change position
+          const finalPosition = handlePlayerMovementDirection(
+            player.position,
+            key!
+          );
+          new Promise((resolve) => {
+            switch (finalPosition) {
+              case "up":
+                console.log(1, "up");
+                animationUp(player);
+                setPlayerInfo("orientation", "up");
+                setPlayerInfo(
+                  "illustration",
+                  "./player-static/player-static-left.png"
+                );
+                break;
+              case "down":
+                console.log(1, "down");
+                animationDown(player);
+                setPlayerInfo("orientation", "down");
+                setPlayerInfo(
+                  "illustration",
+                  "./player-static/player-static-front-right.png"
+                );
+                break;
+              case "left":
+                console.log(1, "left");
+                animationLeft(player);
+                setPlayerInfo("orientation", "left");
+                setPlayerInfo(
+                  "illustration",
+                  "./player-static/player-static-left.png"
+                );
+                break;
+              case "right":
+                console.log(1, "right");
+                animationRight(player);
+                setPlayerInfo("orientation", "right");
+                setPlayerInfo(
+                  "illustration",
+                  "./player-static/player-static-front-right.png"
+                );
+                break;
+              default:
+                break;
+            }
+            resolve("ok");
+          });
+
+          setPlayerInfo("isCompulsionAnimated", true);
+
+          //Animation
+          switch (finalPosition) {
+            case "up":
+              console.log(2, "up");
+              animationUp(player);
+              setPlayerInfo(
+                "illustration",
+                "./player-animations/boost-animation-left.gif"
+              );
+              setTimeout(() => {
+                setPlayerOnAttackMode(false);
+                setPlayerInfo(
+                  "illustration",
+                  "./player-static/player-static-left.png"
+                );
+              }, 1000);
+              break;
+            case "down":
+              console.log(2, "down");
+              animationDown(player);
+              setPlayerInfo(
+                "illustration",
+                "./player-animations/boost-animation.gif"
+              );
+              setTimeout(() => {
+                setPlayerOnAttackMode(false);
+                setPlayerInfo(
+                  "illustration",
+                  "./player-static/player-static-front-right.png"
+                );
+              }, 1000);
+              break;
+            case "left":
+              console.log(2, "left");
+              animationLeft(player);
+              setPlayerInfo(
+                "illustration",
+                "./player-animations/boost-animation-left.gif"
+              );
+              setTimeout(() => {
+                setPlayerOnAttackMode(false);
+                setPlayerInfo(
+                  "illustration",
+                  "./player-static/player-static-left.png"
+                );
+              }, 1000);
+              break;
+            case "right":
+              console.log(2, "right");
+              animationRight(player);
+              setPlayerInfo(
+                "illustration",
+                "./player-animations/boost-animation.gif"
+              );
+              setTimeout(() => {
+                setPlayerInfo(
+                  "illustration",
+                  "./player-static/player-static-front-right.png"
+                );
+                setPlayerOnAttackMode(false);
+              }, 1000);
+              break;
+            default:
+              break;
+          }
+          setTimeout(() => {
+            setPlayerInfo("isCompulsionAnimated", false);
+            setPlayerOnAttackMode(false);
+            useStore.getState().player.position = key!;
+            resolve("ok");
+          }, 1000);
+
+          setTimeout(() => {
+            playAudio(bondSoundBefore, 0.1, false, true);
+          }, 100);
+
+          setTimeout(() => {
+            playAudio(bondSoundAfter, 0.1, false, true);
+          }, 150);
+
+          //alter states
           useStore.getState().player.pa -= bond.cost;
           setSelectedSpell(null);
           setAttackRangeDisplay([]);
           useStore.getState().player.bondCooldown = 4;
-          useStore.getState().player.position = key!;
           setPlayerOnAttackMode(false);
-          resolve("ok");
         });
         addInfoMessage(`${player.name} lance ${bond.attackName}.`);
         return;
