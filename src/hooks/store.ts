@@ -23,6 +23,9 @@ type InitialState = {
   playerOnAttackMode: boolean;
   canMove: boolean;
   path: string[];
+  gameTimeSeconds: number;
+  gameTimeMinutes: number;
+  gameTimeHours: number;
 };
 
 type Actions = {
@@ -49,6 +52,9 @@ type Actions = {
   setPlayerOnAttackMode: (value: boolean) => void;
   setCanMove: (value: boolean) => void;
   setPath: (value: string[]) => void;
+  setGameTimeSeconds: (value: number) => void;
+  setGameTimeMinutes: (value: number) => void;
+  setGameTimeHours: (value: number) => void;
 };
 
 type Store = InitialState & Actions;
@@ -68,6 +74,9 @@ const initialState: InitialState = {
   playerOnAttackMode: false,
   canMove: false,
   path: [],
+  gameTimeSeconds: 0,
+  gameTimeMinutes: 0,
+  gameTimeHours: 0,
 };
 
 export const useStore = create<Store>()(
@@ -102,6 +111,9 @@ export const useStore = create<Store>()(
       ),
     setCanMove: (value) => set(() => ({ canMove: value }), false, "setCanMove"),
     setPath: (value) => set(() => ({ path: value })),
+    setGameTimeSeconds: (value) => set(() => ({ gameTimeSeconds: value })),
+    setGameTimeMinutes: (value) => set(() => ({ gameTimeMinutes: value })),
+    setGameTimeHours: (value) => set(() => ({ gameTimeHours: value })),
   }))
 );
 

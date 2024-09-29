@@ -30,8 +30,37 @@ export default function Main() {
     },
   ]);
 
+  function inGameTimer() {
+    const interval = setInterval(() => {
+      if (useStore.getState().isGameOver || useStore.getState().isGameOver)
+        clearInterval(interval);
+      const actualSeconds = useStore.getState().gameTimeSeconds;
+      const actualMinutes = useStore.getState().gameTimeMinutes;
+      const actualHours = useStore.getState().gameTimeHours;
+
+      if (actualMinutes === 60) {
+        useStore.getState().setGameTimeSeconds(0);
+        useStore.getState().setGameTimeMinutes(0);
+        useStore.getState().setGameTimeHours(actualHours + 1);
+        return;
+      }
+
+      if (actualSeconds === 60) {
+        useStore.getState().setGameTimeSeconds(0);
+        useStore.getState().setGameTimeMinutes(actualMinutes + 1);
+        return;
+      }
+
+      if (actualSeconds < 60) {
+        useStore.getState().setGameTimeSeconds(actualSeconds + 1);
+        return;
+      }
+    }, 1000);
+  }
+
   useEffect(() => {
     playAudio(musics[getRandomInt(musics.length)], 0.1, true);
+    inGameTimer();
   }, []);
 
   if (isGameWin) return <GameWin />;

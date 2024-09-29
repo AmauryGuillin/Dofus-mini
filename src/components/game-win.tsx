@@ -6,6 +6,10 @@ import Confetti from "react-confetti";
 import { XpBar } from "./ui/xp-bar";
 
 export default function GameWin() {
+  const seconds = useStore.getState().gameTimeSeconds;
+  const minutes = useStore.getState().gameTimeMinutes;
+  const hours = useStore.getState().gameTimeHours;
+
   function handleRestart() {
     reloadPage();
     playClickSounds(0.5);
@@ -21,7 +25,13 @@ export default function GameWin() {
             {useStore.getState().turnCount}
           </span>
           <span className="text-white font-bold mr-2 sm:text-sm md:text-md lg-text-lg xl:text-xl ">
-            0 minutes 12 secondes
+            {hours === 0
+              ? `${minutes} ${minutes > 1 ? "minutes" : "minute"} ${seconds} ${
+                  seconds > 1 ? "secondes" : "seconde"
+                }`
+              : `${hours} ${hours > 1 ? "heures" : "heure"} ${minutes} ${
+                  minutes > 1 ? "minutes" : "minute"
+                } ${seconds} ${seconds > 1 ? "secondes" : "seconde"}`}
           </span>
         </div>
         <div className="w-full h-[90%] bg-[#D5D0AA] rounded-bl-xl rounded-br-xl pb-10">
