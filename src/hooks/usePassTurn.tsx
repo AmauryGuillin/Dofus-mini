@@ -50,7 +50,6 @@ export function usePassTurn(
           useStore.getState().player.bondCooldown! - 1
         );
         if (useStore.getState().player.bondCooldown === 0) {
-          console.log("ici");
           setPlayerInfo("bondCooldown", null);
         }
       }

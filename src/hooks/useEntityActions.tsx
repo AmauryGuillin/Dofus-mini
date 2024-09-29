@@ -609,7 +609,6 @@ export function useEntityActions(
           new Promise((resolve) => {
             switch (finalPosition) {
               case "up":
-                console.log(1, "up");
                 animationUp(player);
                 setPlayerInfo("orientation", "up");
                 setPlayerInfo(
@@ -618,7 +617,6 @@ export function useEntityActions(
                 );
                 break;
               case "down":
-                console.log(1, "down");
                 animationDown(player);
                 setPlayerInfo("orientation", "down");
                 setPlayerInfo(
@@ -627,7 +625,6 @@ export function useEntityActions(
                 );
                 break;
               case "left":
-                console.log(1, "left");
                 animationLeft(player);
                 setPlayerInfo("orientation", "left");
                 setPlayerInfo(
@@ -636,7 +633,6 @@ export function useEntityActions(
                 );
                 break;
               case "right":
-                console.log(1, "right");
                 animationRight(player);
                 setPlayerInfo("orientation", "right");
                 setPlayerInfo(
@@ -655,7 +651,6 @@ export function useEntityActions(
           //Animation
           switch (finalPosition) {
             case "up":
-              console.log(2, "up");
               animationUp(player);
               setPlayerInfo(
                 "illustration",
@@ -670,7 +665,6 @@ export function useEntityActions(
               }, 1000);
               break;
             case "down":
-              console.log(2, "down");
               animationDown(player);
               setPlayerInfo(
                 "illustration",
@@ -685,7 +679,6 @@ export function useEntityActions(
               }, 1000);
               break;
             case "left":
-              console.log(2, "left");
               animationLeft(player);
               setPlayerInfo(
                 "illustration",
@@ -700,7 +693,6 @@ export function useEntityActions(
               }, 1000);
               break;
             case "right":
-              console.log(2, "right");
               animationRight(player);
               setPlayerInfo(
                 "illustration",
