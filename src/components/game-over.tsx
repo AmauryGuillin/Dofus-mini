@@ -14,17 +14,6 @@ export default function GameOver() {
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-900 relative">
       <Confetti gravity={0.05} numberOfPieces={1} />
-      {/* <div className="text-white flex flex-col justify-center items-center">
-        <div className="m-10 text-3xl  font-bold">Partie perdue !</div>
-        <div>
-          <button
-            className="border-2 w-fit h-14 p-3 hover:scale-110 transition hover:bg-gray-600"
-            onClick={reloadPage}
-          >
-            Recommencer
-          </button>
-        </div>
-      </div> */}
       <div className="w-[60%] h-fit border-4 rounded-2xl flex flex-col">
         <div className="w-full h-[10%] bg-[#524A3C] rounded-tl-xl rounded-tr-xl flex items-center justify-between">
           <span className="text-white font-bold ml-2 sm:text-sm md:text-md lg-text-lg xl:text-xl ">
@@ -42,13 +31,13 @@ export default function GameOver() {
               <table className="w-[98%]">
                 <thead className="bg-[#524A3C] text-white">
                   <tr>
-                    <th>Nom</th>
-                    <th>Niv.</th>
-                    <th>XP gagnée</th>
-                    <th>Guilde</th>
-                    <th>Monture</th>
-                    <th>Kama</th>
-                    <th>Objets gagnés</th>
+                    <th className="w-2/12">Nom</th>
+                    <th className="w-1/12">Niv.</th>
+                    <th className="w-2/12">XP gagnée</th>
+                    <th className="w-1/12">Guilde</th>
+                    <th className="w-1/12">Monture</th>
+                    <th className="w-1/12">Kamas</th>
+                    <th className="w-4/12">Objets gagnés</th>
                   </tr>
                 </thead>
                 <tbody className="bg-[#B4AB8E] text-center">
@@ -75,13 +64,13 @@ export default function GameOver() {
               <table className="w-[98%]">
                 <thead className="bg-[#524A3C] text-white">
                   <tr>
-                    <th>Nom</th>
-                    <th>Niv.</th>
-                    <th>XP gagnée</th>
-                    <th>Guilde</th>
-                    <th>Monture</th>
-                    <th>Kama</th>
-                    <th>Objets gagnés</th>
+                    <th className="w-2/12">Nom</th>
+                    <th className="w-1/12">Niv.</th>
+                    <th className="w-2/12">XP gagnée</th>
+                    <th className="w-1/12">Guilde</th>
+                    <th className="w-1/12">Monture</th>
+                    <th className="w-1/12">Kamas</th>
+                    <th className="w-4/12">Objets gagnés</th>
                   </tr>
                 </thead>
                 <tbody className="bg-[#B4AB8E] text-center">
