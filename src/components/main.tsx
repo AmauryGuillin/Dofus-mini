@@ -8,6 +8,7 @@ import { getRandomInt } from "../utils/tools/randomGenerators";
 import { reloadPage } from "../utils/tools/windowControls";
 import Chat from "./action-bar-chat";
 import Changelog from "./changelog";
+import GameOver from "./game-over";
 import PlayingBoard from "./playing-board";
 import SpellBar from "./spell-bar";
 import Timeline from "./timeline";
@@ -52,23 +53,7 @@ export default function Main() {
       </div>
     );
 
-  if (isGameOver)
-    return (
-      <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-900 relative">
-        <Confetti gravity={0.05} numberOfPieces={1} />
-        <div className="text-white flex flex-col justify-center items-center">
-          <div className="m-10 text-3xl  font-bold">Partie perdue !</div>
-          <div>
-            <button
-              className="border-2 w-fit h-14 p-3 hover:scale-110 transition hover:bg-gray-600"
-              onClick={reloadPage}
-            >
-              Recommencer
-            </button>
-          </div>
-        </div>
-      </div>
-    );
+  if (isGameOver) return <GameOver />;
 
   return (
     <>

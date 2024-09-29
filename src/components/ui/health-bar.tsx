@@ -3,7 +3,7 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-const Progress = React.forwardRef<
+const HealthBar = React.forwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>
 >(({ className, value, max = 100, ...props }, ref) => (
@@ -26,6 +26,6 @@ const Progress = React.forwardRef<
     </div>
   </ProgressPrimitive.Root>
 ));
-Progress.displayName = ProgressPrimitive.Root.displayName;
+HealthBar.displayName = ProgressPrimitive.Root.displayName;
 
-export { Progress };
+export { HealthBar };
