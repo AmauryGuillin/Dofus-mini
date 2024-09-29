@@ -1,8 +1,7 @@
 import { cn } from "@/lib/utils";
-import matter from "gray-matter";
+import { ChangelogType } from "@/types/changelog-type";
 import { NotebookPen } from "lucide-react";
-import { useEffect, useState } from "react";
-import Markdown from "react-markdown";
+import changelogs from "../changelogs/changelogs.json";
 import {
   Accordion,
   AccordionContent,
@@ -19,54 +18,13 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 
-type Changelog = {
-  version: string;
-  date: string;
-  content: string;
-};
-
 export default function Changelog() {
-  const [changelogs, setChangelogs] = useState<Changelog[]>();
+  const sortedChangelogs = changelogs.sort((a, b) => {
+    const previousDate = new Date(a.date.split("/").reverse().join("-"));
+    const afterDate = new Date(b.date.split("/").reverse().join("-"));
 
-  useEffect(() => {
-    // Récupère tous les fichiers .md contenu dans le dossiers changelogs
-    const changelogsFiles = import.meta.glob("/src/changelogs/*.md", {
-      query: "?raw",
-      import: "default",
-    }) as Record<string, () => Promise<string>>;
-
-    // Récupère les clés et les trie par ordre décroissant
-    const sortedKeys = Object.keys(changelogsFiles).sort((a, b) =>
-      b.localeCompare(a)
-    );
-
-    // Crée un nouvel objet avec les clés triées
-    const sortedChangelogsFiles: { [key: string]: () => Promise<string> } =
-      sortedKeys.reduce((acc, key) => {
-        acc[key] = changelogsFiles[key];
-        return acc;
-      }, {} as { [key: string]: () => Promise<string> });
-
-    // Récupère les données de chaque fichier .md
-    const fetchChangelogs = async () => {
-      const contents = await Promise.all(
-        sortedKeys.map((key) => sortedChangelogsFiles[key]())
-      );
-      const changelogs = [];
-      for (const fileContent of contents) {
-        const { content, data } = matter(fileContent);
-        const newChangelog = {
-          version: data.version,
-          date: data.date,
-          content,
-        };
-        changelogs.push(newChangelog);
-      }
-      setChangelogs(changelogs);
-    };
-
-    fetchChangelogs();
-  }, []);
+    return Number(afterDate) - Number(previousDate);
+  });
 
   return (
     <div className="absolute top-2 left-2">
@@ -87,15 +45,44 @@ export default function Changelog() {
             </DialogDescription>
           </DialogHeader>
           <Accordion type="multiple">
-            {changelogs?.map((changelog) => (
+            {sortedChangelogs?.map((changelog: ChangelogType) => (
               <AccordionItem value={changelog.version} key={changelog.version}>
                 <AccordionTrigger>
                   Version: {changelog.version} - {changelog.date}
                 </AccordionTrigger>
                 <AccordionContent>
-                  <Markdown className="prose text-white prose-h3:text-white">
-                    {changelog.content}
-                  </Markdown>
+                  {changelog.features && (
+                    <>
+                      <h3 className="font-bold text-lg">
+                        Nouvelles fonctionnalités
+                      </h3>
+                      <ul className="list-disc p-4 text-base">
+                        {changelog.features.map((feature) => (
+                          <li key={feature}>{feature}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                  {changelog.bugs && (
+                    <>
+                      <h3 className="font-bold text-lg">Corrections</h3>
+                      <ul className="list-disc p-4 text-base">
+                        {changelog.bugs.map((bug) => (
+                          <li key={bug}>{bug}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                  {changelog.balancing && (
+                    <>
+                      <h3 className="font-bold text-lg">Equilibrage</h3>
+                      <ul className="list-disc p-4 text-base">
+                        {changelog.balancing.map((balance) => (
+                          <li key={balance}>{balance}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
                 </AccordionContent>
               </AccordionItem>
             ))}

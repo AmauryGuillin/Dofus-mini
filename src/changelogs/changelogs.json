@@ -1,0 +1,163 @@
+[
+  {
+    "version": "0.1.0",
+    "date": "24/07/2024",
+    "features": [
+      "Mise en place du changelog.",
+      "Ajout de la visibilité de la portée du joueur et enemies sur le terrain de jeu quand un joueur passe sa souris sur son joueur ou les enemies."
+    ],
+    "bugs": [
+      "L'animation de l'attaque pression est maintenant ajustée à la place du personnage initiale."
+    ],
+    "balancing": null
+  },
+  {
+    "version": "0.1.1",
+    "date": "06/08/2024",
+    "features": [
+      "Animation de déplacement du joueur.",
+      "Raccourcis clavier activés pour la sélection des sorts.",
+      "Si le joueur n'a plus assez de PA pour utiliser un sort, alors ce sort sera grisé dans la barre de sélection des sorts."
+    ],
+    "bugs": [
+      "Le joueur est orienté case par case contrairement à initialement où l'orientation était faite en fonction de la case sélectionnée par le joueur."
+    ],
+    "balancing": null
+  },
+  {
+    "version": "0.1.2",
+    "date": "15/08/2024",
+    "features": [
+      "L'animation du sort Compulsion est maintenant visible pour chaque orientation du personnage",
+      "Animation de mort du personnage pour chaque orientation",
+      "Si le joueur n'a plus assez de PA pour utiliser un sort, alors ce sort sera grisé dans la barre de sélection des sorts."
+    ],
+    "bugs": [
+      "Le joueur ne peux plus enchainer les actions, brisant ainsi les effets d'animation. Chaque action est traité indépendament, et doivent être effectuées les unes après les autres. Un message d'erreur est afficher pour alerter le joueur",
+      "L'écran de \"Game Over\" est maintenant traduit en français"
+    ],
+    "balancing": null
+  },
+  {
+    "version": "0.1.3",
+    "date": "25/08/2024",
+    "features": [
+      "L'animation de dégat du personnage est maintenant visible pour chaque orientation",
+      "L'animation de déplacement du bouftou se fait maintenant case par case"
+    ],
+    "bugs": [
+      "Ajustement de la hauteur des informations joueurs/ennemis",
+      "Correction des proportions de la barre de vie des personnages"
+    ],
+    "balancing": null
+  },
+  {
+    "version": "0.1.4",
+    "date": "27/08/2024",
+    "features": ["Un écran titre a été ajouté"],
+    "bugs": null,
+    "balancing": null
+  },
+  {
+    "version": "0.1.5",
+    "date": "28/08/2024",
+    "features": ["Les animations d'attaque du Bouftou ont été ajoutées."],
+    "bugs": ["Bouton de l'écran titre restylisé"],
+    "balancing": null
+  },
+  {
+    "version": "0.1.6",
+    "date": "28/08/2024",
+    "features": [
+      "Ecran titre restylisé",
+      "Nouvelle musique de combat",
+      "Animation de mort du bouftou",
+      "Animation de dommages du bouftou",
+      "Les animations sont maintenant chargées à l'affichage de l'écran titre contrairement au mode de fonctionnement antérieur, où les animations étaient chargées de façon dynamique dès qu'une entité effectuait une action."
+    ],
+    "bugs": [
+      "Le joueur ne peut plus se déplacer lorsqu'il effectue une action (attaquer un ennemi ou se booster soi-même)",
+      "Bug pour lequel le joueur pouvait sélectionner une attaque puis double cliquer sur le terrain (en accord avec son nombre de PM) amenait le joueur à perdre ses PM sans se déplacer",
+      "Les animations ne font plus de \"zoom\" / \"dezoom\" lors du premier affichage."
+    ],
+    "balancing": null
+  },
+  {
+    "version": "0.1.7",
+    "date": "31/08/2024",
+    "features": [],
+    "bugs": [
+      "Bug de l'animation du bouftou quand il est orienté vers le haut et que le joueur lui lance une attaque, le bouftou s'orientait vers la gauche à la fin de son animation de dégâts."
+    ],
+    "balancing": null
+  },
+  {
+    "version": "0.1.8",
+    "date": "03/09/2024",
+    "features": [
+      "Ajout d'une \"timeline\" permettant de savoir à qui est le tour de jeu."
+    ],
+    "bugs": [
+      "Bug de l'animation du bouftou quand il meurt.",
+      "Bug sur l'affichage de la vie des entités."
+    ],
+    "balancing": null
+  },
+  {
+    "version": "1.0.1",
+    "date": "14/09/2024",
+    "features": [
+      "Ajout d'une IA controlant le Bouftou.",
+      "Il n'est plus possible d'interagir avec la grille de jeu pendant le tour de jeu du Bouftou.",
+      "Il n'est plus possible d'agir sur le bouton \"Passer le tour\" pendant le tour de jeu du Bouftou.",
+      "Le fait de survoler avec le curseur de la souris les portraits de la \"timeline\" affiche désormais les informations des entités sur la grille."
+    ],
+    "bugs": [
+      "Quand le joueur attaquait le Bouftou alors que l'animation d'attaque du Bouftou n'était pas encore terminée, l'animation d'attaque du Bouftou restait affichée et continuait en boucle.",
+      "Lorsque le joueur attaque le Bouftou après que celui-ci l'ait attaqué sans effectuer de déplacement, le Bouftou se retrouvait orienté dans une autre direction."
+    ],
+    "balancing": [
+      "Bouftou : Les dégâts du sort \"Morsure du Bouftou\" sont maintenant de 25 à 35 (auparavant 10 à 25).",
+      "Iopette : La vie de la Iopette est maintenant à 100pv (auparavant 125pv)."
+    ]
+  },
+  {
+    "version": "1.1.0",
+    "date": "25/09/2024",
+    "features": [
+      "Ajout de la description des sorts.",
+      "Le joueur peut maintenant choisir entre 3 affichages différents pour voir ses points de vie.",
+      "La vie du joueur est maintenant visible dans la timeline.",
+      "La vie de l'ennemi est maintenant visible dans la timeline.",
+      "La vie du joueur au niveau du \"Coeur de vie\" change désormais de couleur en fonction du pourcentage de vie."
+    ],
+    "bugs": [
+      "Le cadre indiquant le tour de l'entité qui est en train de jouer a été modifié (couleur orange et bords arrondis).",
+      "La vie des entités affichée ne peut plus être représentée sous forme de nombre négatif suite à la mort. Si l'entité meurt, alors les PV affichés seront de 0."
+    ],
+    "balancing": null
+  },
+  {
+    "version": "1.2.0",
+    "date": "25/09/2024",
+    "features": [
+      "Un nouveau sort a été ajouté : Bond. Il permet de déplacer le joueur jusqu'à 2 cases autour de lui tous les 4 tours.",
+      "Les positions du joueur et de l'ennemi sont maintenant aléatoires à chaque début de partie."
+    ],
+    "bugs": [
+      "Les points de vie indiqués dans la barre de vie du joueur et de l'ennemi ne peuvent plus être un nombre négatif. Si la vie de l'entité est inférieure à 0, alors 0 sera affiché."
+    ],
+    "balancing": null
+  },
+  {
+    "version": "1.3.0",
+    "date": "29/09/2024",
+    "features": [
+      "Ajout d'un nouvel écran de victoire.",
+      "Ajout d'un nouvel écran de défaite.",
+      "Refonte du système de changelogs."
+    ],
+    "bugs": [],
+    "balancing": null
+  }
+]
