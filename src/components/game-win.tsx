@@ -48,8 +48,10 @@ export default function GameWin() {
                     <td className="border-l-[1px] border-r-[1px] border-orange-950 border-opacity-15">
                       1
                     </td>
-                    <td className="border-l-[1px] border-r-[1px] border-orange-950 border-opacity-15 flex justify-evenly items-center">
-                      <XpBar value={70} /> 750
+                    <td className="border-l-[1px] border-r-[1px] border-orange-950 border-opacity-15 h-full">
+                      <div className="flex justify-evenly items-center w-full h-full">
+                        <XpBar value={70} /> <span>750</span>
+                      </div>
                     </td>
                     <td className="border-l-[1px] border-r-[1px] border-orange-950 border-opacity-15">
                       The Sealk
