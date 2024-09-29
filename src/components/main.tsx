@@ -1,14 +1,13 @@
 import PlayerInfo from "@/components/player-info.tsx";
 import { useEffect, useState } from "react";
-import Confetti from "react-confetti";
 import { useStore } from "../hooks/store";
 import { ChatInfoMessage } from "../types/chat-info-message";
 import { playAudio } from "../utils/music/handleAudio";
 import { getRandomInt } from "../utils/tools/randomGenerators";
-import { reloadPage } from "../utils/tools/windowControls";
 import Chat from "./action-bar-chat";
 import Changelog from "./changelog";
 import GameOver from "./game-over";
+import GameWin from "./game-win";
 import PlayingBoard from "./playing-board";
 import SpellBar from "./spell-bar";
 import Timeline from "./timeline";
@@ -35,23 +34,7 @@ export default function Main() {
     playAudio(musics[getRandomInt(musics.length)], 0.1, true);
   }, []);
 
-  if (isGameWin)
-    return (
-      <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-900 relative">
-        <Confetti gravity={0.05} />
-        <div className="text-white flex flex-col justify-center items-center">
-          <div className="m-10 text-3xl  font-bold">Félicitations !</div>
-          <div>
-            <button
-              className="border-2 w-fit h-14 p-3 hover:scale-110 transition hover:bg-gray-600"
-              onClick={reloadPage}
-            >
-              Recommencer
-            </button>
-          </div>
-        </div>
-      </div>
-    );
+  if (isGameWin) return <GameWin />;
 
   if (isGameOver) return <GameOver />;
 
