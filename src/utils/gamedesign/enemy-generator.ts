@@ -6,7 +6,7 @@ export function generateEnemy(): Enemy {
     type: "Enemy",
     name: "Bouftou",
     illustration: "./enemy-static/bouftou.png",
-    staticIllustrationTmp: "",
+    staticIllustrationTmp: "./enemy-static/bouftou.png",
     portraitIllustration: "./enemy-static/bouftou.png",
     position: generateRandomPosition(),
     orientation: "down",
