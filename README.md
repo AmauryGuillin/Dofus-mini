@@ -12,6 +12,7 @@ The game consists only of a home screen and a battle between the player and a Bo
 
 - Pression (deals between 15 and 25 damage points to the enemy) ![image](./public/images/player-spells/141.svg)
 - Compulsion (increases the damage points of the Pression spell by 6 to 11) ![image](./public/images/player-spells/144.svg)
+- Bond (Moves the player up to 2 cells around him, every 4 turns) ![image](./public/images/player-spells/142.svg)
 
 More spells might be added later if I feel like it.
 
