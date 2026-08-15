@@ -1,10 +1,10 @@
 export interface Player {
-  type: "Player";
-  name: "Iopette";
+  type: 'Player';
+  name: 'Iop';
   illustration: string;
   portraitIllustration: string;
   position: string;
-  orientation: "up" | "down" | "right" | "left";
+  orientation: 'up' | 'down' | 'right' | 'left';
   pvMax: number;
   pv: number;
   pmMax: number;

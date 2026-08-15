@@ -1,9 +1,9 @@
-import { useStore } from "@/hooks/store";
-import { playClickSounds } from "@/utils/music/handleAudio";
-import { reloadPage } from "@/utils/tools/windowControls";
-import { Skull } from "lucide-react";
-import Confetti from "react-confetti";
-import { XpBar } from "./ui/xp-bar";
+import { useStore } from '@/hooks/store';
+import { playClickSounds } from '@/utils/music/handleAudio';
+import { reloadPage } from '@/utils/tools/windowControls';
+import { Skull } from 'lucide-react';
+import Confetti from 'react-confetti';
+import { XpBar } from './ui/xp-bar';
 
 export default function GameWin() {
   const seconds = useStore.getState().gameTimeSeconds;
@@ -26,12 +26,12 @@ export default function GameWin() {
           </span>
           <span className="text-white font-bold mr-2 sm:text-sm md:text-md lg-text-lg xl:text-xl ">
             {hours === 0
-              ? `${minutes} ${minutes > 1 ? "minutes" : "minute"} ${seconds} ${
-                  seconds > 1 ? "secondes" : "seconde"
+              ? `${minutes} ${minutes > 1 ? 'minutes' : 'minute'} ${seconds} ${
+                  seconds > 1 ? 'secondes' : 'seconde'
                 }`
-              : `${hours} ${hours > 1 ? "heures" : "heure"} ${minutes} ${
-                  minutes > 1 ? "minutes" : "minute"
-                } ${seconds} ${seconds > 1 ? "secondes" : "seconde"}`}
+              : `${hours} ${hours > 1 ? 'heures' : 'heure'} ${minutes} ${
+                  minutes > 1 ? 'minutes' : 'minute'
+                } ${seconds} ${seconds > 1 ? 'secondes' : 'seconde'}`}
           </span>
         </div>
         <div className="w-full h-[90%] bg-[#D5D0AA] rounded-bl-xl rounded-br-xl pb-10">
@@ -53,7 +53,7 @@ export default function GameWin() {
                 <tbody className="bg-[#B4AB8E] text-center">
                   <tr>
                     <th>
-                      <span>Iopette</span>
+                      <span>Iop</span>
                     </th>
                     <td className="border-l-[1px] border-r-[1px] border-orange-950 border-opacity-15">
                       1
@@ -94,7 +94,7 @@ export default function GameWin() {
                 <tbody className="bg-[#B4AB8E] text-center">
                   <tr>
                     <th className="flex items-center justify-center">
-                      {" "}
+                      {' '}
                       <Skull /> <span className="ml-2">Bouftou</span>
                     </th>
                     <td className="border-l-[1px] border-r-[1px] border-orange-950 border-opacity-15">

@@ -1,9 +1,9 @@
-import { useStore } from "@/hooks/store";
-import { playClickSounds } from "@/utils/music/handleAudio";
-import { reloadPage } from "@/utils/tools/windowControls";
-import { Skull } from "lucide-react";
-import Confetti from "react-confetti";
-import { XpBar } from "./ui/xp-bar";
+import { useStore } from '@/hooks/store';
+import { playClickSounds } from '@/utils/music/handleAudio';
+import { reloadPage } from '@/utils/tools/windowControls';
+import { Skull } from 'lucide-react';
+import Confetti from 'react-confetti';
+import { XpBar } from './ui/xp-bar';
 
 export default function GameOver() {
   const seconds = useStore.getState().gameTimeSeconds;
@@ -17,7 +17,10 @@ export default function GameOver() {
 
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-900 relative">
-      <Confetti gravity={0.05} numberOfPieces={1} />
+      <Confetti
+        gravity={0.05}
+        numberOfPieces={1}
+      />
       <div className="w-[60%] h-fit border-4 rounded-2xl flex flex-col">
         <div className="w-full h-[10%] bg-[#524A3C] rounded-tl-xl rounded-tr-xl flex items-center justify-between">
           <span className="text-white font-bold ml-2 sm:text-sm md:text-md lg-text-lg xl:text-xl ">
@@ -26,12 +29,12 @@ export default function GameOver() {
           </span>
           <span className="text-white font-bold mr-2 sm:text-sm md:text-md lg-text-lg xl:text-xl ">
             {hours === 0
-              ? `${minutes} ${minutes > 1 ? "minutes" : "minute"} ${seconds} ${
-                  seconds > 1 ? "secondes" : "seconde"
+              ? `${minutes} ${minutes > 1 ? 'minutes' : 'minute'} ${seconds} ${
+                  seconds > 1 ? 'secondes' : 'seconde'
                 }`
-              : `${hours} ${hours > 1 ? "heures" : "heure"} ${minutes} ${
-                  minutes > 1 ? "minutes" : "minute"
-                } ${seconds} ${seconds > 1 ? "secondes" : "seconde"}`}
+              : `${hours} ${hours > 1 ? 'heures' : 'heure'} ${minutes} ${
+                  minutes > 1 ? 'minutes' : 'minute'
+                } ${seconds} ${seconds > 1 ? 'secondes' : 'seconde'}`}
           </span>
         </div>
         <div className="w-full h-[90%] bg-[#D5D0AA] rounded-bl-xl rounded-br-xl pb-10">
@@ -86,7 +89,7 @@ export default function GameOver() {
                 <tbody className="bg-[#B4AB8E] text-center">
                   <tr>
                     <th className="flex items-center justify-center">
-                      <Skull /> <span className="ml-2">Iopette</span>
+                      <Skull /> <span className="ml-2">Iop</span>
                     </th>
                     <td className="border-l-[1px] border-r-[1px] border-orange-950 border-opacity-15">
                       1
